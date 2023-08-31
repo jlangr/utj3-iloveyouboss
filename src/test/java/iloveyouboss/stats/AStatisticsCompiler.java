@@ -8,39 +8,50 @@
 ***/
 package iloveyouboss.stats;
 
+import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import iloveyouboss.Answer;
 import iloveyouboss.Criterion;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import static iloveyouboss.questions.yesno.YesNoQuestion.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AStatisticsCompiler {
+   StatisticsCompiler compiler = new StatisticsCompiler();
+   Criterion tuitionCriterion;
+   Criterion relocationCriterion;
+
+   @BeforeEach
+   void createTuitionCriterion() {
+      tuitionCriterion = new Criterion(new YesNoQuestion(1, "Tuition reimbursement?"), Yes);
+   }
+
+   @BeforeEach
+   void createRelocationCriterion() {
+      relocationCriterion = new Criterion(new YesNoQuestion(2, "Relocation package?"), Yes);
+   }
 
    @Test
-   public void createsHistogramByQuestion() {
-      var compiler = new StatisticsCompiler();
+   void createsHistogramByQuestion() {
+      var answers = List.of(
+         new Answer(tuitionCriterion, Yes),
+         new Answer(tuitionCriterion, Yes),
+         new Answer(tuitionCriterion, Yes),
+         new Answer(tuitionCriterion, No),
+         new Answer(relocationCriterion, Yes),
+         new Answer(relocationCriterion, Yes));
 
-      var criterion1 = new Criterion(new YesNoQuestion(1, "Tuition reimbursement"), Yes);
-      var criterion2 = new Criterion(new YesNoQuestion(2, "Relocation package?"), Yes);
+      var statistics = compiler.answerTextToHistogram(answers);
 
-      var answers = new ArrayList<Answer>();
-      answers.add(new Answer(criterion1, Yes));
-      answers.add(new Answer(criterion1, Yes));
-      answers.add(new Answer(criterion1, Yes));
-      answers.add(new Answer(criterion1, No));
-      answers.add(new Answer(criterion2, Yes));
-      answers.add(new Answer(criterion2, Yes));
-
-      var statistics = compiler.histogram(answers);
-
-      System.out.println(statistics);
-//      assertEquals(3, compiler.get("Tuition reimbursement?").get(Boolean.TRUE).get());
-//      assertEquals(1, compiler.get("Tuition reimbursement?").get(Boolean.FALSE).get());
-//      assertEquals(2, compiler.get("Relocation package?").get(Boolean.TRUE).get());
-//      assertEquals(0, compiler.get("Relocation package?").get(Boolean.FALSE).get());
+      assertEquals(3, statistics.get(tuitionCriterion.questionText()).get(Yes).get());
+      assertEquals(1, statistics.get(tuitionCriterion.questionText()).get(No).get());
+      assertEquals(2, statistics.get(relocationCriterion.questionText()).get(Yes).get());
+      assertEquals(0, statistics.get(relocationCriterion.questionText()).get(No).get());
    }
 }

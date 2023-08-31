@@ -14,4 +14,8 @@ public record Criterion(Question question, String expectedAnswer, boolean isOpti
          throw new InvalidAnswerException();
       return expectedAnswer.equals(answer);
    }
+
+   public String questionText() {
+      return question.text();
+   }
 }

@@ -27,10 +27,10 @@ public class StatisticsCompiler {
 
    private QuestionController controller = new QuestionController();
 
-   public Map<Integer, Map<String, AtomicInteger>> histogram(List<Answer> answers) {
-      var histogram = new HashMap<Integer, Map<String, AtomicInteger>>();
-      answers.stream().forEach(answer -> update(histogram, answer));
-      return histogram; //return convertHistogramIdsToText(histogram);
+   public Map<String, Map<String, AtomicInteger>> answerTextToHistogram(List<Answer> answers) {
+      var answerIdToHistogram = new HashMap<Integer, Map<String, AtomicInteger>>();
+      answers.stream().forEach(answer -> update(answerIdToHistogram, answer));
+      return convertHistogramIdsToText(answerIdToHistogram);
    }
 
    private void update(
@@ -59,11 +59,11 @@ public class StatisticsCompiler {
       return histogram;
    }
 
-//   private Map<String, Map<String, AtomicInteger>> convertHistogramIdsToText(
-//      Map<String, Map<String, AtomicInteger>> criteria) {
-//      var textResponses = new HashMap<String, Map<Boolean, AtomicInteger>>();
-//      criteria.keySet().stream().forEach(id ->
-//         textResponses.put(controller.find(id).getText(), criteria.get(id)));
-//      return textResponses;
-//   }
+   private Map<String, Map<String, AtomicInteger>> convertHistogramIdsToText(
+      Map<Integer, Map<String, AtomicInteger>> answerIdToHistogram) {
+      var textResponses = new HashMap<String, Map<String, AtomicInteger>>();
+      answerIdToHistogram.keySet().stream().forEach(id ->
+         textResponses.put(controller.find(id).text(), answerIdToHistogram.get(id)));
+      return textResponses;
+   }
 }

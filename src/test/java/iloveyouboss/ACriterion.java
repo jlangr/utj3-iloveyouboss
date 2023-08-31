@@ -13,6 +13,13 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ACriterion {
+   @Test
+   void answersQuestionText() {
+      var criterion = new Criterion(new YesNoQuestion(0, "why?"), No);
+
+      assertEquals("why?", criterion.questionText());
+   }
+
    @Nested
    class WithABooleanQuestion {
       YesNoQuestion question = new YesNoQuestion(1, "?");
