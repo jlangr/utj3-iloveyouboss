@@ -1,8 +1,6 @@
 package iloveyouboss.stats;
 
 import iloveyouboss.Answer;
-import iloveyouboss.questions.Question;
-import iloveyouboss.questions.yesno.YesNoQuestion;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -11,9 +9,6 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 
 public class StatisticsCompiler {
-   static Question q1 = new YesNoQuestion(1, "Tuition reimbursement?");
-   static Question q2 = new YesNoQuestion(2, "Relocation package?");
-
    private QuestionController controller = new QuestionController();
 
    public Map<String, Map<String, AtomicInteger>> answerTextToHistogram(
