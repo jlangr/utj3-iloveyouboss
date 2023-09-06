@@ -1,25 +1,15 @@
-/***
- * Excerpted from "Pragmatic Unit Testing in Java with JUnit",
- * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
- * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
- * Visit http://www.pragmaticprogrammer.com/titles/utj2 for more book information.
-***/
 package iloveyouboss.stats;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import iloveyouboss.Answer;
 import iloveyouboss.Criterion;
 import iloveyouboss.questions.yesno.YesNoQuestion;
-import static iloveyouboss.questions.yesno.YesNoQuestion.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static iloveyouboss.questions.yesno.YesNoQuestion.No;
+import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AStatisticsCompiler {

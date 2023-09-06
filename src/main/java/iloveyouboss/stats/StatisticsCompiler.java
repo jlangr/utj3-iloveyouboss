@@ -1,11 +1,3 @@
-/***
- * Excerpted from "Pragmatic Unit Testing in Java with JUnit",
- * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
- * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
- * Visit http://www.pragmaticprogrammer.com/titles/utj2 for more book information.
-***/
 package iloveyouboss.stats;
 
 import iloveyouboss.Answer;
@@ -15,27 +7,24 @@ import iloveyouboss.questions.yesno.YesNoQuestion;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
+import static iloveyouboss.questions.yesno.YesNoQuestion.No;
+import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
+
 public class StatisticsCompiler {
    static Question q1 = new YesNoQuestion(1, "Tuition reimbursement?");
    static Question q2 = new YesNoQuestion(2, "Relocation package?");
 
-   class QuestionController {
-      Question find(int id) {
-         return id == 1 ? q1 : q2;
-      }
-   }
-
    private QuestionController controller = new QuestionController();
 
-   public Map<String, Map<String, AtomicInteger>> answerTextToHistogram(List<Answer> answers) {
+   public Map<String, Map<String, AtomicInteger>> answerTextToHistogram(
+         List<Answer> answers) {
       var answerIdToHistogram = new HashMap<Integer, Map<String, AtomicInteger>>();
-      answers.stream().forEach(answer -> update(answerIdToHistogram, answer));
+      answers.stream().forEach(answer -> update(answer, answerIdToHistogram));
       return convertHistogramIdsToText(answerIdToHistogram);
    }
 
    private void update(
-         Map<Integer, Map<String, AtomicInteger>> stats,
-         Answer answer) {
+         Answer answer, Map<Integer, Map<String, AtomicInteger>> stats) {
       histogramForAnswer(stats, answer)
          .get(answer.answer())
          .getAndIncrement();
@@ -43,20 +32,15 @@ public class StatisticsCompiler {
 
    private Map<String, AtomicInteger> histogramForAnswer(
          Map<Integer, Map<String, AtomicInteger>> stats, Answer answer) {
-      var answerId = answer.criterion().question().id();
-      if (stats.containsKey(answerId))
-         return stats.get(answerId);
-
-      var histogram = createNewHistogram();
-      stats.put(answerId, histogram);
-      return histogram;
+      return stats.computeIfAbsent(
+         answer.criterion().question().id(),
+         _id -> createNewHistogram());
    }
 
    private Map<String, AtomicInteger> createNewHistogram() {
-      var histogram = new HashMap<String, AtomicInteger>();
-      histogram.put(YesNoQuestion.Yes, new AtomicInteger(0));
-      histogram.put(YesNoQuestion.No, new AtomicInteger(0));
-      return histogram;
+      return Map.of(
+         Yes, new AtomicInteger(0),
+         No, new AtomicInteger(0));
    }
 
    private Map<String, Map<String, AtomicInteger>> convertHistogramIdsToText(
