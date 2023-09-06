@@ -11,11 +11,11 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 public class StatisticsCompiler {
    private QuestionController controller = new QuestionController();
 
-   public Map<String, Map<String, AtomicInteger>> answerTextToHistogram(
+   public Map<String, Map<String, AtomicInteger>> questionTextToHistogram(
          List<Answer> answers) {
-      var answerIdToHistogram = new HashMap<Integer, Map<String, AtomicInteger>>();
-      answers.stream().forEach(answer -> update(answer, answerIdToHistogram));
-      return convertHistogramIdsToText(answerIdToHistogram);
+      var collectingHistogram = new HashMap<Integer, Map<String, AtomicInteger>>();
+      answers.stream().forEach(answer -> update(answer, collectingHistogram));
+      return convertQuestionIdsToQuestionText(collectingHistogram);
    }
 
    private void update(
@@ -27,8 +27,9 @@ public class StatisticsCompiler {
 
    private Map<String, AtomicInteger> histogramForAnswer(
          Map<Integer, Map<String, AtomicInteger>> stats, Answer answer) {
+      int questionId = answer.criterion().question().id();
       return stats.computeIfAbsent(
-         answer.criterion().question().id(),
+         questionId,
          _id -> createNewHistogram());
    }
 
@@ -38,11 +39,11 @@ public class StatisticsCompiler {
          No, new AtomicInteger(0));
    }
 
-   private Map<String, Map<String, AtomicInteger>> convertHistogramIdsToText(
-      Map<Integer, Map<String, AtomicInteger>> answerIdToHistogram) {
+   private Map<String, Map<String, AtomicInteger>> convertQuestionIdsToQuestionText(
+      Map<Integer, Map<String, AtomicInteger>> questionIdToHistogram) {
       var textResponses = new HashMap<String, Map<String, AtomicInteger>>();
-      answerIdToHistogram.keySet().stream().forEach(id ->
-         textResponses.put(controller.find(id).text(), answerIdToHistogram.get(id)));
+      questionIdToHistogram.keySet().stream().forEach(id ->
+         textResponses.put(controller.find(id).text(), questionIdToHistogram.get(id)));
       return textResponses;
    }
 }

@@ -37,7 +37,7 @@ public class AStatisticsCompiler {
          new Answer(relocationCriterion, Yes),
          new Answer(relocationCriterion, Yes));
 
-      var statistics = compiler.answerTextToHistogram(answers);
+      var statistics = compiler.questionTextToHistogram(answers);
 
       assertEquals(3, statistics.get(tuitionCriterion.questionText()).get(Yes).get());
       assertEquals(1, statistics.get(tuitionCriterion.questionText()).get(No).get());
