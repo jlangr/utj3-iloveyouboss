@@ -14,22 +14,21 @@ public class StatisticsCompiler {
    public Map<String, Map<String, AtomicInteger>> questionTextToHistogram(
          List<Answer> answers) {
       var collectingHistogram = new HashMap<Integer, Map<String, AtomicInteger>>();
-      answers.stream().forEach(answer -> update(answer, collectingHistogram));
+      answers.stream().forEach(answer -> tally(answer, collectingHistogram));
       return convertQuestionIdsToQuestionText(collectingHistogram);
    }
 
-   private void update(
+   private void tally(
          Answer answer, Map<Integer, Map<String, AtomicInteger>> stats) {
       histogramForAnswer(stats, answer)
-         .get(answer.answer())
+         .get(answer.value())
          .getAndIncrement();
    }
 
    private Map<String, AtomicInteger> histogramForAnswer(
          Map<Integer, Map<String, AtomicInteger>> stats, Answer answer) {
-      int questionId = answer.criterion().question().id();
       return stats.computeIfAbsent(
-         questionId,
+         answer.questionId(),
          _id -> createNewHistogram());
    }
 
