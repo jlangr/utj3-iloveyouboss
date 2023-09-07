@@ -17,7 +17,9 @@ public class StatisticsCompiler {
    }
 
    private String questionText(Answer answer) {
+      // START_HIGHLIGHT
       return controller.find(answer.question().id()).text();
+      // END_HIGHLIGHT
    }
 
    private Map<String, Integer> histogramForAnswer(Answer answer) {
