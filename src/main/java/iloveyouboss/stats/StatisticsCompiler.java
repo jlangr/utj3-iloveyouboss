@@ -10,7 +10,7 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 public class StatisticsCompiler {
    private QuestionController controller = new QuestionController();
 
-   public Map<String, Map<String, AtomicInteger>> questionTextToHistogram(
+   public Map<String, Map<String, AtomicInteger>> answerCountsByQuestionText(
          List<Answer> answers) {
       var collectingHistogram = new HashMap<String, Map<String, AtomicInteger>>();
       answers.stream().forEach(answer -> tally(answer, collectingHistogram));
