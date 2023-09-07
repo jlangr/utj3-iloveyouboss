@@ -39,9 +39,9 @@ public class AStatisticsCompiler {
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
-      assertEquals(3, statistics.get(tuitionCriterion.questionText()).get(Yes).get());
-      assertEquals(1, statistics.get(tuitionCriterion.questionText()).get(No).get());
-      assertEquals(2, statistics.get(relocationCriterion.questionText()).get(Yes).get());
-      assertEquals(0, statistics.get(relocationCriterion.questionText()).get(No).get());
+      assertEquals(3, statistics.get(tuitionCriterion.questionText()).get(Yes));
+      assertEquals(1, statistics.get(tuitionCriterion.questionText()).get(No));
+      assertEquals(2, statistics.get(relocationCriterion.questionText()).get(Yes));
+      assertEquals(0, statistics.get(relocationCriterion.questionText()).get(No));
    }
 }

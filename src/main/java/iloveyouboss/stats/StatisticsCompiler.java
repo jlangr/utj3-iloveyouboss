@@ -2,36 +2,34 @@ package iloveyouboss.stats;
 
 import iloveyouboss.Answer;
 import java.util.*;
-import java.util.concurrent.atomic.*;
 
 import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
+import static java.util.stream.Collectors.*;
 
 public class StatisticsCompiler {
    private QuestionController controller = new QuestionController();
 
-   public Map<String, Map<String, AtomicInteger>> answerCountsByQuestionText(
+   public Map<String, Map<String, Integer>> answerCountsByQuestionText(
          List<Answer> answers) {
-      var collectingHistogram = new HashMap<String, Map<String, AtomicInteger>>();
-      answers.stream().forEach(answer -> tally(answer, collectingHistogram));
-      return collectingHistogram;
+      return answers.stream().collect(
+         toMap(this::questionText, this::histogramForAnswer, this::mergeHistograms));
    }
 
-   private void tally(
-         Answer answer, Map<String, Map<String, AtomicInteger>> stats) {
-      histogramForAnswer(stats, answer)
-         .get(answer.value())
-         .getAndIncrement();
+   private String questionText(Answer answer) {
+      return controller.find(answer.question().id()).text();
    }
 
-   private Map<String, AtomicInteger> histogramForAnswer(
-         Map<String, Map<String, AtomicInteger>> stats, Answer answer) {
-      return stats.computeIfAbsent(
-         // START_HIGHLIGHT
-         controller.find(answer.question().id()).text(),
-         // END_HIGHLIGHT
-         _id -> Map.of(
-            Yes, new AtomicInteger(0),
-            No, new AtomicInteger(0)));
+   private Map<String, Integer> histogramForAnswer(Answer answer) {
+      var initialMap = new HashMap(Map.of(Yes, 0, No, 0));
+      initialMap.put(answer.value(), 1);
+      return initialMap;
+   }
+
+   private Map<String, Integer> mergeHistograms(
+      Map<String, Integer> histogram, Map<String, Integer> histogram1) {
+      var newHistogram = new HashMap<>(histogram);
+      histogram1.forEach((k, v) -> newHistogram.merge(k, v, (i1, i2) -> i1 + i2));
+      return newHistogram;
    }
 }
