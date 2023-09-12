@@ -9,21 +9,21 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.*;
 
-class AProfile {
-   Profile profile = new Profile();
+class AProfileService {
+   ProfileService profile = new ProfileService();
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");
    YesNoQuestion hasSmelt = new YesNoQuestion(3, "got smelt?");
 
-   Criterion mustHaveRelo = new Criterion(hasRelo, Yes);
-   Criterion mustHave401K = new Criterion(has401K, Yes);
-   Criterion optionallyHasSmeltShouldBeTrue = new Criterion(hasSmelt, Yes, true);
+   Criterion mustHaveRelo = new Criterion(hasRelo.id(), Yes);
+   Criterion mustHave401K = new Criterion(has401K.id(), Yes);
+   Criterion optionallyHasSmeltShouldBeTrue = new Criterion(hasSmelt.id(), Yes, true);
 
    @Nested
    class WhenDeterminingMatches {
       @Test
       void doesNotMatchWhenProfileHasNoAnswerForCriterion() {
-         var criteria = new Criteria(new Criterion(hasRelo, Yes));
+         var criteria = new Criteria(new Criterion(hasRelo.id(), Yes));
 
          assertFalse(profile.matches(criteria));
       }
@@ -48,7 +48,7 @@ class AProfile {
 
          @Test
          void matchesDespiteUnmetOptionalCriterion() {
-            var optionalCriterion = new Criterion(hasSmelt, Yes, true);
+            var optionalCriterion = new Criterion(hasSmelt.id(), Yes, true);
             var criteria = new Criteria(mustHaveRelo, optionalCriterion);
             profile.answer(hasSmelt, No);
             profile.answer(hasRelo, Yes);
@@ -76,7 +76,7 @@ class AProfile {
       @Test
       void returnsAnswerForCorrespondingCriterionQuestion() {
          profile.answer(has401K, Yes);
-         var criterion = new Criterion(has401K, Yes);
+         var criterion = new Criterion(has401K.id(), Yes);
 
          var answer = profile.answerFor(criterion);
 

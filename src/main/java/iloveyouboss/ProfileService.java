@@ -1,19 +1,21 @@
 package iloveyouboss;
 
 import iloveyouboss.questions.Question;
+import iloveyouboss.questions.QuestionService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static iloveyouboss.questions.Question.AnswerNotProvided;
 
-public class Profile {
+public class ProfileService {
    Map<Integer, String> answers = new HashMap<>();
+   CriterionService criterionService = new CriterionService(new QuestionService());
 
    public boolean matches(Criteria criteria) {
       return criteria.stream()
          .filter(criterion -> !criterion.isOptional())
-         .allMatch(criterion -> criterion.isMetBy(answerFor(criterion)));
+         .allMatch(criterion -> criterionService.isMetBy(criterion, answerFor(criterion)));
    }
 
    public void answer(Question question, String answer) {
@@ -23,6 +25,6 @@ public class Profile {
    }
 
    public String answerFor(Criterion criterion) {
-      return answers.getOrDefault(criterion.question().id(), AnswerNotProvided);
+      return answers.getOrDefault(criterion.questionId(), AnswerNotProvided);
    }
 }

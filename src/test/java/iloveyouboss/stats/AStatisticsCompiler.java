@@ -2,6 +2,8 @@ package iloveyouboss.stats;
 
 import iloveyouboss.Answer;
 import iloveyouboss.Criterion;
+import iloveyouboss.questions.Question;
+import iloveyouboss.questions.QuestionService;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,15 +18,17 @@ public class AStatisticsCompiler {
    StatisticsCompiler compiler = new StatisticsCompiler();
    Criterion tuitionCriterion;
    Criterion relocationCriterion;
+   YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
+   YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
 
    @BeforeEach
    void createTuitionCriterion() {
-      tuitionCriterion = new Criterion(new YesNoQuestion(1, "Tuition reimbursement?"), Yes);
+      tuitionCriterion = new Criterion(tuitionQuestion.id(), Yes);
    }
 
    @BeforeEach
    void createRelocationCriterion() {
-      relocationCriterion = new Criterion(new YesNoQuestion(2, "Relocation package?"), Yes);
+      relocationCriterion = new Criterion(relocationQuestion.id(), Yes);
    }
 
    @Test
@@ -39,9 +43,11 @@ public class AStatisticsCompiler {
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
-      assertEquals(3, statistics.get(tuitionCriterion.questionText()).get(Yes));
-      assertEquals(1, statistics.get(tuitionCriterion.questionText()).get(No));
-      assertEquals(2, statistics.get(relocationCriterion.questionText()).get(Yes));
-      assertEquals(0, statistics.get(relocationCriterion.questionText()).get(No));
+      System.out.println(statistics);
+
+      assertEquals(3, statistics.get(tuitionQuestion.text()).get(Yes));
+      assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));
+      assertEquals(2, statistics.get(relocationQuestion.text()).get(Yes));
+      assertEquals(0, statistics.get(relocationQuestion.text()).get(No));
    }
 }
