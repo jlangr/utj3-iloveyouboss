@@ -1,9 +1,8 @@
 package iloveyouboss.stats;
 
-import iloveyouboss.Answer;
+import iloveyouboss.answers.Answer;
 import iloveyouboss.Criterion;
-import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionService;
+import iloveyouboss.answers.AnnotatedAnswer;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,12 +33,12 @@ public class AStatisticsCompiler {
    @Test
    void createsHistogramByQuestion() {
       var answers = List.of(
-         new Answer(tuitionCriterion, Yes),
-         new Answer(tuitionCriterion, Yes),
-         new Answer(tuitionCriterion, Yes),
-         new Answer(tuitionCriterion, No),
-         new Answer(relocationCriterion, Yes),
-         new Answer(relocationCriterion, Yes));
+         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(tuitionCriterion, No), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(relocationCriterion, Yes), relocationQuestion.text()),
+         new AnnotatedAnswer(new Answer(relocationCriterion, Yes), relocationQuestion.text()));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 

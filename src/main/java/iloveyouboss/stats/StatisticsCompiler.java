@@ -1,6 +1,6 @@
 package iloveyouboss.stats;
 
-import iloveyouboss.Answer;
+import iloveyouboss.answers.AnnotatedAnswer;
 import iloveyouboss.questions.QuestionService;
 
 import java.util.*;
@@ -13,20 +13,20 @@ public class StatisticsCompiler {
    private QuestionService questionService = new QuestionService();
 
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
-         List<Answer> answers) {
+         List<AnnotatedAnswer> answers) {
       return answers.stream().collect(
          toMap(this::questionText, this::histogramForAnswer, this::mergeHistograms));
    }
 
-   private String questionText(Answer answer) {
+   private String questionText(AnnotatedAnswer answer) {
       // START_HIGHLIGHT
-      return questionService.get(answer.questionId()).text();
+      return answer.questionText();
       // END_HIGHLIGHT
    }
 
-   private Map<String, Integer> histogramForAnswer(Answer answer) {
+   private Map<String, Integer> histogramForAnswer(AnnotatedAnswer answer) {
       var initialMap = new HashMap(Map.of(Yes, 0, No, 0));
-      initialMap.put(answer.value(), 1);
+      initialMap.put(answer.get().value(), 1);
       return initialMap;
    }
 

@@ -1,5 +1,6 @@
 package iloveyouboss;
 
+import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

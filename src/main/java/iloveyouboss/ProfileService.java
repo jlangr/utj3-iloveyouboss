@@ -1,5 +1,6 @@
 package iloveyouboss;
 
+import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.Question;
 import iloveyouboss.questions.QuestionService;
 
