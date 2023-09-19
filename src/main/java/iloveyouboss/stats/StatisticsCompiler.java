@@ -15,7 +15,9 @@ public class StatisticsCompiler {
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
          List<Answer> answers) {
       return answers.stream().collect(
-         toMap(this::questionText, this::histogramForAnswer, this::mergeHistograms));
+         toMap(this::questionText,
+               this::histogramForAnswer,
+               this::mergeHistograms));
    }
 
    private String questionText(Answer answer) {
