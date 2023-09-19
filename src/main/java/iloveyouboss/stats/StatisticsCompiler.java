@@ -18,7 +18,9 @@ public class StatisticsCompiler {
       // END_HIGHLIGHT
       return answers.stream().collect(
          // START_HIGHLIGHT
-         toMap(answer -> answer.questionText(), this::histogramForAnswer, this::mergeHistograms));
+         toMap(answer -> answer.questionText(),
+               this::histogramForAnswer,
+               this::mergeHistograms));
          // END_HIGHLIGHT
    }
 
