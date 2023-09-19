@@ -13,7 +13,9 @@ public class StatisticsCompiler {
    private QuestionService questionService = new QuestionService();
 
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
+      // START_HIGHLIGHT
          List<AnnotatedAnswer> answers) {
+      // END_HIGHLIGHT
       return answers.stream().collect(
          // START_HIGHLIGHT
          toMap(answer -> answer.questionText(), this::histogramForAnswer, this::mergeHistograms));
