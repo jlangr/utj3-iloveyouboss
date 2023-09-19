@@ -30,6 +30,7 @@ public class AStatisticsCompiler {
       relocationCriterion = new Criterion(relocationQuestion.id(), Yes);
    }
 
+   // START:test
    @Test
    void createsHistogramByQuestion() {
       var answers = List.of(
@@ -49,4 +50,5 @@ public class AStatisticsCompiler {
       assertEquals(2, statistics.get(relocationQuestion.text()).get(Yes));
       assertEquals(0, statistics.get(relocationQuestion.text()).get(No));
    }
+   // END:test
 }
