@@ -1,14 +1,19 @@
 package iloveyouboss.questions;
 
-import iloveyouboss.database.DB;
+import iloveyouboss.database.TableAccess;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Clock;
-import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.String.join;
+
 public class QuestionData {
+   public static final String TABLE_NAME = "Question";
+   private TableAccess sql = new TableAccess(TABLE_NAME);
+
+   // TODO replace with test
    public static void main(String[] args) {
       var repo = new QuestionData();
       repo.deleteAllQuestions();
@@ -16,56 +21,27 @@ public class QuestionData {
       System.out.println(repo.getAll());
    }
 
-   private Clock clock = Clock.systemUTC();
-
-   void setClock(Clock clock) {
-      this.clock = clock;
+   private YesNoQuestion createFromRow(ResultSet results) throws SQLException {
+      var id = results.getInt("id");
+      var text = results.getString("text");
+      return new YesNoQuestion(id, text);
    }
 
    // TODO what about the int key?
 
    public List<Question> getAll() {
-      List<Question> questions = new ArrayList<>();
-
-      try (var connection = DB.connection()) {
-         var query = "SELECT * FROM Question";
-         try (var preparedStatement = connection.prepareStatement(query);
-              var resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-               var id = resultSet.getInt("id");
-               var text = resultSet.getString("text");
-               questions.add(new YesNoQuestion(id, text));
-            }
-         }
-      }
-      catch (SQLException e) {
-         throw new RuntimeException("error retrieving questions", e.getCause());
-      }
-      return questions;
+      return sql.selectAll(this::createFromRow);
    }
 
    public int add(Question question) {
-      try (var connection = DB.connection()) {
-         var sql = "INSERT INTO Question (text, options) VALUES (?, ?)";
-         try (var preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, question.text());
-            preparedStatement.setString(2, String.join(",", question.options()));
-            return preparedStatement.executeUpdate();
-         }
-      } catch (SQLException e) {
-         throw new RuntimeException("error inserting question " + question, e.getCause());
-      }
+      return sql.insert(new String[] {"text", "options"},
+         (statement -> {
+            statement.setString(1, question.text());
+            statement.setString(2, join(",", question.options()));
+         }));
    }
 
    void deleteAllQuestions() {
-      try (var connection = DB.connection()) {
-         String deleteSQL = "DELETE FROM Question";
-         try (var preparedStatement = connection.prepareStatement(deleteSQL)) {
-            preparedStatement.executeUpdate();
-         }
-      } catch (SQLException e) {
-         throw new RuntimeException("error deleting question", e.getCause());
-      }
+      sql.deleteAll();
    }
 }
