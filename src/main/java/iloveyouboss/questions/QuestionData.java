@@ -16,7 +16,7 @@ public class QuestionData {
    // TODO replace with test
    public static void main(String[] args) {
       var repo = new QuestionData();
-      repo.deleteAllQuestions();
+      repo.deleteAll();
       repo.add(new YesNoQuestion(1, "Boo"));
       System.out.println(repo.getAll());
    }
@@ -41,7 +41,7 @@ public class QuestionData {
          }));
    }
 
-   void deleteAllQuestions() {
+   void deleteAll() {
       sql.deleteAll();
    }
 }

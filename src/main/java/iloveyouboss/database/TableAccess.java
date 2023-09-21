@@ -56,7 +56,7 @@ public class TableAccess {
 
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
       try (var connection = DB.connection()) {
-         var sqlStatement = sql.insertStatement(columnNames, tableName);
+         var sqlStatement = sql.insertStatement(tableName, columnNames);
          try (var preparedStatement = connection.prepareStatement(sqlStatement)) {
             prepare.accept(preparedStatement);
             return preparedStatement.executeUpdate();

@@ -18,14 +18,12 @@ public class DB {
    }
 
    public static void main(String[] args) throws SQLException {
-      var statement = connection().createStatement();
-
       var createTableSQL = "CREATE TABLE IF NOT EXISTS Question (" +
          "id INT AUTO_INCREMENT PRIMARY KEY," +
          "text VARCHAR(255) NOT NULL," +
          "options VARCHAR(255) NOT NULL" +
          ")";
-      statement.execute(createTableSQL);
+      connection().createStatement().execute(createTableSQL);
 
       System.out.println("Question table created successfully.");
    }
