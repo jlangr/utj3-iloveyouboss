@@ -1,14 +1,16 @@
 package iloveyouboss.answers;
 
-import iloveyouboss.questions.QuestionService;
+import iloveyouboss.questions.QuestionData;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
+// TODO test
 public class AnswerService {
    private AnswersPersistence answersPersistence = new AnswersPersistence();
-   private QuestionService questionService = new QuestionService();
+   private QuestionData questionData = new QuestionData();
+   // TODO need mock
 
    public List<Answer> retrieveAll() {
       return answersPersistence.retrieveAll();
@@ -22,6 +24,6 @@ public class AnswerService {
    }
 
    private AnnotatedAnswer createAnnotatedAnswer(Answer answer) {
-      return new AnnotatedAnswer(answer, questionService.get(answer.questionId()).text());
+      return new AnnotatedAnswer(answer, questionData.get(answer.questionId()).text());
    }
 }

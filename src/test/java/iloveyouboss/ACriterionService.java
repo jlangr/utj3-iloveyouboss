@@ -1,7 +1,7 @@
 package iloveyouboss;
 
 import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionService;
+import iloveyouboss.questions.QuestionData;
 import iloveyouboss.questions.choice.ChoiceQuestion;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,13 +24,13 @@ class ACriterionService {
 
       @BeforeEach
       public void create() {
-         var questionService = new QuestionService() {
+         var questionData = new QuestionData() {
             @Override
             public Question get(int id) {
                return question;
             }
          };
-         criterionService = new CriterionService(questionService);
+         criterionService = new CriterionService(questionData);
       }
 
       @Test
@@ -54,13 +54,14 @@ class ACriterionService {
 
       @BeforeEach
       public void create() {
-         var questionService = new QuestionService() {
+         // TODO convert to mock
+         var questionData = new QuestionData() {
             @Override
             public Question get(int id) {
                return question;
             }
          };
-         criterionService = new CriterionService(questionService);
+         criterionService = new CriterionService(questionData);
       }
 
       @Test

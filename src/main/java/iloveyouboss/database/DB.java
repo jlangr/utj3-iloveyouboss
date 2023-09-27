@@ -24,7 +24,11 @@ public class DB {
          "options VARCHAR(255) NOT NULL" +
          ")";
       connection().createStatement().execute(createTableSQL);
-
       System.out.println("Question table created successfully.");
+   }
+
+   // TODO test
+   public static void execute(String sql) throws SQLException {
+      connection().createStatement().execute(sql);
    }
 }

@@ -1,6 +1,7 @@
 package iloveyouboss.stats;
 
 import iloveyouboss.answers.AnnotatedAnswer;
+import iloveyouboss.questions.QuestionData;
 import iloveyouboss.questions.QuestionService;
 
 import java.util.*;
@@ -10,8 +11,6 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static java.util.stream.Collectors.*;
 
 public class StatisticsCompiler {
-   private QuestionService questionService = new QuestionService();
-
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
       // START_HIGHLIGHT
          List<AnnotatedAnswer> answers) {

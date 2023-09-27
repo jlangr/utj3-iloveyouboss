@@ -14,13 +14,12 @@ class AQuestionData {
    @BeforeEach
    void reset() {
       questionData.deleteAll();
+      questionData.resetId();
    }
 
    @Test
    void isEmptyAfterReset() {
-      var allRows = questionData.getAll();
-
-      assertEquals(0, allRows.size());
+      assertEquals(0, questionData.getAll().size());
    }
 
    @Test
@@ -34,5 +33,4 @@ class AQuestionData {
 
       assertEquals(List.of(question1, question2), allRows);
    }
-
 }

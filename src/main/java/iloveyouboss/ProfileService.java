@@ -2,6 +2,7 @@ package iloveyouboss;
 
 import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.Question;
+import iloveyouboss.questions.QuestionData;
 import iloveyouboss.questions.QuestionService;
 
 import java.util.HashMap;
@@ -10,8 +11,12 @@ import java.util.Map;
 import static iloveyouboss.questions.Question.AnswerNotProvided;
 
 public class ProfileService {
-   Map<Integer, String> answers = new HashMap<>();
-   CriterionService criterionService = new CriterionService(new QuestionService());
+   private Map<Integer, String> answers = new HashMap<>();
+   private CriterionService criterionService;
+
+   public ProfileService(QuestionData questionData) {
+      criterionService = new CriterionService(questionData);
+   }
 
    public boolean matches(Criteria criteria) {
       return criteria.stream()

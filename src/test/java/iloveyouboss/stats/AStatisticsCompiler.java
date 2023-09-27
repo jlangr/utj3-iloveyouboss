@@ -3,6 +3,8 @@ package iloveyouboss.stats;
 import iloveyouboss.answers.Answer;
 import iloveyouboss.Criterion;
 import iloveyouboss.answers.AnnotatedAnswer;
+import iloveyouboss.questions.Question;
+import iloveyouboss.questions.QuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +15,18 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// TODO backport in earlier versions
 public class AStatisticsCompiler {
-   StatisticsCompiler compiler = new StatisticsCompiler();
+   StatisticsCompiler compiler;
    Criterion tuitionCriterion;
    Criterion relocationCriterion;
    YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
    YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
+
+   @BeforeEach
+   void createStatisticsCompiler() {
+      compiler = new StatisticsCompiler();
+   }
 
    @BeforeEach
    void createTuitionCriterion() {

@@ -1,7 +1,10 @@
 package iloveyouboss;
 
 import iloveyouboss.questions.DuplicateQuestionException;
+import iloveyouboss.questions.Question;
+import iloveyouboss.questions.QuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +14,8 @@ import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AProfileService {
-   ProfileService profile = new ProfileService();
+   QuestionData questionData;
+   ProfileService profile;
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");
    YesNoQuestion hasSmelt = new YesNoQuestion(3, "got smelt?");
@@ -19,6 +23,17 @@ class AProfileService {
    Criterion mustHaveRelo = new Criterion(hasRelo.id(), Yes);
    Criterion mustHave401K = new Criterion(has401K.id(), Yes);
    Criterion optionallyHasSmeltShouldBeTrue = new Criterion(hasSmelt.id(), Yes, true);
+
+   @BeforeEach
+   void setup() {
+      questionData = new QuestionData() {
+         @Override
+         public Question get(int id) {
+            return id == 1 ? hasRelo : has401K;
+         }
+      };
+      profile = new ProfileService(questionData);
+   }
 
    @Nested
    class WhenDeterminingMatches {
