@@ -17,15 +17,18 @@ public class TableAccess {
    public static final String MSG_DELETE_ERROR = "error deleting %s";
    public static final String MSG_INSERT_ERROR = "error inserting into %s";
    public static final String MSG_ALTER_ERROR = "error altering id column in %s";
+   public static final String MSG_NO_GENERATED_KEYS = "error retrieving id from statement in %s";
 
    private final Sql sql;
+   private final String idColumn;
 
-   public TableAccess(String tableName) {
+   public TableAccess(String tableName, String idColumn) {
       sql = new Sql(tableName);
+      this.idColumn = idColumn;
    }
 
    // TODO test
-   public void create(Class<?> dataClass, String idColumn, List<String> columnNames) {
+   public void create(Class<?> dataClass, List<String> columnNames) {
       var createSql = sql.createStatement(dataClass, idColumn, columnNames);
       try {
          DB.execute(createSql);
@@ -35,8 +38,8 @@ public class TableAccess {
       }
    }
 
-   public void resetId(String columnName) {
-      var sqlText = sql.resetIdStatement(columnName);
+   public void resetId() {
+      var sqlText = sql.resetIdStatement(idColumn);
       try {
          DB.execute(sqlText);
       }
@@ -96,23 +99,30 @@ public class TableAccess {
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
       try (var connection = DB.connection()) {
          var sqlStatement = sql.insertStatement(columnNames);
-         String[] returnedAttributes = {"id"}; // TODO
+         String[] returnedAttributes = {idColumn};
          try (var preparedStatement = connection.prepareStatement(sqlStatement, returnedAttributes)) {
             prepare.accept(preparedStatement);
             preparedStatement.executeUpdate();
-            try (var results = preparedStatement.getGeneratedKeys()) {
-               if (results.next())
-                  return results.getInt("id"); // TODO
-               throw new RuntimeException("OOPS"); // TODO
-            }
+            return generatedKeys(preparedStatement);
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_INSERT_ERROR);
       }
    }
 
+   private int generatedKeys(PreparedStatement preparedStatement) throws SQLException {
+      try (var results = preparedStatement.getGeneratedKeys()) {
+         if (results.next())
+            return results.getInt(idColumn);
+         throw unchecked(MSG_NO_GENERATED_KEYS);
+      }
+   }
+
+   private RuntimeException unchecked(String errorMessage) {
+      return new RuntimeException(format(errorMessage, sql.tableName()));
+   }
+
    private RuntimeException unchecked(SQLException e, String errorMessage) {
-      e.printStackTrace();
       return new RuntimeException(format(errorMessage, sql.tableName()), e.getCause());
    }
 }

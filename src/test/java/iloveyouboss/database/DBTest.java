@@ -11,7 +11,7 @@ class DBTest {
    void execute() throws SQLException {
       DB.execute("create table if not exists x");
 
-      var rows = new TableAccess("x").selectAll(x -> null);
+      var rows = new TableAccess("x", "").selectAll(x -> null);
       assertEquals(0, rows.size());
    }
 }

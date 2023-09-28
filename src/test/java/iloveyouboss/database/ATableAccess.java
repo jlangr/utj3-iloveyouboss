@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ATableAccess {
    static final String TABLE_NAME = "TestTableAccess";
+   public static final String ID_COLUMN = "id";
    private TableAccess table;
 
    record TestTableAccess(int id, String x) {}
@@ -38,8 +39,8 @@ class ATableAccess {
 
    @BeforeEach
    void createTableAccess() {
-      table = new TableAccess(TABLE_NAME);
-      table.resetId("id");
+      table = new TableAccess(TABLE_NAME, ID_COLUMN);
+      table.resetId();
    }
 
    @Test
@@ -48,7 +49,7 @@ class ATableAccess {
          statement.setString(1, "xValue"));
 
       var objects = table.selectAll(results ->
-         new TestTableAccess(results.getInt("id"), results.getString("x")));
+         new TestTableAccess(results.getInt(ID_COLUMN), results.getString("x")));
 
       assertEquals(List.of(new TestTableAccess(1, "xValue")), objects);
    }
@@ -58,10 +59,10 @@ class ATableAccess {
       table.insert(new String[] {"x"}, statement ->
          statement.setString(1, "xValue"));
 
-      assertThrows(RuntimeException.class, () -> {
+      var thrown = assertThrows(RuntimeException.class, () -> {
          table.selectAll(r -> { throw new SQLException("because"); });
       });
-      // TODO assert message
+      assertEquals("error retrieving from row in TestTableAccess", thrown.getMessage());
    }
 
    @Test
