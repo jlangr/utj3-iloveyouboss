@@ -1,6 +1,6 @@
 package iloveyouboss.database;
 
-import iloveyouboss.reflection.Reflect;
+import iloveyouboss.reflection.ReflectUtils;
 
 import java.util.List;
 
@@ -9,17 +9,23 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
 public class Sql {
-   public String createStatement(String tableName, Class<?> dataClass, String idField, List<String> additionalColumns) {
+   private final String tableName;
+
+   public Sql(String tableName) {
+      this.tableName = tableName;
+   }
+
+   public String createStatement(Class<?> dataClass, String idField, List<String> additionalColumns) {
       var idColumn = format("%s INT AUTO_INCREMENT PRIMARY KEY", idField);
       var columns = additionalColumns.stream()
          .map(column -> declaration(column, dataClass))
          .collect(joining(", "));
-      return format("CREATE TABLE IF NOT EXISTS %s (%s, %s))",
+      return format("CREATE TABLE IF NOT EXISTS %s (%s, %s)",
          tableName, idColumn, columns);
    }
 
    private String declaration(String column, Class<?> dataClass) {
-      var type = Reflect.type(column, dataClass);
+      var type = ReflectUtils.type(column, dataClass);
       if (type == int.class)
          return format("%s INT", column);
       if (type == String.class)
@@ -27,21 +33,30 @@ public class Sql {
       throw new RuntimeException("unsupported type: " + type);
    }
 
-   public String insertStatement(String tableName, String[] columnNames) {
+   public String insertStatement(String[] columnNames) {
       var columns = stream(columnNames).collect(joining(", "));
       var questions = stream(columnNames).map(s -> "?").collect(joining(", "));
       return "INSERT INTO " + tableName + format(" (%s) VALUES (%s)", columns, questions);
    }
 
-   public String deleteStatement(String tableName) {
+   public String deleteStatement() {
       return format("DELETE FROM %s", tableName);
    }
 
-   public String selectAllStatement(String tableName) {
+   public String selectAllStatement() {
       return format("SELECT * FROM %s", tableName);
    }
 
-   public String selectByIdStatement(String tableName, int id) {
-      return format("SELECT * FROM %s WHERE %s = %d", tableName, "id", id);
+   public String selectByIdStatement(int id) {
+      return format("SELECT * FROM %s WHERE %s=%d", tableName, "id", id);
+   }
+
+   String resetIdStatement(String columnName) {
+      return format(
+         "ALTER TABLE %s ALTER COLUMN " + columnName + " RESTART WITH 1", tableName);
+   }
+
+   public String tableName() {
+      return tableName;
    }
 }

@@ -15,8 +15,9 @@ public class QuestionData {
    public static final String TABLE_NAME = "Question";
    private TableAccess table = new TableAccess(TABLE_NAME);
 
+   // TODO
    public void create() {
-      table.create(QuestionData.class, "id", List.of("text"));
+      table.create(YesNoQuestion.class, "id", List.of("text"));
    }
 //   var createTableSQL = "CREATE TABLE IF NOT EXISTS Question (" +
 //      "id INT AUTO_INCREMENT PRIMARY KEY," +

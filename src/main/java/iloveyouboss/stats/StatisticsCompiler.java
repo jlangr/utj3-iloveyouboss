@@ -1,8 +1,6 @@
 package iloveyouboss.stats;
 
 import iloveyouboss.answers.AnnotatedAnswer;
-import iloveyouboss.questions.QuestionData;
-import iloveyouboss.questions.QuestionService;
 
 import java.util.*;
 

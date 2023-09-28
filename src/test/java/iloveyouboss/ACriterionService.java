@@ -54,7 +54,6 @@ class ACriterionService {
 
       @BeforeEach
       public void create() {
-         // TODO convert to mock
          var questionData = new QuestionData() {
             @Override
             public Question get(int id) {

@@ -18,40 +18,54 @@ public class TableAccess {
    public static final String MSG_INSERT_ERROR = "error inserting into %s";
    public static final String MSG_ALTER_ERROR = "error altering id column in %s";
 
-   private final String tableName;
-   private Sql sql = new Sql();
+   private final Sql sql;
 
    public TableAccess(String tableName) {
-      this.tableName = tableName;
+      sql = new Sql(tableName);
    }
 
    // TODO test
    public void create(Class<?> dataClass, String idColumn, List<String> columnNames) {
       try {
-         var createSql = sql.createStatement(tableName, dataClass, idColumn, columnNames);
+         var createSql = sql.createStatement(dataClass, idColumn, columnNames);
+         System.out.println("CREATE SQL: " + createSql);
          DB.execute(createSql);
       }
       catch (SQLException e) {
-         throw new RuntimeException(format(MSG_ALTER_ERROR, tableName), e.getCause());
+         throw unchecked(e, MSG_ALTER_ERROR);
       }
    }
 
    public void resetId(String columnName) {
+      var sqlText = sql.resetIdStatement(columnName);
+      System.out.println(sqlText);
       try {
-         // TODO move to Sql class
-         var sql = format(
-            "ALTER TABLE %s ALTER COLUMN " + columnName + " RESTART WITH 1", tableName);
-         DB.execute(sql);
+         DB.execute(sqlText);
       }
       catch (SQLException e) {
-         throw new RuntimeException(format(MSG_ALTER_ERROR, tableName), e.getCause());
+         throw unchecked(e, MSG_ALTER_ERROR);
+      }
+   }
+
+   // TODO test
+   public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
+      try (var connection = DB.connection()) {
+         var query = sql.selectByIdStatement(id);
+         System.out.println(query);
+         // TODO if not found
+         try (var preparedStatement = connection.prepareStatement(query);
+              var resultSet = preparedStatement.executeQuery()) {
+            return createObjectFromRow.apply(resultSet);
+         }
+      } catch (SQLException e) {
+         throw unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
       }
    }
 
    public <T> List<T> selectAll(CheckedFunction<ResultSet, T> createObjectFromRow) {
       List<T> results = new ArrayList<>();
       try (var connection = DB.connection()) {
-         var query = sql.selectAllStatement(tableName);
+         var query = sql.selectAllStatement();
          try (var preparedStatement = connection.prepareStatement(query);
               var resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next())
@@ -59,55 +73,41 @@ public class TableAccess {
                   T result = createObjectFromRow.apply(resultSet);
                   results.add(result);
                } catch (SQLException e) {
-                  throw new RuntimeException(
-                     format(MSG_SELECT_CREATE_ROW_ERROR, tableName));
+                  unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
                }
          }
       }
       catch (SQLException e) {
-         throw new RuntimeException(format(MSG_SELECT_ERROR, tableName), e.getCause());
+         throw unchecked(e, MSG_SELECT_ERROR);
       }
       return results;
    }
 
    public void deleteAll() {
       try (var connection = DB.connection()) {
-         var sqlStatement = sql.deleteStatement(tableName);
+         var sqlStatement = sql.deleteStatement();
          try (var preparedStatement = connection.prepareStatement(sqlStatement)) {
             preparedStatement.executeUpdate();
          }
       } catch (SQLException e) {
-         throw new RuntimeException(format(MSG_DELETE_ERROR, tableName), e.getCause());
+         throw unchecked(e, MSG_DELETE_ERROR);
       }
    }
 
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
       try (var connection = DB.connection()) {
-         var sqlStatement = sql.insertStatement(tableName, columnNames);
+         var sqlStatement = sql.insertStatement(columnNames);
          try (var preparedStatement = connection.prepareStatement(sqlStatement)) {
             prepare.accept(preparedStatement);
             return preparedStatement.executeUpdate();
          }
       } catch (SQLException e) {
-         throw new RuntimeException(format(MSG_INSERT_ERROR + tableName), e.getCause());
+         throw unchecked(e, MSG_INSERT_ERROR);
       }
    }
 
-   // TODO test
-   public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
-      try (var connection = DB.connection()) {
-         // TODO extract
-         var query = sql.selectByIdStatement(tableName, id);
-         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, id);
-            // TODO if not found
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-               return createObjectFromRow.apply(resultSet);
-            }
-         }
-      } catch (SQLException e) {
-         throw new RuntimeException(format(MSG_SELECT_CREATE_ROW_ERROR, tableName));
-      }
+   private RuntimeException unchecked(SQLException e, String errorMessage) {
+      e.printStackTrace();
+      return new RuntimeException(format(errorMessage, sql.tableName()), e.getCause());
    }
-
 }

@@ -17,6 +17,7 @@ public class DB {
       }
    }
 
+   // TODO move into tests
    public static void main(String[] args) throws SQLException {
       var createTableSQL = "CREATE TABLE IF NOT EXISTS Question (" +
          "id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -27,7 +28,7 @@ public class DB {
       System.out.println("Question table created successfully.");
    }
 
-   // TODO test
+   // TODO shouldn't this be in TableAccess
    public static void execute(String sql) throws SQLException {
       connection().createStatement().execute(sql);
    }
