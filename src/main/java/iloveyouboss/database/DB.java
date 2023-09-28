@@ -16,9 +16,4 @@ public class DB {
          throw new RuntimeException("unable to connect to " + database, e.getCause());
       }
    }
-
-   // TODO shouldn't this be in TableAccess
-   public static void execute(String sql) throws SQLException {
-      connection().createStatement().execute(sql);
-   }
 }

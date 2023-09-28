@@ -27,10 +27,14 @@ public class TableAccess {
       this.idColumn = idColumn;
    }
 
+   public void execute(String sql) throws SQLException {
+      DB.connection().createStatement().execute(sql);
+   }
+
    public void createIfNotExists(Class<?> dataClass, List<String> columnNames) {
       var sqlText = sql.createIfNotExistsStatement(dataClass, idColumn, columnNames);
       try {
-         DB.execute(sqlText);
+         execute(sqlText);
       }
       catch (SQLException e) {
          throw unchecked(e, MSG_ALTER_ERROR);

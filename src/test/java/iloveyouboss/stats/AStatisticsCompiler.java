@@ -1,10 +1,8 @@
 package iloveyouboss.stats;
 
-import iloveyouboss.answers.Answer;
 import iloveyouboss.Criterion;
 import iloveyouboss.answers.AnnotatedAnswer;
-import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionData;
+import iloveyouboss.answers.Answer;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

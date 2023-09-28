@@ -40,6 +40,14 @@ class ATableAccess {
    }
 
    @Test
+   void execute() throws SQLException {
+      table.execute("create table if not exists x");
+
+      var rows = new TableAccess("x", "").selectAll(x -> null);
+      assertEquals(0, rows.size());
+   }
+
+   @Test
    void selectAllRetrievesInsertedRows() {
       var id = table.insert(new String[] {"x"}, statement ->
          statement.setString(1, "xValue"));
@@ -91,6 +99,13 @@ class ATableAccess {
          var retrieved = table.get(42, results -> new TestTableAccess(0, ""));
 
          assertNull(retrieved);
+      }
+
+      @Test
+      void rethrowsWhenPrepareFails() {
+         var retrieved = table.get(99, results ->
+            new TestTableAccess(results.getInt("id"), results.getString("x")));
+
       }
    }
 }

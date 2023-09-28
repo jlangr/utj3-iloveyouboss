@@ -20,7 +20,6 @@ class AQuestionData {
    @BeforeEach
    void reset() {
       questionData.deleteAll();
-//      questionData.resetId();
    }
 
    @Test
