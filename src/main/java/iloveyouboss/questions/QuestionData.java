@@ -14,19 +14,14 @@ public class QuestionData {
    private static final String ID_COLUMN = "id";
    private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN);
 
-   // TODO test?
-   public void create() {
-      table.create(YesNoQuestion.class, List.of("text"));
+   public void createIfNotExists() {
+      table.createIfNotExists(YesNoQuestion.class, List.of("text"));
    }
 
    private YesNoQuestion createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var text = results.getString("text");
       return new YesNoQuestion(id, text);
-   }
-
-   public void resetId() {
-      table.resetId();
    }
 
    public List<YesNoQuestion> getAll() {
@@ -50,7 +45,6 @@ public class QuestionData {
       table.deleteAll();
    }
 
-   // TODO test
    public YesNoQuestion get(int id) {
       return table.get(id, this::createFromRow);
    }

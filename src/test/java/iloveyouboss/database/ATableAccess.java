@@ -1,9 +1,6 @@
 package iloveyouboss.database;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -40,18 +37,17 @@ class ATableAccess {
    @BeforeEach
    void createTableAccess() {
       table = new TableAccess(TABLE_NAME, ID_COLUMN);
-      table.resetId();
    }
 
    @Test
    void selectAllRetrievesInsertedRows() {
-      table.insert(new String[] {"x"}, statement ->
+      var id = table.insert(new String[] {"x"}, statement ->
          statement.setString(1, "xValue"));
 
       var objects = table.selectAll(results ->
          new TestTableAccess(results.getInt(ID_COLUMN), results.getString("x")));
 
-      assertEquals(List.of(new TestTableAccess(1, "xValue")), objects);
+      assertEquals(List.of(new TestTableAccess(id, "xValue")), objects);
    }
 
    @Test
@@ -75,5 +71,26 @@ class ATableAccess {
       var objects = table.selectAll(results ->
          new TestTableAccess(results.getInt("id"), results.getString("x")));
       assertTrue(objects.isEmpty());
+   }
+
+   @Nested
+   class Get {
+      @Test
+      void returnsItemById() {
+         var id = table.insert(new String[] {"x"}, statement ->
+            statement.setString(1, "xValue"));
+
+         var retrieved = table.get(id, results ->
+            new TestTableAccess(results.getInt("id"), results.getString("x")));
+
+         assertEquals(new TestTableAccess(id, "xValue"), retrieved);
+      }
+
+      @Test
+      void returnsNullWhenNotFound() {
+         var retrieved = table.get(42, results -> new TestTableAccess(0, ""));
+
+         assertNull(retrieved);
+      }
    }
 }

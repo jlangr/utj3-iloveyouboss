@@ -15,7 +15,7 @@ public class Sql {
       this.tableName = tableName;
    }
 
-   public String createStatement(Class<?> dataClass, String idField, List<String> additionalColumns) {
+   public String createIfNotExistsStatement(Class<?> dataClass, String idField, List<String> additionalColumns) {
       var idColumn = format("%s INT AUTO_INCREMENT PRIMARY KEY", idField);
       var columns = additionalColumns.stream()
          .map(column -> declaration(column, dataClass))

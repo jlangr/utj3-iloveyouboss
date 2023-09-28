@@ -14,13 +14,13 @@ class AQuestionData {
 
    @BeforeAll
    static void createTable() {
-      new QuestionData().create();
+      new QuestionData().createIfNotExists();
    }
 
    @BeforeEach
    void reset() {
       questionData.deleteAll();
-      questionData.resetId();
+//      questionData.resetId();
    }
 
    @Test
@@ -37,17 +37,18 @@ class AQuestionData {
 
       var allRows = questionData.getAll();
 
-      assertEquals(List.of(new YesNoQuestion(id1, question1), new YesNoQuestion(id2, question2)),
+      assertEquals(
+         List.of(new YesNoQuestion(id1, question1), new YesNoQuestion(id2, question2)),
          allRows);
    }
 
    @Test
    void retrievesRowById() {
-      var question = new YesNoQuestion(1, "a");
-      questionData.add(question);
+      var id1 = questionData.add(new YesNoQuestion("a"));
+      questionData.add(new YesNoQuestion("b"));
 
-      var retrieved = questionData.get(1);
+      var retrieved = questionData.get(id1);
 
-      assertEquals(question, retrieved);
+      assertEquals("a", retrieved.text());
    }
 }
