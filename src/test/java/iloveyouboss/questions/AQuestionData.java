@@ -30,22 +30,23 @@ class AQuestionData {
 
    @Test
    void retrievesInsertedRows() {
-      var question1 = new YesNoQuestion(1, "a");
-      var question2 = new YesNoQuestion(2, "b");
-      questionData.add(question1);
-      questionData.add(question2);
+      var question1 = new YesNoQuestion("a");
+      var question2 = new YesNoQuestion("b");
+      var id1 = questionData.add(question1);
+      var id2 = questionData.add(question2);
 
       var allRows = questionData.getAll();
 
-      assertEquals(List.of(question1, question2), allRows);
+      assertEquals(List.of(new YesNoQuestion(id1, question1), new YesNoQuestion(id2, question2)),
+         allRows);
    }
 
    @Test
    void retrievesRowById() {
-      var question = new YesNoQuestion(42, "a");
+      var question = new YesNoQuestion(1, "a");
       questionData.add(question);
 
-      var retrieved = questionData.get(42);
+      var retrieved = questionData.get(1);
 
       assertEquals(question, retrieved);
    }

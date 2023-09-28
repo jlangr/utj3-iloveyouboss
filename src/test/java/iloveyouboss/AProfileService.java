@@ -28,7 +28,7 @@ class AProfileService {
    void setup() {
       questionData = new QuestionData() {
          @Override
-         public Question get(int id) {
+         public YesNoQuestion get(int id) {
             return id == 1 ? hasRelo : has401K;
          }
       };

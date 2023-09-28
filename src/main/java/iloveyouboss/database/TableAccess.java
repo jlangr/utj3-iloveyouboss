@@ -26,9 +26,8 @@ public class TableAccess {
 
    // TODO test
    public void create(Class<?> dataClass, String idColumn, List<String> columnNames) {
+      var createSql = sql.createStatement(dataClass, idColumn, columnNames);
       try {
-         var createSql = sql.createStatement(dataClass, idColumn, columnNames);
-         System.out.println("CREATE SQL: " + createSql);
          DB.execute(createSql);
       }
       catch (SQLException e) {
@@ -38,7 +37,6 @@ public class TableAccess {
 
    public void resetId(String columnName) {
       var sqlText = sql.resetIdStatement(columnName);
-      System.out.println(sqlText);
       try {
          DB.execute(sqlText);
       }
@@ -51,11 +49,12 @@ public class TableAccess {
    public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
       try (var connection = DB.connection()) {
          var query = sql.selectByIdStatement(id);
-         System.out.println(query);
          // TODO if not found
          try (var preparedStatement = connection.prepareStatement(query);
               var resultSet = preparedStatement.executeQuery()) {
-            return createObjectFromRow.apply(resultSet);
+            if (resultSet.next())
+               return createObjectFromRow.apply(resultSet);
+            throw new RuntimeException("no next row"); // TODO
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
@@ -73,7 +72,7 @@ public class TableAccess {
                   T result = createObjectFromRow.apply(resultSet);
                   results.add(result);
                } catch (SQLException e) {
-                  unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
+                  throw unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
                }
          }
       }
@@ -97,9 +96,15 @@ public class TableAccess {
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
       try (var connection = DB.connection()) {
          var sqlStatement = sql.insertStatement(columnNames);
-         try (var preparedStatement = connection.prepareStatement(sqlStatement)) {
+         String[] returnedAttributes = {"id"}; // TODO
+         try (var preparedStatement = connection.prepareStatement(sqlStatement, returnedAttributes)) {
             prepare.accept(preparedStatement);
-            return preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+            try (var results = preparedStatement.getGeneratedKeys()) {
+               if (results.next())
+                  return results.getInt("id"); // TODO
+               throw new RuntimeException("OOPS"); // TODO
+            }
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_INSERT_ERROR);

@@ -36,19 +36,20 @@ public class QuestionData {
       table.resetId("id");
    }
 
-   public List<Question> getAll() {
+   public List<YesNoQuestion> getAll() {
       return table.selectAll(this::createFromRow);
    }
 
-   public int add(Question question) {
-      return table.insert(new String[] {"text", "options"},
+   public int add(YesNoQuestion question) {
+      return table.insert(new String[] {"text"},
          convertRowToQuestion(question));
    }
 
-   private CheckedConsumer<PreparedStatement> convertRowToQuestion(Question question) {
+   private CheckedConsumer<PreparedStatement> convertRowToQuestion(YesNoQuestion question) {
       return statement -> {
          statement.setString(1, question.text());
-         statement.setString(2, join(",", question.options()));
+         // TODO save for options persistence in other question type
+//         statement.setString(2, join(",", question.options()));
       };
    }
 
@@ -57,7 +58,7 @@ public class QuestionData {
    }
 
    // TODO test
-   public Question get(int id) {
+   public YesNoQuestion get(int id) {
       return table.get(id, this::createFromRow);
    }
 }
