@@ -1,5 +1,6 @@
 package iloveyouboss.questions;
 
+import iloveyouboss.database.DB;
 import iloveyouboss.database.TableAccess;
 import iloveyouboss.functional.CheckedConsumer;
 import iloveyouboss.questions.yesno.YesNoQuestion;
@@ -12,7 +13,8 @@ import java.util.List;
 public class QuestionData {
    private static final String TABLE_NAME = "Question";
    private static final String ID_COLUMN = "id";
-   private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN);
+   // TODO fake DB
+   private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN, new DB());
 
    public void createIfNotExists() {
       table.createIfNotExists(YesNoQuestion.class, List.of("text"));

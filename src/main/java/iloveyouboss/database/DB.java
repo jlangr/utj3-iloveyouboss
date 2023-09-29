@@ -9,7 +9,8 @@ public class DB {
    private static String password = "";
    private static String database = "jdbc:h2:~/test";
 
-   public static Connection connection() {
+   // TODO test if throws?
+   public Connection connection() {
       try {
          return DriverManager.getConnection(database, username, password);
       } catch (SQLException e) {

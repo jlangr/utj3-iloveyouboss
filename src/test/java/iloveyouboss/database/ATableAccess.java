@@ -1,16 +1,25 @@
 package iloveyouboss.database;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 class ATableAccess {
    static final String TABLE_NAME = "TestTableAccess";
-   public static final String ID_COLUMN = "id";
-   private TableAccess table;
+   static final String ID_COLUMN = "id";
+
+   TableAccess table;
+   DB db = new DB();
 
    record TestTableAccess(int id, String x) {}
 
@@ -19,31 +28,31 @@ class ATableAccess {
       var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
          "(id INT AUTO_INCREMENT PRIMARY KEY" +
          ", x VARCHAR(255))";
-      DB.connection().createStatement().execute(sql);
+      new DB().connection().createStatement().execute(sql);
    }
 
    @AfterAll
    static void dropTable() throws SQLException {
-      DB.connection().createStatement().execute(
+      new DB().connection().createStatement().execute(
          "DROP TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
    void truncateTable() throws SQLException {
-      DB.connection().createStatement().execute(
+      db.connection().createStatement().execute(
          "TRUNCATE TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
    void createTableAccess() {
-      table = new TableAccess(TABLE_NAME, ID_COLUMN);
+      table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
    }
 
    @Test
    void execute() throws SQLException {
       table.execute("create table if not exists x");
 
-      var rows = new TableAccess("x", "").selectAll(x -> null);
+      var rows = new TableAccess("x", "", db).selectAll(x -> null);
       assertEquals(0, rows.size());
    }
 
@@ -99,13 +108,6 @@ class ATableAccess {
          var retrieved = table.get(42, results -> new TestTableAccess(0, ""));
 
          assertNull(retrieved);
-      }
-
-      @Test
-      void rethrowsWhenPrepareFails() {
-         var retrieved = table.get(99, results ->
-            new TestTableAccess(results.getInt("id"), results.getString("x")));
-
       }
    }
 }

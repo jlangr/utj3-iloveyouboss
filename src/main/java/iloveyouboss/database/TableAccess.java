@@ -21,14 +21,16 @@ public class TableAccess {
 
    private final Sql sql;
    private final String idColumn;
+   private final DB db;
 
-   public TableAccess(String tableName, String idColumn) {
+   public TableAccess(String tableName, String idColumn, DB db) {
       sql = new Sql(tableName);
       this.idColumn = idColumn;
+      this.db = db;
    }
 
    public void execute(String sql) throws SQLException {
-      DB.connection().createStatement().execute(sql);
+      db.connection().createStatement().execute(sql);
    }
 
    public void createIfNotExists(Class<?> dataClass, List<String> columnNames) {
@@ -42,7 +44,7 @@ public class TableAccess {
    }
 
    public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
-      try (var connection = DB.connection()) {
+      try (var connection = db.connection()) {
          var sqlText = sql.selectByIdStatement(id);
          try (var preparedStatement = connection.prepareStatement(sqlText);
               var resultSet = preparedStatement.executeQuery()) {
@@ -55,7 +57,7 @@ public class TableAccess {
 
    public <T> List<T> selectAll(CheckedFunction<ResultSet, T> createObjectFromRow) {
       List<T> results = new ArrayList<>();
-      try (var connection = DB.connection()) {
+      try (var connection = db.connection()) {
          var sqlText = sql.selectAllStatement();
          try (var preparedStatement = connection.prepareStatement(sqlText);
               var resultSet = preparedStatement.executeQuery()) {
@@ -75,7 +77,7 @@ public class TableAccess {
    }
 
    public void deleteAll() {
-      try (var connection = DB.connection()) {
+      try (var connection = db.connection()) {
          var sqlText = sql.deleteStatement();
          try (var preparedStatement = connection.prepareStatement(sqlText)) {
             preparedStatement.executeUpdate();
@@ -86,7 +88,7 @@ public class TableAccess {
    }
 
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
-      try (var connection = DB.connection()) {
+      try (var connection = db.connection()) {
          var sqlText = sql.insertStatement(columnNames);
          String[] returnedAttributes = {idColumn};
          try (var preparedStatement = connection.prepareStatement(sqlText, returnedAttributes)) {
