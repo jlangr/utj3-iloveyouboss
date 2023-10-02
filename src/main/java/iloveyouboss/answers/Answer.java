@@ -1,4 +1,4 @@
 package iloveyouboss.answers;
 
-public record Answer(int id, int criterionId, String value) {
+public record Answer(int id, int criterionId, String text) {
 }

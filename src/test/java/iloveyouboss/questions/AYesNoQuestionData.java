@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AQuestionData {
+class AYesNoQuestionData {
    YesNoQuestionData questionData = new YesNoQuestionData();
 
    @BeforeAll

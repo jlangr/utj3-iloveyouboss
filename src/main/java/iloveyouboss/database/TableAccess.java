@@ -16,7 +16,7 @@ public class TableAccess {
    public static final String MSG_SELECT_ERROR = "error retrieving from %s";
    public static final String MSG_DELETE_ERROR = "error deleting %s";
    public static final String MSG_INSERT_ERROR = "error inserting into %s";
-   public static final String MSG_ALTER_ERROR = "error altering id column in %s";
+   public static final String MSG_CREATE_TABLE_ERROR = "error creating table %s";
    public static final String MSG_NO_GENERATED_KEYS = "error retrieving id from statement in %s";
 
    private final Sql sql;
@@ -39,7 +39,8 @@ public class TableAccess {
          execute(sqlText);
       }
       catch (SQLException e) {
-         throw unchecked(e, MSG_ALTER_ERROR);
+         e.printStackTrace();
+         throw unchecked(e, MSG_CREATE_TABLE_ERROR);
       }
    }
 
@@ -113,6 +114,7 @@ public class TableAccess {
    }
 
    private RuntimeException unchecked(SQLException e, String errorMessage) {
+      e.printStackTrace();
       return new RuntimeException(format(errorMessage, sql.tableName()), e.getCause());
    }
 }

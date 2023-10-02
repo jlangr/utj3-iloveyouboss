@@ -23,7 +23,7 @@ public class StatisticsCompiler {
 
    private Map<String, Integer> histogramForAnswer(AnnotatedAnswer answer) {
       var initialMap = new HashMap(Map.of(Yes, 0, No, 0));
-      initialMap.put(answer.get().value(), 1);
+      initialMap.put(answer.get().text(), 1);
       return initialMap;
    }
 
