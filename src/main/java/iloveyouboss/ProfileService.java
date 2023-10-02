@@ -1,8 +1,11 @@
 package iloveyouboss;
 
+import iloveyouboss.criteria.Criteria;
+import iloveyouboss.criteria.Criterion;
+import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionData;
+import iloveyouboss.questions.YesNoQuestionData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +16,7 @@ public class ProfileService {
    private Map<Integer, String> answers = new HashMap<>();
    private CriterionService criterionService;
 
-   public ProfileService(QuestionData questionData) {
+   public ProfileService(YesNoQuestionData questionData) {
       criterionService = new CriterionService(questionData);
    }
 

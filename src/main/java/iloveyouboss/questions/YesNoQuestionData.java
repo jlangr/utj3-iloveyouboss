@@ -1,7 +1,6 @@
 package iloveyouboss.questions;
 
-import iloveyouboss.database.DB;
-import iloveyouboss.database.TableAccess;
+import iloveyouboss.data.Data;
 import iloveyouboss.functional.CheckedConsumer;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 
@@ -10,43 +9,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class QuestionData {
+public class YesNoQuestionData extends Data<YesNoQuestion> {
    private static final String TABLE_NAME = "Question";
    private static final String ID_COLUMN = "id";
-   private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN, new DB());
 
+   public YesNoQuestionData() {
+      super(TABLE_NAME, ID_COLUMN);
+   }
+
+   @Override
    public void createIfNotExists() {
       table.createIfNotExists(YesNoQuestion.class, List.of("text"));
    }
 
-   private YesNoQuestion createFromRow(ResultSet results) throws SQLException {
+   @Override
+   protected YesNoQuestion createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var text = results.getString("text");
       return new YesNoQuestion(id, text);
    }
 
-   public List<YesNoQuestion> getAll() {
-      return table.selectAll(this::createFromRow);
-   }
-
+   @Override
    public int add(YesNoQuestion question) {
       return table.insert(new String[] {"text"},
          convertRowToQuestion(question));
    }
 
-   private CheckedConsumer<PreparedStatement> convertRowToQuestion(YesNoQuestion question) {
+   @Override
+   protected CheckedConsumer<PreparedStatement> convertRowToQuestion(YesNoQuestion question) {
       return statement -> {
          statement.setString(1, question.text());
          // TODO save for options persistence in other question type
 //         statement.setString(2, join(",", question.options()));
       };
-   }
-
-   void deleteAll() {
-      table.deleteAll();
-   }
-
-   public YesNoQuestion get(int id) {
-      return table.get(id, this::createFromRow);
    }
 }

@@ -1,7 +1,7 @@
 package iloveyouboss.answers;
 
-import iloveyouboss.CriterionService;
-import iloveyouboss.questions.QuestionData;
+import iloveyouboss.criteria.CriterionService;
+import iloveyouboss.questions.YesNoQuestionData;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toList;
 
 public class AnswerService {
    private AnswerData answerData = new AnswerData();
-   private QuestionData questionData = new QuestionData();
+   private YesNoQuestionData questionData = new YesNoQuestionData();
    private CriterionService criterionService = new CriterionService(questionData);
 
    public List<AnnotatedAnswer> retrieveAllAnnotated() {

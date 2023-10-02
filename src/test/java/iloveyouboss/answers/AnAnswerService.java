@@ -1,6 +1,6 @@
 package iloveyouboss.answers;
 
-import iloveyouboss.CriterionService;
+import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

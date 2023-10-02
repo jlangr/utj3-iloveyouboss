@@ -1,7 +1,6 @@
 package iloveyouboss.answers;
 
-import iloveyouboss.database.DB;
-import iloveyouboss.database.TableAccess;
+import iloveyouboss.data.Data;
 import iloveyouboss.functional.CheckedConsumer;
 
 import java.sql.PreparedStatement;
@@ -9,45 +8,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-// TODO duplication with QuestionData
-public class AnswerData {
+// TODO test
+public class AnswerData extends Data<Answer> {
    private static final String TABLE_NAME = "Answer";
    private static final String ID_COLUMN = "id";
-   private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN, new DB());
 
+   public AnswerData() {
+      super(TABLE_NAME, ID_COLUMN);
+   }
+
+   @Override
    public void createIfNotExists() {
       table.createIfNotExists(Answer.class, List.of("criterionId", "value"));
    }
 
-   private Answer createFromRow(ResultSet results) throws SQLException {
+   @Override
+   protected Answer createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var criterionId = results.getInt("criterionId");
       var text = results.getString("value");
       return new Answer(id, criterionId, text);
    }
 
-   public List<Answer> getAll() {
-      return table.selectAll(this::createFromRow);
-   }
-
+   @Override
    public int add(Answer answer) {
-      return table.insert(new String[] {"text"},
-         convertRowToQuestion(answer));
+      return table.insert(new String[] {"text"}, convertRowToQuestion(answer));
    }
 
-   private CheckedConsumer<PreparedStatement> convertRowToQuestion(Answer answer) {
+   @Override
+   protected CheckedConsumer<PreparedStatement> convertRowToQuestion(Answer answer) {
       return statement -> {
          statement.setInt(1, answer.id());
          statement.setInt(2, answer.criterionId());
          statement.setString(3, answer.value());
       };
-   }
-
-   void deleteAll() {
-      table.deleteAll();
-   }
-
-   public Answer get(int id) {
-      return table.get(id, this::createFromRow);
    }
 }

@@ -1,6 +1,6 @@
 package iloveyouboss.stats;
 
-import iloveyouboss.Criterion;
+import iloveyouboss.criteria.Criterion;
 import iloveyouboss.answers.AnnotatedAnswer;
 import iloveyouboss.answers.Answer;
 import iloveyouboss.questions.yesno.YesNoQuestion;

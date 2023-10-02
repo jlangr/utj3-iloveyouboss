@@ -1,4 +1,4 @@
-package iloveyouboss;
+package iloveyouboss.criteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,6 +1,7 @@
 package iloveyouboss;
 
-import iloveyouboss.questions.yesno.YesNoQuestion;
+import iloveyouboss.criteria.Criteria;
+import iloveyouboss.criteria.Criterion;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 

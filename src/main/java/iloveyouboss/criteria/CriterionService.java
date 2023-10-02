@@ -1,15 +1,16 @@
-package iloveyouboss;
+package iloveyouboss.criteria;
 
+import iloveyouboss.InvalidAnswerException;
 import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionData;
+import iloveyouboss.questions.YesNoQuestionData;
 
 import static iloveyouboss.questions.Question.AnswerNotProvided;
 
 public class CriterionService {
-   private QuestionData questionData;
+   private YesNoQuestionData questionData;
    private CriterionData criterionData;
 
-   public CriterionService(QuestionData questionData) {
+   public CriterionService(YesNoQuestionData questionData) {
       this.questionData = questionData;
    }
 

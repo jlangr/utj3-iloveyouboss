@@ -1,8 +1,9 @@
 package iloveyouboss;
 
+import iloveyouboss.criteria.Criteria;
+import iloveyouboss.criteria.Criterion;
 import iloveyouboss.questions.DuplicateQuestionException;
-import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionData;
+import iloveyouboss.questions.YesNoQuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AProfileService {
    static final int QUESTION_ID = 100;
 
-   QuestionData questionData;
+   YesNoQuestionData questionData;
    ProfileService profile;
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");
@@ -28,7 +29,7 @@ class AProfileService {
 
    @BeforeEach
    void setup() {
-      questionData = new QuestionData() {
+      questionData = new YesNoQuestionData() {
          @Override
          public YesNoQuestion get(int id) {
             return id == 1 ? hasRelo : has401K;

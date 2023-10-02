@@ -1,15 +1,12 @@
 package iloveyouboss;
 
-import iloveyouboss.questions.Question;
-import iloveyouboss.questions.QuestionData;
-import iloveyouboss.questions.choice.ChoiceQuestion;
+import iloveyouboss.criteria.Criterion;
+import iloveyouboss.criteria.CriterionService;
+import iloveyouboss.questions.YesNoQuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
@@ -24,7 +21,7 @@ class ACriterionService {
 
       @BeforeEach
       public void create() {
-         var questionData = new QuestionData() {
+         var questionData = new YesNoQuestionData() {
             @Override
             public YesNoQuestion get(int id) {
                return question;

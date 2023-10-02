@@ -10,11 +10,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AQuestionData {
-   QuestionData questionData = new QuestionData();
+   YesNoQuestionData questionData = new YesNoQuestionData();
 
    @BeforeAll
    static void createTable() {
-      new QuestionData().createIfNotExists();
+      new YesNoQuestionData().createIfNotExists();
    }
 
    @BeforeEach
