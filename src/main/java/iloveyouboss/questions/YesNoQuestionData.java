@@ -32,11 +32,11 @@ public class YesNoQuestionData extends Data<YesNoQuestion> {
    @Override
    public int add(YesNoQuestion question) {
       return table.insert(new String[] {"text"},
-         convertRowToQuestion(question));
+         convertRowToObject(question));
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> convertRowToQuestion(YesNoQuestion question) {
+   protected CheckedConsumer<PreparedStatement> convertRowToObject(YesNoQuestion question) {
       return statement -> {
          statement.setString(1, question.text());
          // TODO save for options persistence in other question type

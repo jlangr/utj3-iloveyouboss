@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-// TODO test
 public class AnswerData extends Data<Answer> {
    private static final String TABLE_NAME = "Answer";
    private static final String ID_COLUMN = "id";
@@ -33,11 +32,11 @@ public class AnswerData extends Data<Answer> {
    @Override
    public int add(Answer answer) {
       return table.insert(new String[] {"criterionId", "text"},
-         convertRowToQuestion(answer));
+         convertRowToObject(answer));
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> convertRowToQuestion(Answer answer) {
+   protected CheckedConsumer<PreparedStatement> convertRowToObject(Answer answer) {
       return statement -> {
          statement.setInt(1, answer.criterionId());
          statement.setString(2, answer.text());
