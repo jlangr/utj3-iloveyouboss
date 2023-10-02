@@ -13,7 +13,6 @@ import java.util.List;
 public class QuestionData {
    private static final String TABLE_NAME = "Question";
    private static final String ID_COLUMN = "id";
-   // TODO fake DB
    private TableAccess table = new TableAccess(TABLE_NAME, ID_COLUMN, new DB());
 
    public void createIfNotExists() {

@@ -2,8 +2,8 @@ package iloveyouboss.answers;
 
 import iloveyouboss.Criterion;
 
-public record Answer(Criterion criterion, String value) {
-   public int questionId() {
-      return criterion().questionId();
-   }
+public record Answer(int id, int criterionId, String value) {
+//   public int questionId() {
+//      return criterion().questionId();
+//   }
 }

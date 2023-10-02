@@ -35,14 +35,14 @@ class ACriterionService {
 
       @Test
       void isMetByAnswerMatchingItsExpectedAnswer() {
-         var criterion = new Criterion(question.id(), Yes);
+         var criterion = new Criterion(1, question.id(), Yes);
 
          assertTrue(criterionService.isMetBy(criterion, Yes));
       }
 
       @Test
       void isNotMetByAnswerMismatchingItsExpectedAnswer() {
-         var criterion = new Criterion(question.id(), Yes);
+         var criterion = new Criterion(1, question.id(), Yes);
 
          assertFalse(criterionService.isMetBy(criterion, No));
       }

@@ -28,24 +28,24 @@ public class AStatisticsCompiler {
 
    @BeforeEach
    void createTuitionCriterion() {
-      tuitionCriterion = new Criterion(tuitionQuestion.id(), Yes);
+      tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
    }
 
    @BeforeEach
    void createRelocationCriterion() {
-      relocationCriterion = new Criterion(relocationQuestion.id(), Yes);
+      relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
    }
 
    // START:test
    @Test
    void createsHistogramByQuestion() {
       var answers = List.of(
-         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(tuitionCriterion, Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(tuitionCriterion, No), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(relocationCriterion, Yes), relocationQuestion.text()),
-         new AnnotatedAnswer(new Answer(relocationCriterion, Yes), relocationQuestion.text()));
+         new AnnotatedAnswer(new Answer(1, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(2, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(3, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(4, tuitionCriterion.id(), No), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(5, relocationCriterion.id(), Yes), relocationQuestion.text()),
+         new AnnotatedAnswer(new Answer(6, relocationCriterion.id(), Yes), relocationQuestion.text()));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
