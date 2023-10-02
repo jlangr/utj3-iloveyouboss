@@ -1,18 +1,12 @@
 package iloveyouboss.database;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 class ATableAccess {
    static final String TABLE_NAME = "TestTableAccess";
@@ -92,15 +86,22 @@ class ATableAccess {
 
    @Nested
    class Get {
+      private TestTableAccess getTestTableAccess(ResultSet results) throws SQLException {
+         return new TestTableAccess(results.getInt("id"), results.getString("x"));
+      }
+
       @Test
       void returnsItemById() {
-         var id = table.insert(new String[] {"x"}, statement ->
-            statement.setString(1, "xValue"));
+         int id = insertRowWithXValue("xValue");
 
-         var retrieved = table.get(id, results ->
-            new TestTableAccess(results.getInt("id"), results.getString("x")));
+         var retrieved = table.get(id, results -> getTestTableAccess(results));
 
          assertEquals(new TestTableAccess(id, "xValue"), retrieved);
+      }
+
+      private int insertRowWithXValue(String xValue) {
+         return table.insert(new String[] {"x"}, statement ->
+            statement.setString(1, xValue));
       }
 
       @Test
@@ -108,6 +109,15 @@ class ATableAccess {
          var retrieved = table.get(42, results -> new TestTableAccess(0, ""));
 
          assertNull(retrieved);
+      }
+
+      @Test
+      void rethrowsWhenCreateObjectFromRowThrows() throws SQLException {
+         int id = insertRowWithXValue("1");
+
+         var thrown = assertThrows(RuntimeException.class, () ->
+            table.get(id, results -> { throw new SQLException("uh oh"); }));
+         assertTrue(thrown.getMessage().contains("error retrieving from row in "));
       }
    }
 }

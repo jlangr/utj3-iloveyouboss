@@ -34,7 +34,7 @@ public class TableAccess {
    }
 
    public void createIfNotExists(Class<?> dataClass, List<String> columnNames) {
-      var sqlText = sql.createIfNotExistsStatement(dataClass, idColumn, columnNames);
+      var sqlText = sql.createStatement(dataClass, idColumn, columnNames);
       try {
          execute(sqlText);
       }
@@ -46,9 +46,9 @@ public class TableAccess {
    public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
       try (var connection = db.connection()) {
          var sqlText = sql.selectByIdStatement(id);
-         try (var preparedStatement = connection.prepareStatement(sqlText);
-              var resultSet = preparedStatement.executeQuery()) {
-            return resultSet.next() ? createObjectFromRow.apply(resultSet) : null;
+         try (var statement = connection.prepareStatement(sqlText);
+              var results = statement.executeQuery()) {
+            return results.next() ? createObjectFromRow.apply(results) : null;
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
@@ -56,15 +56,14 @@ public class TableAccess {
    }
 
    public <T> List<T> selectAll(CheckedFunction<ResultSet, T> createObjectFromRow) {
-      List<T> results = new ArrayList<>();
+      List<T> rows = new ArrayList<>();
       try (var connection = db.connection()) {
          var sqlText = sql.selectAllStatement();
-         try (var preparedStatement = connection.prepareStatement(sqlText);
-              var resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next())
+         try (var statement = connection.prepareStatement(sqlText);
+              var results = statement.executeQuery()) {
+            while (results.next())
                try {
-                  T result = createObjectFromRow.apply(resultSet);
-                  results.add(result);
+                  rows.add(createObjectFromRow.apply(results));
                } catch (SQLException e) {
                   throw unchecked(e, MSG_SELECT_CREATE_ROW_ERROR);
                }
@@ -73,28 +72,28 @@ public class TableAccess {
       catch (SQLException e) {
          throw unchecked(e, MSG_SELECT_ERROR);
       }
-      return results;
+      return rows;
    }
 
    public void deleteAll() {
       try (var connection = db.connection()) {
          var sqlText = sql.deleteStatement();
-         try (var preparedStatement = connection.prepareStatement(sqlText)) {
-            preparedStatement.executeUpdate();
+         try (var statement = connection.prepareStatement(sqlText)) {
+            statement.executeUpdate();
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_DELETE_ERROR);
       }
    }
 
-   public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> prepare) {
+   public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
       try (var connection = db.connection()) {
          var sqlText = sql.insertStatement(columnNames);
          String[] returnedAttributes = {idColumn};
-         try (var preparedStatement = connection.prepareStatement(sqlText, returnedAttributes)) {
-            prepare.accept(preparedStatement);
-            preparedStatement.executeUpdate();
-            return generatedKeys(preparedStatement);
+         try (var statement = connection.prepareStatement(sqlText, returnedAttributes)) {
+            rowPreparer.accept(statement);
+            statement.executeUpdate();
+            return generatedKeys(statement);
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_INSERT_ERROR);

@@ -1,6 +1,7 @@
 package iloveyouboss.database;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
@@ -35,16 +36,19 @@ class ATableAccess_WithMockedDependencies {
       table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
    }
 
-   @Test
-   void rethrowsWhenPrepareFails() throws SQLException {
-      when(db.connection()).thenReturn(connection);
-      when(connection.prepareStatement(anyString()))
-         .thenThrow(new SQLException("because"));
-      var table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
+   @Nested
+   class Get {
+      @Test
+      void rethrowsWhenPrepareFails() throws SQLException {
+         when(db.connection()).thenReturn(connection);
+         when(connection.prepareStatement(anyString()))
+            .thenThrow(new SQLException("because"));
+         var table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
 
-      Executable act = () -> table.get(99, results -> new TestTableAccess(1, ""));
+         Executable act = () -> table.get(99, results -> new TestTableAccess(1, ""));
 
-      var thrown = assertThrows(RuntimeException.class, act);
-      assertTrue(thrown.getMessage().contains("error retrieving from row in"));
+         var thrown = assertThrows(RuntimeException.class, act);
+         assertTrue(thrown.getMessage().contains("error retrieving from row in"));
+      }
    }
 }

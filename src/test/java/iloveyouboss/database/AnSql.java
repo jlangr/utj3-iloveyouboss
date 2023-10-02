@@ -22,7 +22,7 @@ class AnSql {
                "col1 VARCHAR(255) NOT NULL, " +
                "col2 VARCHAR(255) NOT NULL, " +
                "col3 INT)",
-            sqlForTableX.createIfNotExistsStatement(
+            sqlForTableX.createStatement(
                X.class,
                "id",
                List.of("col1", "col2", "col3")));
@@ -32,7 +32,8 @@ class AnSql {
       void throwsOnUnknownColumnType() {
          record X(int id, long bad) {}
 
-         Executable createStatement = () -> sqlForTableX.createIfNotExistsStatement(X.class, "id", List.of("bad"));
+         Executable createStatement = () ->
+            sqlForTableX.createStatement(X.class, "id", List.of("bad"));
 
          var thrown = assertThrows(RuntimeException.class, createStatement);
          assertEquals("unsupported type: long", thrown.getMessage());
