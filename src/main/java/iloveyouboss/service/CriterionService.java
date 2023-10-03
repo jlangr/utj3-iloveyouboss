@@ -1,18 +1,18 @@
 package iloveyouboss.service;
 
-import iloveyouboss.domain.InvalidAnswerException;
 import iloveyouboss.data.CriterionData;
+import iloveyouboss.data.Data;
 import iloveyouboss.domain.Criterion;
+import iloveyouboss.domain.InvalidAnswerException;
 import iloveyouboss.domain.Question;
-import iloveyouboss.data.YesNoQuestionData;
 
 import static iloveyouboss.domain.Question.AnswerNotProvided;
 
 public class CriterionService {
-   private final YesNoQuestionData questionData;
+   private final Data<?> questionData;
    private final CriterionData criterionData;
 
-   public CriterionService(YesNoQuestionData questionData, CriterionData criterionData) {
+   public CriterionService(Data<?> questionData, CriterionData criterionData) {
       this.questionData = questionData;
       this.criterionData = criterionData;
    }
@@ -20,7 +20,7 @@ public class CriterionService {
    public boolean isMetBy(Criterion criterion, String answer) {
       if (answer.equals(AnswerNotProvided)) return false;
 
-      var question = questionData.get(criterion.questionId());
+      var question = (Question)questionData.get(criterion.questionId());
 
       if (!question.answerOptions().contains(answer))
          throw new InvalidAnswerException();
@@ -29,6 +29,6 @@ public class CriterionService {
 
    public Question getQuestion(int criterionId) {
       var criterion = criterionData.get(criterionId);
-      return questionData.get(criterion.questionId());
+      return (Question)questionData.get(criterion.questionId());
    }
 }
