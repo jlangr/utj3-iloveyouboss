@@ -7,7 +7,6 @@ import iloveyouboss.domain.StatisticsCompiler;
 
 import java.util.Map;
 
-// TODO test?
 public class StatisticsService {
    AnswerService answerService = new AnswerService(
       new AnswerData(),

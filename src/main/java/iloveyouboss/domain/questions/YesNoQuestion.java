@@ -10,6 +10,7 @@ import static java.util.Arrays.asList;
 public record YesNoQuestion(int id, String text) implements Question {
    public static final String Yes = "Yes";
    public static final String No = "No";
+
    public YesNoQuestion(String text) {
       this(NOT_PERSISTED_ID, text);
    }

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ACriterionService_WithAChoiceQuestion {
    @InjectMocks
-   ACriterionService aCriterionService;
+   CriterionService criterionService;
 
    @Mock
    ChoiceQuestionData questionData;
@@ -30,21 +30,20 @@ class ACriterionService_WithAChoiceQuestion {
    @BeforeEach
    public void create() {
       when(questionData.get(question.id())).thenReturn(question);
-      aCriterionService.criterionService = new CriterionService(questionData, aCriterionService.criterionData);
    }
 
    @Test
    void isMetByAnswerMatchingItsExpectedAnswer() {
       var criterion = new Criterion(question.id(), "eeny");
 
-      Assertions.assertTrue(aCriterionService.criterionService.isMetBy(criterion, "eeny"));
+      Assertions.assertTrue(criterionService.isMetBy(criterion, "eeny"));
    }
 
    @Test
    void isNotMetByAnswerMismatchingItsExpectedAnswer() {
       var criterion = new Criterion(question.id(), "meeny");
 
-      Assertions.assertFalse(aCriterionService.criterionService.isMetBy(criterion, "moe"));
+      Assertions.assertFalse(criterionService.isMetBy(criterion, "moe"));
    }
 
    @Test
@@ -55,6 +54,6 @@ class ACriterionService_WithAChoiceQuestion {
       var answerOutOfRange = "anything else";
 
       assertThrows(InvalidAnswerException.class,
-         () -> aCriterionService.criterionService.isMetBy(criterion, answerOutOfRange));
+         () -> criterionService.isMetBy(criterion, answerOutOfRange));
    }
 }

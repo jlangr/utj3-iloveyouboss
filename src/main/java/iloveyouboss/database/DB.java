@@ -55,7 +55,6 @@ public class DB {
    }
 
    Connection poolConnection() {
-      System.out.println("DB retrieving connection new");
       try {
          return pool.getConnection();
       } catch (SQLException e) {

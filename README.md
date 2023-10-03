@@ -10,6 +10,11 @@ A Criterion is a Question plus the desired Answer to that question.
 Criterion might be optional (not implemented yet!).
 An interested party sets up criteria ("many criterion") to determine to what extent they match a profile.
 
+### Design / testing notes
+
+The tests for the data classes are "integration" tests by preference, in order to verify fidelity interact with a real database (H2 in this case).
+
+The test naming convention is nonstandard.
 
 ## Building etc
 

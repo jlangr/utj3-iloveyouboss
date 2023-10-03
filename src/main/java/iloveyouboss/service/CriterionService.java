@@ -2,7 +2,6 @@ package iloveyouboss.service;
 
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.Data;
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.InvalidAnswerException;
 import iloveyouboss.domain.Question;

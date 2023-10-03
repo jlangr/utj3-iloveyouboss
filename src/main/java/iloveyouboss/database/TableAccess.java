@@ -11,7 +11,6 @@ import java.util.List;
 
 import static java.lang.String.format;
 
-// TODO slow tests!
 public class TableAccess {
    public static final String MSG_SELECT_CREATE_ROW_ERROR = "error retrieving from row in %s";
    public static final String MSG_SELECT_ERROR = "error retrieving from %s";
