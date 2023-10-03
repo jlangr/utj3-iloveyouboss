@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class YesNoQuestionData extends QuestionData<YesNoQuestion> {
-   private static final String TABLE_NAME = "Question";
+   private static final String TABLE_NAME = "YesNoQuestion";
    private static final String ID_COLUMN = "id";
 
    public YesNoQuestionData() {
@@ -32,15 +32,11 @@ public class YesNoQuestionData extends QuestionData<YesNoQuestion> {
    @Override
    public int add(Question question) {
       return table.insert(new String[] {"text"},
-         convertRowToObject(question));
+         setIntoStatement(question));
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> convertRowToObject(Question question) {
-      return statement -> {
-         statement.setString(1, question.text());
-         // TODO save for options persistence in other question type
-//         statement.setString(2, join(",", question.options()));
-      };
+   protected CheckedConsumer<PreparedStatement> setIntoStatement(Question question) {
+      return statement -> statement.setString(1, question.text());
    }
 }

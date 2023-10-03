@@ -65,7 +65,6 @@ public class DB {
    }
 
    private void createPool(String username, String password, String database) {
-      System.out.println("DB create pool");
       if (pool != null)
          pool.dispose();
       pool = JdbcConnectionPool.create(database, username, password);

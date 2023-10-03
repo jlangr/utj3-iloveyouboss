@@ -30,7 +30,7 @@ public class Sql {
          return format("%s BOOLEAN", column);
       if (type == int.class)
          return format("%s INT", column);
-      if (type == String.class)
+      if (type == String.class || type == List.class)
          return format("%s VARCHAR(255) NOT NULL", column);
       throw new RuntimeException("unsupported type: " + type);
    }

@@ -22,7 +22,7 @@ public class CriterionService {
 
       var question = questionData.get(criterion.questionId());
 
-      if (!question.options().contains(answer))
+      if (!question.answerOptions().contains(answer))
          throw new InvalidAnswerException();
       return criterion.expectedAnswer().equals(answer);
    }

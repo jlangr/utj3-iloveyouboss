@@ -18,8 +18,9 @@ public record YesNoQuestion(int id, String text) implements Question {
       this(id, question.text());
    }
 
+   // TODO test
    @Override
-   public List<String> options() {
+   public List<String> answerOptions() {
       return asList(Yes, No);
    }
 }

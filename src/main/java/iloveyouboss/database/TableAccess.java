@@ -40,7 +40,6 @@ public class TableAccess {
          execute(sqlText);
       }
       catch (SQLException e) {
-         e.printStackTrace();
          throw unchecked(e, MSG_CREATE_TABLE_ERROR);
       }
    }

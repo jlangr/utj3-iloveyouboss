@@ -24,7 +24,7 @@ public class CriterionData extends Data<Criterion> {
    @Override
    public int add(Criterion criterion) {
       return table.insert(new String[] {"questionId", "expectedAnswer", "isOptional"},
-         convertRowToObject(criterion));
+         setIntoStatement(criterion));
    }
 
    @Override
@@ -37,7 +37,7 @@ public class CriterionData extends Data<Criterion> {
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> convertRowToObject(Criterion criterion) {
+   protected CheckedConsumer<PreparedStatement> setIntoStatement(Criterion criterion) {
       return statement -> {
          statement.setInt(1, criterion.questionId());
          statement.setString(2, criterion.expectedAnswer());

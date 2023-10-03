@@ -32,11 +32,11 @@ public class AnswerData extends Data<Answer> {
    @Override
    public int add(Answer answer) {
       return table.insert(new String[] {"criterionId", "text"},
-         convertRowToObject(answer));
+         setIntoStatement(answer));
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> convertRowToObject(Answer answer) {
+   protected CheckedConsumer<PreparedStatement> setIntoStatement(Answer answer) {
       return statement -> {
          statement.setInt(1, answer.criterionId());
          statement.setString(2, answer.text());
