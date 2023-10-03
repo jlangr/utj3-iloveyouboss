@@ -1,6 +1,5 @@
 package iloveyouboss.data;
 
-import iloveyouboss.data.CriterionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.Question;
 import iloveyouboss.domain.questions.YesNoQuestion;
@@ -12,7 +11,7 @@ import java.util.List;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ACriterionData {
    CriterionData criterionData = new CriterionData();

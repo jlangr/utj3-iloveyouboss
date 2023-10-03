@@ -1,6 +1,5 @@
 package iloveyouboss.data;
 
-import iloveyouboss.domain.Question;
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.utils.CheckedConsumer;
 
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-public class ChoiceQuestionData extends QuestionData<ChoiceQuestion> {
+public class ChoiceQuestionData extends Data<ChoiceQuestion> {
    private static final String TABLE_NAME = "ChoiceQuestion";
    private static final String ID_COLUMN = "id";
 
@@ -26,7 +25,7 @@ public class ChoiceQuestionData extends QuestionData<ChoiceQuestion> {
    }
 
    @Override
-   protected Question createFromRow(ResultSet results) throws SQLException {
+   protected ChoiceQuestion createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var text = results.getString("text");
       var optionsCSV = results.getString("answerOptions");
@@ -39,13 +38,13 @@ public class ChoiceQuestionData extends QuestionData<ChoiceQuestion> {
    }
 
    @Override
-   public int add(Question question) {
+   public int add(ChoiceQuestion question) {
       return table.insert(new String[] {"text", "answerOptions"},
          setIntoStatement(question));
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> setIntoStatement(Question q) {
+   protected CheckedConsumer<PreparedStatement> setIntoStatement(ChoiceQuestion q) {
       // TODO
       var question = (ChoiceQuestion)q;
       return statement -> {
