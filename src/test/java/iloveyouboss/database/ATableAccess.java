@@ -2,7 +2,6 @@ package iloveyouboss.database;
 
 import org.junit.jupiter.api.*;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,19 +21,21 @@ class ATableAccess {
       var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
          "(id INT AUTO_INCREMENT PRIMARY KEY" +
          ", x VARCHAR(255))";
-      new DB().connection().createStatement().execute(sql);
+      try (var connection = new DB().connection()) {
+         connection.createStatement().execute(sql);
+      }
    }
 
    @AfterAll
    static void dropTable() throws SQLException {
-      new DB().connection().createStatement().execute(
-         "DROP TABLE " + TABLE_NAME);
+      new TableAccess(TABLE_NAME, ID_COLUMN, new DB())
+         .execute("DROP TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
    void truncateTable() throws SQLException {
-      db.connection().createStatement().execute(
-         "TRUNCATE TABLE " + TABLE_NAME);
+      new TableAccess(TABLE_NAME, ID_COLUMN, new DB())
+         .execute("TRUNCATE TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
@@ -66,9 +67,8 @@ class ATableAccess {
       table.insert(new String[] {"x"}, statement ->
          statement.setString(1, "xValue"));
 
-      var thrown = assertThrows(RuntimeException.class, () -> {
-         table.selectAll(r -> { throw new SQLException("because"); });
-      });
+      var thrown = assertThrows(RuntimeException.class, () ->
+         table.selectAll(r -> { throw new SQLException("because"); }));
       assertEquals("error retrieving from row in TestTableAccess", thrown.getMessage());
    }
 
@@ -86,15 +86,12 @@ class ATableAccess {
 
    @Nested
    class Get {
-      private TestTableAccess getTestTableAccess(ResultSet results) throws SQLException {
-         return new TestTableAccess(results.getInt("id"), results.getString("x"));
-      }
-
       @Test
       void returnsItemById() {
-         int id = insertRowWithXValue("xValue");
+         var id = insertRowWithXValue("xValue");
 
-         var retrieved = table.get(id, results -> getTestTableAccess(results));
+         var retrieved = table.get(id, results ->
+            new TestTableAccess(results.getInt("id"), results.getString("x")));
 
          assertEquals(new TestTableAccess(id, "xValue"), retrieved);
       }
@@ -112,8 +109,8 @@ class ATableAccess {
       }
 
       @Test
-      void rethrowsWhenCreateObjectFromRowThrows() throws SQLException {
-         int id = insertRowWithXValue("1");
+      void rethrowsWhenCreateObjectFromRowThrows() {
+         var id = insertRowWithXValue("1");
 
          var thrown = assertThrows(RuntimeException.class, () ->
             table.get(id, results -> { throw new SQLException("uh oh"); }));

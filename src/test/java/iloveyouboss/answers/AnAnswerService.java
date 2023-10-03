@@ -19,20 +19,19 @@ import static org.mockito.Mockito.when;
 class AnAnswerService {
    @InjectMocks
    AnswerService answerService;
-
    @Mock
    CriterionService criterionService;
    @Mock
    AnswerData answerData;
 
-   static final int CRITERION_ID = 200;
+   int criterionId = 200;
 
    @Test
    void retrieveAllAnnotated() {
       var question = new YesNoQuestion(1, "Why?");
-      var answer1 = new Answer(1, CRITERION_ID, Yes);
-      var answer2 = new Answer(2, CRITERION_ID, No);
-      when(criterionService.getQuestion(CRITERION_ID)).thenReturn(question);
+      var answer1 = new Answer(1, criterionId, Yes);
+      var answer2 = new Answer(2, criterionId, No);
+      when(criterionService.getQuestion(criterionId)).thenReturn(question);
       when(answerData.getAll()).thenReturn(List.of(answer1, answer2));
 
      var annotatedAnswers = answerService.retrieveAllAnnotated();

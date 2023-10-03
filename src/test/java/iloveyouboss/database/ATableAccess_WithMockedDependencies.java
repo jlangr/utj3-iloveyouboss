@@ -28,8 +28,7 @@ class ATableAccess_WithMockedDependencies {
    @Mock
    java.sql.Connection connection;
 
-   record TestTableAccess(int id, String x) {
-   }
+   record TestTableAccess(int id, String x) {}
 
    @BeforeEach
    void createTableAccess() {
@@ -43,7 +42,6 @@ class ATableAccess_WithMockedDependencies {
          when(db.connection()).thenReturn(connection);
          when(connection.prepareStatement(anyString()))
             .thenThrow(new SQLException("because"));
-         var table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
 
          Executable act = () -> table.get(99, results -> new TestTableAccess(1, ""));
 

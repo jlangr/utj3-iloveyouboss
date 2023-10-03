@@ -11,10 +11,10 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ACriteria {
-   static final int QUESTION_ID = 100;
-   Criterion criterion1 = new Criterion(1, QUESTION_ID, Yes);
-   Criterion criterion2 = new Criterion(2, QUESTION_ID, No);
-   Criterion criterion3 = new Criterion(3, QUESTION_ID, No);
+   int questionId = 100;
+   Criterion criterion1 = new Criterion(1, questionId, Yes);
+   Criterion criterion2 = new Criterion(2, questionId, No);
+   Criterion criterion3 = new Criterion(3, questionId, No);
 
    @Test
    void holdsACollectionOfCriterion() {

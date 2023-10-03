@@ -10,13 +10,15 @@ import java.util.List;
 
 import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
+import iloveyouboss.criteria.Criterion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // TODO backport in earlier versions
 public class AStatisticsCompiler {
    StatisticsCompiler compiler;
-   iloveyouboss.criteria.Criterion tuitionCriterion;
-   iloveyouboss.criteria.Criterion relocationCriterion;
+   Criterion tuitionCriterion;
+   Criterion relocationCriterion;
    YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
    YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
 
@@ -27,12 +29,12 @@ public class AStatisticsCompiler {
 
    @BeforeEach
    void createTuitionCriterion() {
-      tuitionCriterion = new iloveyouboss.criteria.Criterion(1, tuitionQuestion.id(), Yes);
+      tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
    }
 
    @BeforeEach
    void createRelocationCriterion() {
-      relocationCriterion = new iloveyouboss.criteria.Criterion(2, relocationQuestion.id(), Yes);
+      relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
    }
 
    // START:test
@@ -47,8 +49,6 @@ public class AStatisticsCompiler {
          new AnnotatedAnswer(new Answer(6, relocationCriterion.id(), Yes), relocationQuestion.text()));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
-
-      System.out.println(statistics);
 
       assertEquals(3, statistics.get(tuitionQuestion.text()).get(Yes));
       assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));

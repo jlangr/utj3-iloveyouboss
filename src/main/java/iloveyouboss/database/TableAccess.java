@@ -11,6 +11,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 
+// TODO slow tests!
 public class TableAccess {
    public static final String MSG_SELECT_CREATE_ROW_ERROR = "error retrieving from row in %s";
    public static final String MSG_SELECT_ERROR = "error retrieving from %s";
@@ -30,7 +31,9 @@ public class TableAccess {
    }
 
    public void execute(String sql) throws SQLException {
-      db.connection().createStatement().execute(sql);
+      try (var connection = new DB().connection()) {
+         connection.createStatement().execute(sql);
+      }
    }
 
    public void createIfNotExists(Class<?> dataClass, List<String> columnNames) {
@@ -90,7 +93,7 @@ public class TableAccess {
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
       try (var connection = db.connection()) {
          var sqlText = sql.insertStatement(columnNames);
-         String[] returnedAttributes = {idColumn};
+         var returnedAttributes = new String[] {idColumn};
          try (var statement = connection.prepareStatement(sqlText, returnedAttributes)) {
             rowPreparer.accept(statement);
             statement.executeUpdate();
@@ -105,16 +108,11 @@ public class TableAccess {
       try (var results = preparedStatement.getGeneratedKeys()) {
          if (results.next())
             return results.getInt(idColumn);
-         throw unchecked(MSG_NO_GENERATED_KEYS);
+         throw unchecked(new SQLException(), MSG_NO_GENERATED_KEYS);
       }
    }
 
-   private RuntimeException unchecked(String errorMessage) {
-      return new RuntimeException(format(errorMessage, sql.tableName()));
-   }
-
    private RuntimeException unchecked(SQLException e, String errorMessage) {
-      e.printStackTrace();
       return new RuntimeException(format(errorMessage, sql.tableName()), e.getCause());
    }
 }

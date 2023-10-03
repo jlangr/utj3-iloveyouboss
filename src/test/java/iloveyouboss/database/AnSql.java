@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AnSql {
    static final String TABLE_X = "X";
-   private Sql sqlForTableX = new Sql(TABLE_X);
+   Sql sqlForTableX = new Sql(TABLE_X);
 
    @Nested
    class ConstructsCreateStatement {
@@ -63,11 +63,5 @@ class AnSql {
    void constructsSelectByIdStatement() {
       assertEquals("SELECT * FROM X WHERE id=10",
          sqlForTableX.selectByIdStatement(10));
-   }
-
-   @Test
-   void constructsResetIdStatement() {
-      assertEquals("ALTER TABLE X ALTER COLUMN bozo RESTART WITH 1",
-         sqlForTableX.resetIdStatement("bozo"));
    }
 }

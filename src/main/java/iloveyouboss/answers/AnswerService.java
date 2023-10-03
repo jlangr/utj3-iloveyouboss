@@ -9,11 +9,16 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class AnswerService {
-   private AnswerData answerData = new AnswerData();
-   private YesNoQuestionData questionData = new YesNoQuestionData();
-   private CriterionService criterionService = new CriterionService(questionData, new CriterionData());
+   private final AnswerData answerData;
+   private final CriterionService criterionService;
+
+   public AnswerService(AnswerData answerData, CriterionService criterionService) {
+      this.answerData = answerData;
+      this.criterionService = criterionService;
+   }
 
    public List<AnnotatedAnswer> retrieveAllAnnotated() {
+      System.out.println("ANSWER DATA: " + answerData.getAll());
       return answerData.getAll()
          .stream()
          .map(this::createAnnotatedAnswer)

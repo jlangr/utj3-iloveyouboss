@@ -53,11 +53,6 @@ public class Sql {
       return format("SELECT * FROM %s WHERE %s=%d", tableName, "id", id);
    }
 
-   String resetIdStatement(String columnName) {
-      return format(
-         "ALTER TABLE %s ALTER COLUMN " + columnName + " RESTART WITH 1", tableName);
-   }
-
    public String tableName() {
       return tableName;
    }

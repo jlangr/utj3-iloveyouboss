@@ -14,8 +14,8 @@ import java.util.Map;
 import static iloveyouboss.questions.Question.AnswerNotProvided;
 
 public class ProfileService {
-   private Map<Integer, String> answers = new HashMap<>();
-   private CriterionService criterionService;
+   private final Map<Integer, String> answers = new HashMap<>();
+   private final CriterionService criterionService;
 
    public ProfileService(YesNoQuestionData questionData, CriterionData criterionData) {
       criterionService = new CriterionService(questionData, criterionData);

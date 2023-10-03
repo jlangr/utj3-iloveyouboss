@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-// TODO test
 public class CriterionData extends Data<Criterion> {
    private static final String TABLE_NAME = "Criterion";
    private static final String ID_COLUMN = "id";

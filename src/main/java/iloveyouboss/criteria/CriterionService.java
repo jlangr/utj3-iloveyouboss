@@ -7,8 +7,8 @@ import iloveyouboss.questions.YesNoQuestionData;
 import static iloveyouboss.questions.Question.AnswerNotProvided;
 
 public class CriterionService {
-   private YesNoQuestionData questionData;
-   private CriterionData criterionData;
+   private final YesNoQuestionData questionData;
+   private final CriterionData criterionData;
 
    public CriterionService(YesNoQuestionData questionData, CriterionData criterionData) {
       this.questionData = questionData;
