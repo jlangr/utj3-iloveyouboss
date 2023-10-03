@@ -34,5 +34,5 @@ abstract public class Data<T> {
       table.deleteAll();
    }
 
-   protected abstract CheckedConsumer<PreparedStatement> convertRowToObject(T answer);
+   protected abstract CheckedConsumer<PreparedStatement> convertRowToObject(T object);
 }

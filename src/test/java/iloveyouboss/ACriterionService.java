@@ -3,6 +3,7 @@ package iloveyouboss;
 import iloveyouboss.criteria.Criterion;
 import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.criteria.CriterionService;
+import iloveyouboss.questions.Question;
 import iloveyouboss.questions.YesNoQuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +56,7 @@ class ACriterionService {
    @Nested
    @ExtendWith(MockitoExtension.class)
    class GetQuestion {
-      YesNoQuestion question = new YesNoQuestion(42, "When?");
+      Question question = new YesNoQuestion(42, "When?");
       Criterion criterion = new Criterion(1, question.id(), Yes);
 
       @InjectMocks
