@@ -18,7 +18,6 @@ public class AnswerService {
    }
 
    public List<AnnotatedAnswer> retrieveAllAnnotated() {
-      System.out.println("ANSWER DATA: " + answerData.getAll());
       return answerData.getAll()
          .stream()
          .map(this::createAnnotatedAnswer)

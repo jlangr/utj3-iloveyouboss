@@ -12,7 +12,6 @@ class ATableAccess {
    static final String ID_COLUMN = "id";
 
    TableAccess table;
-   DB db = new DB();
 
    record TestTableAccess(int id, String x) {}
 
@@ -21,33 +20,33 @@ class ATableAccess {
       var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
          "(id INT AUTO_INCREMENT PRIMARY KEY" +
          ", x VARCHAR(255))";
-      try (var connection = new DB().connection()) {
+      try (var connection = DB.connection()) {
          connection.createStatement().execute(sql);
       }
    }
 
    @AfterAll
    static void dropTable() throws SQLException {
-      new TableAccess(TABLE_NAME, ID_COLUMN, new DB())
+      new TableAccess(TABLE_NAME, ID_COLUMN)
          .execute("DROP TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
    void truncateTable() throws SQLException {
-      new TableAccess(TABLE_NAME, ID_COLUMN, new DB())
+      new TableAccess(TABLE_NAME, ID_COLUMN)
          .execute("TRUNCATE TABLE " + TABLE_NAME);
    }
 
    @BeforeEach
    void createTableAccess() {
-      table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
+      table = new TableAccess(TABLE_NAME, ID_COLUMN);
    }
 
    @Test
    void execute() throws SQLException {
       table.execute("create table if not exists x");
 
-      var rows = new TableAccess("x", "", db).selectAll(x -> null);
+      var rows = new TableAccess("x", "").selectAll(x -> null);
       assertEquals(0, rows.size());
    }
 

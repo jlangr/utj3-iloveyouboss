@@ -19,7 +19,7 @@ class AnAnswerData {
 
    @BeforeAll
    static void createTable() throws SQLException {
-      new DB().connection().createStatement().execute(
+      DB.connection().createStatement().execute(
          "DROP TABLE IF EXISTS Answer");
       new AnswerData().createIfNotExists();
    }

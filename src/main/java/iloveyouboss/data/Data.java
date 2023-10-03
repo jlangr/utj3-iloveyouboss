@@ -1,6 +1,5 @@
 package iloveyouboss.data;
 
-import iloveyouboss.database.DB;
 import iloveyouboss.database.TableAccess;
 import iloveyouboss.utils.CheckedConsumer;
 
@@ -15,7 +14,7 @@ abstract public class Data<T> {
    protected final TableAccess table;
 
    public Data(String tableName, String idColumn) {
-      this.table = new TableAccess(tableName, idColumn, new DB());
+      this.table = new TableAccess(tableName, idColumn);
    }
 
    abstract public void createIfNotExists();

@@ -1,5 +1,6 @@
 package iloveyouboss.database;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,14 +33,20 @@ class ATableAccess_WithMockedDependencies {
 
    @BeforeEach
    void createTableAccess() {
-      table = new TableAccess(TABLE_NAME, ID_COLUMN, db);
+      DB.set(db);
+      table = new TableAccess(TABLE_NAME, ID_COLUMN);
+   }
+
+   @AfterEach
+   void resetDb() {
+      DB.reset();
    }
 
    @Nested
    class Get {
       @Test
       void rethrowsWhenPrepareFails() throws SQLException {
-         when(db.connection()).thenReturn(connection);
+         when(db.poolConnection()).thenReturn(connection);
          when(connection.prepareStatement(anyString()))
             .thenThrow(new SQLException("because"));
 

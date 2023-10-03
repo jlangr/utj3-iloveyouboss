@@ -2,6 +2,7 @@ package iloveyouboss.service;
 
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.data.CriterionData;
+import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.service.CriterionService;
 import iloveyouboss.domain.Question;
 import iloveyouboss.data.YesNoQuestionData;
@@ -9,6 +10,7 @@ import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

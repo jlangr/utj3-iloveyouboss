@@ -22,16 +22,14 @@ public class TableAccess {
 
    private final Sql sql;
    private final String idColumn;
-   private final DB db;
 
-   public TableAccess(String tableName, String idColumn, DB db) {
+   public TableAccess(String tableName, String idColumn) {
       sql = new Sql(tableName);
       this.idColumn = idColumn;
-      this.db = db;
    }
 
    public void execute(String sql) throws SQLException {
-      try (var connection = new DB().connection()) {
+      try (var connection = DB.connection()) {
          connection.createStatement().execute(sql);
       }
    }
@@ -48,7 +46,7 @@ public class TableAccess {
    }
 
    public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
-      try (var connection = db.connection()) {
+      try (var connection = DB.connection()) {
          var sqlText = sql.selectByIdStatement(id);
          try (var statement = connection.prepareStatement(sqlText);
               var results = statement.executeQuery()) {
@@ -61,7 +59,7 @@ public class TableAccess {
 
    public <T> List<T> selectAll(CheckedFunction<ResultSet, T> createObjectFromRow) {
       List<T> rows = new ArrayList<>();
-      try (var connection = db.connection()) {
+      try (var connection = DB.connection()) {
          var sqlText = sql.selectAllStatement();
          try (var statement = connection.prepareStatement(sqlText);
               var results = statement.executeQuery()) {
@@ -80,7 +78,7 @@ public class TableAccess {
    }
 
    public void deleteAll() {
-      try (var connection = db.connection()) {
+      try (var connection = DB.connection()) {
          var sqlText = sql.deleteStatement();
          try (var statement = connection.prepareStatement(sqlText)) {
             statement.executeUpdate();
@@ -91,7 +89,7 @@ public class TableAccess {
    }
 
    public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
-      try (var connection = db.connection()) {
+      try (var connection = DB.connection()) {
          var sqlText = sql.insertStatement(columnNames);
          var returnedAttributes = new String[] {idColumn};
          try (var statement = connection.prepareStatement(sqlText, returnedAttributes)) {

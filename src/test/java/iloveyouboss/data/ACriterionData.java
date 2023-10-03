@@ -43,8 +43,7 @@ class ACriterionData {
 
       var allRows = criterionData.getAll();
 
-      assertEquals(
-         List.of(new Criterion(id1, criterion1), new Criterion(id2, criterion2)),
+      assertEquals(List.of(new Criterion(id1, criterion1), new Criterion(id2, criterion2)),
          allRows);
    }
 
