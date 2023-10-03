@@ -2,14 +2,14 @@ package iloveyouboss.data;
 
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.utils.CheckedConsumer;
+import iloveyouboss.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static iloveyouboss.utils.StringUtils.*;
 
 public class ChoiceQuestionData extends Data<ChoiceQuestion> {
    private static final String TABLE_NAME = "ChoiceQuestion";
@@ -32,11 +32,6 @@ public class ChoiceQuestionData extends Data<ChoiceQuestion> {
       return new ChoiceQuestion(id, text, fromCSV(optionsCSV));
    }
 
-   // TODO
-   private List<String> fromCSV(String optionsCSV) {
-      return Stream.of(optionsCSV.split(",")).collect(toList());
-   }
-
    @Override
    public int add(ChoiceQuestion question) {
       return table.insert(new String[] {"text", "answerOptions"},
@@ -44,17 +39,10 @@ public class ChoiceQuestionData extends Data<ChoiceQuestion> {
    }
 
    @Override
-   protected CheckedConsumer<PreparedStatement> setIntoStatement(ChoiceQuestion q) {
-      // TODO
-      var question = (ChoiceQuestion)q;
+   protected CheckedConsumer<PreparedStatement> setIntoStatement(ChoiceQuestion question) {
       return statement -> {
          statement.setString(1, question.text());
          statement.setString(2, toCSV(question.answerOptions()));
       };
-   }
-
-   // TODO
-   private String toCSV(List<String> answerOptions) {
-      return String.join(",", answerOptions);
    }
 }
