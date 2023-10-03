@@ -16,6 +16,7 @@ public class ProfileService {
    private final Map<Integer, String> answers = new HashMap<>();
    private final CriterionService criterionService;
 
+   // TODO generalize to all question types
    public ProfileService(YesNoQuestionData questionData, CriterionData criterionData) {
       criterionService = new CriterionService(questionData, criterionData);
    }

@@ -2,14 +2,14 @@ package iloveyouboss.data;
 
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.utils.CheckedConsumer;
-import iloveyouboss.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static iloveyouboss.utils.StringUtils.*;
+import static iloveyouboss.utils.StringUtils.fromCSV;
+import static iloveyouboss.utils.StringUtils.toCSV;
 
 public class ChoiceQuestionData extends Data<ChoiceQuestion> {
    private static final String TABLE_NAME = "ChoiceQuestion";

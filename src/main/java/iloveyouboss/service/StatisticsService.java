@@ -8,10 +8,10 @@ import iloveyouboss.domain.StatisticsCompiler;
 import java.util.Map;
 
 public class StatisticsService {
-   AnswerService answerService = new AnswerService(
+   final AnswerService answerService = new AnswerService(
       new AnswerData(),
       new CriterionService(new YesNoQuestionData(), new CriterionData()));
-   StatisticsCompiler statisticsCompiler = new StatisticsCompiler();
+   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler();
 
    public Map<String, Map<String, Integer>> answerHistogram() {
       var answers = answerService.retrieveAllAnnotated();

@@ -19,7 +19,7 @@ The test naming convention is nonstandard.
 ## Building etc
 
 Gradle 8.1 does not yet support Java 20 to execute gradle.
-Currently the Gradle Settings on the project have changed to use Java 17 in order to run Gradle.
+For now, the Gradle Settings on the project have changed to use Java 17 in order to run Gradle.
 
 
 ## IDE stuff

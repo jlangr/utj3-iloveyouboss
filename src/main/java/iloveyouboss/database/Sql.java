@@ -8,13 +8,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
-public class Sql {
-   private final String tableName;
-
-   public Sql(String tableName) {
-      this.tableName = tableName;
-   }
-
+public record Sql(String tableName) {
    public String createStatement(Class<?> dataClass, String idField, List<String> additionalColumns) {
       var idColumn = format("%s INT AUTO_INCREMENT PRIMARY KEY", idField);
       var columns = additionalColumns.stream()
@@ -36,7 +30,7 @@ public class Sql {
    }
 
    public String insertStatement(String[] columnNames) {
-      var columns = stream(columnNames).collect(joining(", "));
+      var columns = String.join(", ", columnNames);
       var questions = stream(columnNames).map(s -> "?").collect(joining(", "));
       return "INSERT INTO " + tableName + format(" (%s) VALUES (%s)", columns, questions);
    }
@@ -51,9 +45,5 @@ public class Sql {
 
    public String selectByIdStatement(int id) {
       return format("SELECT * FROM %s WHERE %s=%d", tableName, "id", id);
-   }
-
-   public String tableName() {
-      return tableName;
    }
 }

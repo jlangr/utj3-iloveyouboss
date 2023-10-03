@@ -1,8 +1,5 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.domain.AnnotatedAnswer;
-import iloveyouboss.domain.Answer;
-import iloveyouboss.domain.StatisticsCompiler;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +8,8 @@ import java.util.List;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
-import iloveyouboss.domain.Criterion;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// TODO backport in earlier versions
 public class AStatisticsCompiler {
    StatisticsCompiler compiler;
    Criterion tuitionCriterion;

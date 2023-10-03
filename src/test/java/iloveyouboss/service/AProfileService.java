@@ -26,6 +26,7 @@ class AProfileService {
 
    @Mock
    YesNoQuestionData questionData;
+
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");
    YesNoQuestion hasSmelt = new YesNoQuestion(3, "got smelt?");

@@ -10,7 +10,7 @@ import static iloveyouboss.domain.Question.AnswerNotProvided;
 
 public class CriterionService {
    private final Data<? extends Question> questionData;
-   private CriterionData criterionData;
+   private final CriterionData criterionData;
 
    public CriterionService(Data<? extends Question> questionData, CriterionData criterionData) {
       this.questionData = questionData;

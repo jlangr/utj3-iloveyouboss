@@ -13,9 +13,9 @@ public class StatisticsCompiler {
       // END_HIGHLIGHT
       return answers.stream().collect(
          // START_HIGHLIGHT
-         toMap(answer -> answer.questionText(),
-               this::histogramForAnswer,
-               this::mergeHistograms));
+         toMap(AnnotatedAnswer::questionText,
+            this::histogramForAnswer,
+            this::mergeHistograms));
          // END_HIGHLIGHT
    }
 
@@ -29,7 +29,7 @@ public class StatisticsCompiler {
          Map<String, Integer> histogram, Map<String, Integer> histogram1) {
       var newHistogram = new HashMap<>(histogram);
       histogram1.forEach((k, v) ->
-         newHistogram.merge(k, v, (count1, count2) -> count1 + count2));
+         newHistogram.merge(k, v, Integer::sum));
       return newHistogram;
    }
 }

@@ -3,7 +3,6 @@ package iloveyouboss.database;
 import org.h2.jdbcx.JdbcConnectionPool;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static java.lang.String.format;
@@ -16,9 +15,7 @@ public class DB {
 
    private static DB soleInstance;
 
-   private String username;
-   private String password;
-   private String database;
+   private final String database;
    private JdbcConnectionPool pool;
 
    private static DB get() {
@@ -43,13 +40,7 @@ public class DB {
       soleInstance = new DB(username, password, database);
    }
 
-   private DB() {
-      createPool(username, password, database);
-   }
-
    DB(String username, String password, String database) {
-      this.username = username;
-      this.password = password;
       this.database = database;
       createPool(username, password, database);
    }
