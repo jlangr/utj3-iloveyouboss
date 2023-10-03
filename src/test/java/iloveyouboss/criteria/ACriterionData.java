@@ -1,5 +1,6 @@
 package iloveyouboss.criteria;
 
+import iloveyouboss.questions.Question;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ACriterionData {
    CriterionData criterionData = new CriterionData();
+   Question question1 = new YesNoQuestion(100, "a");
+   Question question2 = new YesNoQuestion(101, "b");
 
    @BeforeAll
    static void createTable() {
@@ -31,8 +34,6 @@ class ACriterionData {
 
    @Test
    void retrievesInsertedRows() {
-      var question1 = new YesNoQuestion(100, "a");
-      var question2 = new YesNoQuestion(101, "b");
       var criterion1 = new Criterion(question1.id(), Yes);
       var criterion2 = new Criterion(question2.id(), No);
       var id1 = criterionData.add(criterion1);
@@ -47,11 +48,11 @@ class ACriterionData {
 
    @Test
    void retrievesRowById() {
-//      var id1 = criterionData.add(new Criterion("a"));
-//      criterionData.add(new Criterion("b"));
-//
-//      var retrieved = criterionData.get(id1);
-//
-//      assertEquals("a", retrieved.text());
+      var id1 = criterionData.add(new Criterion(question1.id(), Yes));
+      criterionData.add(new Criterion(question2.id(), No));
+
+      var retrieved = criterionData.get(id1);
+
+      assertEquals(Yes, retrieved.expectedAnswer());
    }
 }
