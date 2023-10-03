@@ -2,13 +2,13 @@ package iloveyouboss.questions.yesno;
 
 import iloveyouboss.questions.Question;
 import java.util.List;
+
+import static iloveyouboss.data.Data.NOT_PERSISTED_ID;
 import static java.util.Arrays.asList;
 
 public record YesNoQuestion(int id, String text) implements Question {
    public static final String Yes = "Yes";
    public static final String No = "No";
-   private static final int NOT_PERSISTED_ID = -1;
-
    public YesNoQuestion(String text) {
       this(NOT_PERSISTED_ID, text);
    }

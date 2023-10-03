@@ -1,6 +1,5 @@
 package iloveyouboss.stats;
 
-import iloveyouboss.criteria.Criterion;
 import iloveyouboss.answers.AnnotatedAnswer;
 import iloveyouboss.answers.Answer;
 import iloveyouboss.questions.yesno.YesNoQuestion;
@@ -16,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 // TODO backport in earlier versions
 public class AStatisticsCompiler {
    StatisticsCompiler compiler;
-   Criterion tuitionCriterion;
-   Criterion relocationCriterion;
+   iloveyouboss.criteria.Criterion tuitionCriterion;
+   iloveyouboss.criteria.Criterion relocationCriterion;
    YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
    YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
 
@@ -28,12 +27,12 @@ public class AStatisticsCompiler {
 
    @BeforeEach
    void createTuitionCriterion() {
-      tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
+      tuitionCriterion = new iloveyouboss.criteria.Criterion(1, tuitionQuestion.id(), Yes);
    }
 
    @BeforeEach
    void createRelocationCriterion() {
-      relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
+      relocationCriterion = new iloveyouboss.criteria.Criterion(2, relocationQuestion.id(), Yes);
    }
 
    // START:test

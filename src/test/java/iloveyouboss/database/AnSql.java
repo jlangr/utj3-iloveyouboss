@@ -15,17 +15,18 @@ class AnSql {
    @Nested
    class ConstructsCreateStatement {
       @Test
-      void constructsWithBasicTypes() {
-         record X(int id, String col1, String col2, int col3) {}
+      void withBasicTypes() {
+         record X(int id, String col1, String col2, int col3, boolean col4) {}
          assertEquals("CREATE TABLE IF NOT EXISTS X (" +
                "id INT AUTO_INCREMENT PRIMARY KEY, " +
                "col1 VARCHAR(255) NOT NULL, " +
                "col2 VARCHAR(255) NOT NULL, " +
-               "col3 INT)",
+               "col3 INT, " +
+               "col4 BOOLEAN)",
             sqlForTableX.createStatement(
                X.class,
                "id",
-               List.of("col1", "col2", "col3")));
+               List.of("col1", "col2", "col3", "col4")));
       }
 
       @Test

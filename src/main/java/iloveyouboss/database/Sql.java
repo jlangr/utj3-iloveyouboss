@@ -26,6 +26,8 @@ public class Sql {
 
    private String declaration(String column, Class<?> dataClass) {
       var type = ReflectUtils.type(column, dataClass);
+      if (type == boolean.class)
+         return format("%s BOOLEAN", column);
       if (type == int.class)
          return format("%s INT", column);
       if (type == String.class)

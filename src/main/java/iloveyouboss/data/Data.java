@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 abstract public class Data<T> {
+   public static final int NOT_PERSISTED_ID = -1;
+
    protected final TableAccess table;
 
    public Data(String tableName, String idColumn) {

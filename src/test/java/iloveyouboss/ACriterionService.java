@@ -1,6 +1,5 @@
 package iloveyouboss;
 
-import iloveyouboss.criteria.Criterion;
 import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.Question;
@@ -40,14 +39,14 @@ class ACriterionService {
 
       @Test
       void isMetByAnswerMatchingItsExpectedAnswer() {
-         var criterion = new Criterion(1, question.id(), Yes);
+         var criterion = new iloveyouboss.criteria.Criterion(1, question.id(), Yes);
 
          assertTrue(criterionService.isMetBy(criterion, Yes));
       }
 
       @Test
       void isNotMetByAnswerMismatchingItsExpectedAnswer() {
-         var criterion = new Criterion(1, question.id(), Yes);
+         var criterion = new iloveyouboss.criteria.Criterion(1, question.id(), Yes);
 
          assertFalse(criterionService.isMetBy(criterion, No));
       }
@@ -57,7 +56,7 @@ class ACriterionService {
    @ExtendWith(MockitoExtension.class)
    class GetQuestion {
       Question question = new YesNoQuestion(42, "When?");
-      Criterion criterion = new Criterion(1, question.id(), Yes);
+      iloveyouboss.criteria.Criterion criterion = new iloveyouboss.criteria.Criterion(1, question.id(), Yes);
 
       @InjectMocks
       CriterionService aCriterionService;
