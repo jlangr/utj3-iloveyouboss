@@ -2,7 +2,7 @@ package iloveyouboss.data;
 
 import iloveyouboss.database.DB;
 import iloveyouboss.database.TableAccess;
-import iloveyouboss.functional.CheckedConsumer;
+import iloveyouboss.utils.CheckedConsumer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

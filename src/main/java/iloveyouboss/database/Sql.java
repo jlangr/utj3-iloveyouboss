@@ -1,6 +1,6 @@
 package iloveyouboss.database;
 
-import iloveyouboss.reflection.ReflectUtils;
+import iloveyouboss.utils.ReflectUtils;
 
 import java.util.List;
 

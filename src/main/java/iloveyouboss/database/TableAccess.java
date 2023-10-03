@@ -1,7 +1,7 @@
 package iloveyouboss.database;
 
-import iloveyouboss.functional.CheckedConsumer;
-import iloveyouboss.functional.CheckedFunction;
+import iloveyouboss.utils.CheckedConsumer;
+import iloveyouboss.utils.CheckedFunction;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

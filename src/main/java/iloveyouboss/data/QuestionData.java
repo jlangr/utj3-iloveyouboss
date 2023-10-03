@@ -1,6 +1,6 @@
 package iloveyouboss.data;
 
-import iloveyouboss.questions.Question;
+import iloveyouboss.domain.Question;
 
 abstract public class QuestionData<T> extends Data<Question> {
    public QuestionData(String tableName, String idColumn) {
