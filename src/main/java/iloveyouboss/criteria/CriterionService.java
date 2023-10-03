@@ -10,8 +10,9 @@ public class CriterionService {
    private YesNoQuestionData questionData;
    private CriterionData criterionData;
 
-   public CriterionService(YesNoQuestionData questionData) {
+   public CriterionService(YesNoQuestionData questionData, CriterionData criterionData) {
       this.questionData = questionData;
+      this.criterionData = criterionData;
    }
 
    public boolean isMetBy(Criterion criterion, String answer) {
@@ -24,9 +25,8 @@ public class CriterionService {
       return criterion.expectedAnswer().equals(answer);
    }
 
-   // TODO test
    public Question getQuestion(int criterionId) {
       var criterion = criterionData.get(criterionId);
-      return questionData.get(criterion.id());
+      return questionData.get(criterion.questionId());
    }
 }

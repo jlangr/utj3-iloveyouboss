@@ -1,5 +1,6 @@
 package iloveyouboss.answers;
 
+import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.YesNoQuestionData;
 
@@ -10,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 public class AnswerService {
    private AnswerData answerData = new AnswerData();
    private YesNoQuestionData questionData = new YesNoQuestionData();
-   private CriterionService criterionService = new CriterionService(questionData);
+   private CriterionService criterionService = new CriterionService(questionData, new CriterionData());
 
    public List<AnnotatedAnswer> retrieveAllAnnotated() {
       return answerData.getAll()

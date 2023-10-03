@@ -2,6 +2,7 @@ package iloveyouboss;
 
 import iloveyouboss.criteria.Criteria;
 import iloveyouboss.criteria.Criterion;
+import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.Question;
@@ -16,8 +17,8 @@ public class ProfileService {
    private Map<Integer, String> answers = new HashMap<>();
    private CriterionService criterionService;
 
-   public ProfileService(YesNoQuestionData questionData) {
-      criterionService = new CriterionService(questionData);
+   public ProfileService(YesNoQuestionData questionData, CriterionData criterionData) {
+      criterionService = new CriterionService(questionData, criterionData);
    }
 
    public boolean matches(Criteria criteria) {

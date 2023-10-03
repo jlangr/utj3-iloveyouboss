@@ -2,6 +2,7 @@ package iloveyouboss;
 
 import iloveyouboss.criteria.Criteria;
 import iloveyouboss.criteria.Criterion;
+import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.questions.DuplicateQuestionException;
 import iloveyouboss.questions.YesNoQuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
@@ -27,6 +28,8 @@ class AProfileService {
    Criterion mustHave401K = new Criterion(2, has401K.id(), Yes);
    Criterion optionallyHasSmeltShouldBeTrue = new Criterion(3, hasSmelt.id(), Yes, true);
 
+   CriterionData criterionData = new CriterionData();
+
    @BeforeEach
    void setup() {
       questionData = new YesNoQuestionData() {
@@ -35,7 +38,7 @@ class AProfileService {
             return id == 1 ? hasRelo : has401K;
          }
       };
-      profile = new ProfileService(questionData);
+      profile = new ProfileService(questionData, criterionData);
    }
 
    @Nested

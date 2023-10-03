@@ -1,19 +1,31 @@
 package iloveyouboss;
 
 import iloveyouboss.criteria.Criterion;
+import iloveyouboss.criteria.CriterionData;
 import iloveyouboss.criteria.CriterionService;
 import iloveyouboss.questions.YesNoQuestionData;
 import iloveyouboss.questions.yesno.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static iloveyouboss.questions.yesno.YesNoQuestion.No;
 import static iloveyouboss.questions.yesno.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ACriterionService {
+   @InjectMocks
    CriterionService criterionService;
+   @Mock
+   CriterionData criterionData;
+   @Mock
+   YesNoQuestionData questionData;
 
    @Nested
    class WithABooleanQuestion {
@@ -21,13 +33,8 @@ class ACriterionService {
 
       @BeforeEach
       public void create() {
-         var questionData = new YesNoQuestionData() {
-            @Override
-            public YesNoQuestion get(int id) {
-               return question;
-            }
-         };
-         criterionService = new CriterionService(questionData);
+         when(questionData.get(question.id())).thenReturn(question);
+         criterionService = new CriterionService(questionData, criterionData);
       }
 
       @Test
@@ -44,6 +51,33 @@ class ACriterionService {
          assertFalse(criterionService.isMetBy(criterion, No));
       }
    }
+   
+   @Nested
+   @ExtendWith(MockitoExtension.class)
+   class GetQuestion {
+      YesNoQuestion question = new YesNoQuestion(42, "When?");
+      Criterion criterion = new Criterion(1, question.id(), Yes);
+
+      @InjectMocks
+      CriterionService aCriterionService;
+
+      @Mock
+      CriterionData criterionData;
+      @Mock
+      YesNoQuestionData questionData;
+
+      @Test
+      void returnsQuestionAssociatedWithId() {
+         when(criterionData.get(criterion.id())).thenReturn(criterion);
+         when(questionData.get(criterion.questionId())).thenReturn(question);
+
+         var retrieved = aCriterionService.getQuestion(criterion.id());
+
+         assertEquals(question, retrieved);
+      }
+   }
+
+   // TODO resurrect
 
 //   @Nested
 //   class WithAChoiceQuestion {
