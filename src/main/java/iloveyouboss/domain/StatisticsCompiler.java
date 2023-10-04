@@ -11,16 +11,12 @@ import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static java.util.stream.Collectors.*;
 
 public class StatisticsCompiler {
-   // START_HIGHLIGHT
    final CriterionService criterionService;
-   // END_HIGHLIGHT
 
-   // START_HIGHLIGHT
    public StatisticsCompiler(
          Data<? extends Question> questionData, CriterionData criterionData) {
       criterionService = new CriterionService(questionData, criterionData);
    }
-   // END_HIGHLIGHT
 
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
          List<Answer> answers) {
