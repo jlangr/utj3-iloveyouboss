@@ -3,7 +3,6 @@ package iloveyouboss.service;
 import iloveyouboss.Service;
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.YesNoQuestionData;
-import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +22,7 @@ class ServiceTest {
    CriterionData criterionData;
 
    YesNoQuestion question = new YesNoQuestion(42, "When?");
-   Criterion criterion = new Criterion(1, 42, Yes);
+
    @InjectMocks
    Service service;
 
@@ -38,6 +36,6 @@ class ServiceTest {
    void mockInjection() {
       when(questionData.get(42)).thenReturn(question);
 
-      assertNotNull(service.getQuestion(criterion.id()));
+      assertNotNull(service.getQuestion(42));
    }
 }
