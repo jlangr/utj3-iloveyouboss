@@ -1,5 +1,6 @@
 package iloveyouboss.service;
 
+import iloveyouboss.Service;
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criterion;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ACriterionService {
+class ServiceTest {
    @Mock
    YesNoQuestionData questionData;
    @Mock
@@ -25,7 +26,7 @@ class ACriterionService {
    YesNoQuestion question = new YesNoQuestion(42, "When?");
    Criterion criterion = new Criterion(1, 42, Yes);
    @InjectMocks
-   CriterionService criterionService;
+   Service service;
 
    @BeforeEach
    void createMockStuff() {
@@ -34,12 +35,9 @@ class ACriterionService {
    }
 
    @Test
-   void test3() {
-      System.out.println("3");
-//      when(criterionData.get(criterion.id())).thenReturn(criterion);
+   void mockInjection() {
       when(questionData.get(42)).thenReturn(question);
 
-      var retrieved = criterionService.getQuestion(criterion.id());
-      assertNotNull(retrieved);
+      assertNotNull(service.getQuestion(criterion.id()));
    }
 }
