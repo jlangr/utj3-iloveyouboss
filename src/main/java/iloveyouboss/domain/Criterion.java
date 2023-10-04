@@ -1,5 +1,7 @@
+// START:record
 package iloveyouboss.domain;
 
+// END:record
 import static iloveyouboss.data.Data.NOT_PERSISTED_ID;
 
 // START:record

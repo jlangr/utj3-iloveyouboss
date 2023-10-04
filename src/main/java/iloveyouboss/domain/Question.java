@@ -1,8 +1,8 @@
+// START:interface
 package iloveyouboss.domain;
 
 import java.util.List;
 
-// START:interface
 public interface Question {
    int id();
    List<String> answerOptions();

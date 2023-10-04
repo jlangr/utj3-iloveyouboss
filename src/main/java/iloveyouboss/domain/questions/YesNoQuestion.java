@@ -1,15 +1,11 @@
 package iloveyouboss.domain.questions;
 
 import iloveyouboss.domain.Question;
-
 import java.util.List;
-
 import static iloveyouboss.data.Data.NOT_PERSISTED_ID;
 import static java.util.Arrays.asList;
 
-// START:record
 public record YesNoQuestion(int id, String text) implements Question {
-// END:record
    public static final String Yes = "Yes";
    public static final String No = "No";
 
@@ -25,6 +21,4 @@ public record YesNoQuestion(int id, String text) implements Question {
    public List<String> answerOptions() {
       return asList(Yes, No);
    }
-// START:record
 }
-// END:record
