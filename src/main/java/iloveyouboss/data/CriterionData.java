@@ -5,10 +5,10 @@ import java.sql.ResultSet;
 
 public class CriterionData extends Data<Criterion> {
    public CriterionData() {
-      super("Criterion", "id");
+      super("Criterion");
    }
 
    protected Criterion createFromRow(ResultSet results) {
-      return new Criterion(1, 42, "because", false);
+      throw new RuntimeException("should not make production call!");
    }
 }

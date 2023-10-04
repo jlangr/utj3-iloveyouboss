@@ -8,23 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class YesNoQuestionData extends Data<YesNoQuestion> {
-
    public YesNoQuestionData() {
-      super("YesNoQuestion", "id");
+      super("YesNoQuestion");
    }
 
-//   @Override
    protected YesNoQuestion createFromRow(ResultSet results) throws SQLException {
       return new YesNoQuestion(42, "why");
-   }
-
-//   @Override
-   public int add(YesNoQuestion question) {
-      return 42;
-   }
-
-//   @Override
-   protected CheckedConsumer<PreparedStatement> setIntoStatement(YesNoQuestion question) {
-      return statement -> {};
    }
 }
