@@ -10,9 +10,7 @@ import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// START_HIGHLIGHT
 public class AStatisticsCompiler {
-   // END_HIGHLIGHT
    StatisticsCompiler compiler = new StatisticsCompiler();
 
    Criterion tuitionCriterion;
@@ -31,7 +29,7 @@ public class AStatisticsCompiler {
    }
 
    @Test
-   void createsHistogramByQuestion() {
+   void producesAnswerCountsByQuestionTextHistogram() {
       var answers = List.of(
          // START_HIGHLIGHT
          new AnnotatedAnswer(new Answer(1, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
