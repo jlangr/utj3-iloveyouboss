@@ -19,10 +19,14 @@ public class StatisticsService {
    final static CriterionData criterionData = new CriterionData();
    final static AnswerData answerData = new AnswerData();
 
-   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler(questionData, criterionData);
+   // START_HIGHLIGHT
+   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler();
+   // END_HIGHLIGHT
 
    public Map<String, Map<String, Integer>> answerHistogram() {
-      var answers = answerService.retrieveAll();
+      // START_HIGHLIGHT
+      var answers = answerService.retrieveAllAnnotated();
+      // END_HIGHLIGHT
       return statisticsCompiler.answerCountsByQuestionText(answers);
    }
 

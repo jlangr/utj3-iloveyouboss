@@ -11,34 +11,23 @@ import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static java.util.stream.Collectors.*;
 
 public class StatisticsCompiler {
-   // START_HIGHLIGHT
-   final CriterionService criterionService;
-   // END_HIGHLIGHT
-
-   // START_HIGHLIGHT
-   public StatisticsCompiler(
-         Data<? extends Question> questionData, CriterionData criterionData) {
-      criterionService = new CriterionService(questionData, criterionData);
-   }
-   // END_HIGHLIGHT
-
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
-         List<Answer> answers) {
-      return answers.stream().collect(
-         toMap(this::questionText,
-            this::histogramForAnswer,
-            this::mergeHistograms));
-   }
-
-   private String questionText(Answer answer) {
       // START_HIGHLIGHT
-      return criterionService.getQuestion(answer.criterionId()).text();
-      // END_HIGHLIGHT
+      List<AnnotatedAnswer> answers) {
+         // END_HIGHLIGHT
+         return answers.stream().collect(
+            // START_HIGHLIGHT
+            toMap(AnnotatedAnswer::questionText,
+               this::histogramForAnswer,
+               this::mergeHistograms));
+         // END_HIGHLIGHT
    }
 
-   private Map<String, Integer> histogramForAnswer(Answer answer) {
+   // START_HIGHLIGHT
+   private Map<String, Integer> histogramForAnswer(AnnotatedAnswer answer) {
+   // END_HIGHLIGHT
       var initialMap = new HashMap<>(Map.of(Yes, 0, No, 0));
-      initialMap.put(answer.text(), 1);
+      initialMap.put(answer.get().text(), 1);
       return initialMap;
    }
 

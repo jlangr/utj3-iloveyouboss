@@ -1,6 +1,7 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.AnswerData;
+import iloveyouboss.domain.AnnotatedAnswer;
 import iloveyouboss.domain.Answer;
 
 import java.util.List;
@@ -16,9 +17,22 @@ public class AnswerService {
       this.criterionService = criterionService;
    }
 
-   public List<Answer> retrieveAll() {
-      return answerData.getAll()
-         .stream()
+   // TODO test
+   // START_HIGHLIGHT
+   public List<AnnotatedAnswer> retrieveAllAnnotated() {
+      return answerData.getAll().stream()
+         .map(this::annotate)
          .collect(toList());
+   }
+
+   private AnnotatedAnswer annotate(Answer answer) {
+      var question = criterionService.getQuestion(answer.criterionId());
+      return new AnnotatedAnswer(answer, question.text());
+   }
+   // END_HIGHLIGHT
+
+   // TODO no longer used?
+   public List<Answer> retrieveAll() {
+      return answerData.getAll().stream().collect(toList());
    }
 }
