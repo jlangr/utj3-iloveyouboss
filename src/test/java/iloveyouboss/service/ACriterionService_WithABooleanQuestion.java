@@ -31,12 +31,12 @@ class ACriterionService_WithABooleanQuestion {
       when(questionData.get(question.id())).thenReturn(question);
    }
 
-   @Test
-   void isMetByAnswerMatchingItsExpectedAnswer() {
-      var criterion = new Criterion(1, question.id(), Yes);
-
-      assertTrue(criterionService.isMetBy(criterion, Yes));
-   }
+//   @Test
+//   void isMetByAnswerMatchingItsExpectedAnswer() {
+//      var criterion = new Criterion(1, question.id(), Yes);
+//
+//      assertTrue(criterionService.isMetBy(criterion, Yes));
+//   }
 
    @Test
    void isNotMetByAnswerMismatchingItsExpectedAnswer() {

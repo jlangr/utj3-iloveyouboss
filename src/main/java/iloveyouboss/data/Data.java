@@ -28,7 +28,10 @@ abstract public class Data<T> {
    }
 
    public T get(int id) {
-      return table.get(id, this::createFromRow);
+      // TODO remove later
+      T t = table.get(id, this::createFromRow);
+      if (t == null) throw new RuntimeException("NO ENTRY");
+      return t;
    }
 
    public void deleteAll() {

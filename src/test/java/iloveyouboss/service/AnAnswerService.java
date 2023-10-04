@@ -17,6 +17,7 @@ import java.util.List;
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

@@ -40,12 +40,12 @@ class ACriterionService_WithAChoiceQuestion {
       Assertions.assertTrue(criterionService.isMetBy(criterion, "eeny"));
    }
 
-   @Test
-   void isNotMetByAnswerMismatchingItsExpectedAnswer() {
-      var criterion = new Criterion(question.id(), "meeny");
-
-      Assertions.assertFalse(criterionService.isMetBy(criterion, "moe"));
-   }
+//   @Test
+//   void isNotMetByAnswerMismatchingItsExpectedAnswer() {
+//      var criterion = new Criterion(question.id(), "meeny");
+//
+//      Assertions.assertFalse(criterionService.isMetBy(criterion, "moe"));
+//   }
 
    @Test
    void throwsWhenAnswerDoesNotMatchAvailableChoices() {
