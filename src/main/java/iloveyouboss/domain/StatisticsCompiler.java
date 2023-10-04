@@ -17,9 +17,9 @@ public class StatisticsCompiler {
          return answers.stream().collect(
             // START_HIGHLIGHT
             toMap(AnnotatedAnswer::questionText,
+               // END_HIGHLIGHT
                this::histogramForAnswer,
                this::mergeHistograms));
-         // END_HIGHLIGHT
    }
 
    // START_HIGHLIGHT
@@ -32,6 +32,8 @@ public class StatisticsCompiler {
       return initialMap;
 // START:nonelided
    }
+
+   // ...
 // END:nonelided
 
    private Map<String, Integer> mergeHistograms(
