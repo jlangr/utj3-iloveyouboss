@@ -22,10 +22,9 @@ class ServiceTest {
    @InjectMocks
    Service service;
 
+   // TODO the existence of the BeforeEach here generates failure
    @BeforeEach
    void createMockStuff() {
-//      MockitoAnnotations.initMocks(this);
-//      criterionService = new CriterionService(questionData, criterionData);
    }
 
    @Test

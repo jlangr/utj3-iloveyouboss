@@ -10,7 +10,6 @@ abstract public class Data<T> {
 
    public T get(int id) {
       T t = table.get(id, this::createFromRow);
-      if (t == null) throw new RuntimeException("NO ENTRY");
       return t;
    }
 }
