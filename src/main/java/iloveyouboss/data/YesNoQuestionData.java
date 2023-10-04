@@ -13,21 +13,17 @@ public class YesNoQuestionData extends Data<YesNoQuestion> {
       super("YesNoQuestion", "id");
    }
 
-   @Override
-   public void createIfNotExists() {
-   }
-
-   @Override
+//   @Override
    protected YesNoQuestion createFromRow(ResultSet results) throws SQLException {
       return new YesNoQuestion(42, "why");
    }
 
-   @Override
+//   @Override
    public int add(YesNoQuestion question) {
       return 42;
    }
 
-   @Override
+//   @Override
    protected CheckedConsumer<PreparedStatement> setIntoStatement(YesNoQuestion question) {
       return statement -> {};
    }

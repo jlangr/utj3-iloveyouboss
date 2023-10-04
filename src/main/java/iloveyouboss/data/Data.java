@@ -17,26 +17,11 @@ abstract public class Data<T> {
       this.table = new TableAccess(tableName, idColumn);
    }
 
-   abstract public void createIfNotExists();
-
-   abstract public int add(T t);
-
    abstract protected T createFromRow(ResultSet results) throws SQLException;
 
-   public List<T> getAll() {
-      return table.selectAll(this::createFromRow);
-   }
-
    public T get(int id) {
-      // TODO remove later
       T t = table.get(id, this::createFromRow);
       if (t == null) throw new RuntimeException("NO ENTRY");
       return t;
    }
-
-   public void deleteAll() {
-      table.deleteAll();
-   }
-
-   protected abstract CheckedConsumer<PreparedStatement> setIntoStatement(T object);
 }
