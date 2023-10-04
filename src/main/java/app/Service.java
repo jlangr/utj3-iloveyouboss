@@ -10,8 +10,6 @@ public class Service {
    }
 
    public Question getQuestion(int criterionId) {
-      Question question = questionData.get(42);
-      if (question == null) System.out.println("NULL question");
-      return question;
+      return questionData.get(criterionId);
    }
 }
