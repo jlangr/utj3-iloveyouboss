@@ -15,32 +15,11 @@ public class TableAccess {
    public static final String MSG_SELECT_CREATE_ROW_ERROR = "error retrieving from row in %s";
    public static final String MSG_SELECT_ERROR = "error retrieving from %s";
    public static final String MSG_DELETE_ERROR = "error deleting %s";
-   public static final String MSG_INSERT_ERROR = "error inserting into %s";
-   public static final String MSG_CREATE_TABLE_ERROR = "error creating table %s";
-   public static final String MSG_NO_GENERATED_KEYS = "error retrieving id from statement in %s";
 
    private final Sql sql;
-   private final String idColumn;
 
    public TableAccess(String tableName, String idColumn) {
       sql = new Sql(tableName);
-      this.idColumn = idColumn;
-   }
-
-   public void execute(String sql) throws SQLException {
-      try (var connection = DB.connection()) {
-         connection.createStatement().execute(sql);
-      }
-   }
-
-   public void createIfNotExists(Class<?> dataClass, List<String> columnNames) {
-      var sqlText = sql.createStatement(dataClass, idColumn, columnNames);
-      try {
-         execute(sqlText);
-      }
-      catch (SQLException e) {
-         throw unchecked(e, MSG_CREATE_TABLE_ERROR);
-      }
    }
 
    public <T> T get(int id, CheckedFunction<ResultSet, T> createObjectFromRow) {
@@ -83,28 +62,6 @@ public class TableAccess {
          }
       } catch (SQLException e) {
          throw unchecked(e, MSG_DELETE_ERROR);
-      }
-   }
-
-   public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
-      try (var connection = DB.connection()) {
-         var sqlText = sql.insertStatement(columnNames);
-         var returnedAttributes = new String[] {idColumn};
-         try (var statement = connection.prepareStatement(sqlText, returnedAttributes)) {
-            rowPreparer.accept(statement);
-            statement.executeUpdate();
-            return generatedKeys(statement);
-         }
-      } catch (SQLException e) {
-         throw unchecked(e, MSG_INSERT_ERROR);
-      }
-   }
-
-   private int generatedKeys(PreparedStatement preparedStatement) throws SQLException {
-      try (var results = preparedStatement.getGeneratedKeys()) {
-         if (results.next())
-            return results.getInt(idColumn);
-         throw unchecked(new SQLException(), MSG_NO_GENERATED_KEYS);
       }
    }
 
