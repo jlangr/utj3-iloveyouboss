@@ -1,14 +1,12 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.Data;
-import iloveyouboss.service.CriterionService;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toMap;
 
 public class StatisticsCompiler {
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
