@@ -8,6 +8,7 @@ import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static java.util.stream.Collectors.toMap;
 
+// START:nonelided
 public class StatisticsCompiler {
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(
       // START_HIGHLIGHT
@@ -24,10 +25,14 @@ public class StatisticsCompiler {
    // START_HIGHLIGHT
    private Map<String, Integer> histogramForAnswer(AnnotatedAnswer answer) {
    // END_HIGHLIGHT
+      // ...
+// END:nonelided
       var initialMap = new HashMap<>(Map.of(Yes, 0, No, 0));
       initialMap.put(answer.get().text(), 1);
       return initialMap;
+// START:nonelided
    }
+// END:nonelided
 
    private Map<String, Integer> mergeHistograms(
          Map<String, Integer> histogram, Map<String, Integer> histogram1) {
@@ -36,4 +41,6 @@ public class StatisticsCompiler {
          newHistogram.merge(k, v, Integer::sum));
       return newHistogram;
    }
+// START:nonelided
 }
+// END:nonelided
