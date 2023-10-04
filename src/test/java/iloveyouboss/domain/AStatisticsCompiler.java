@@ -40,7 +40,7 @@ public class AStatisticsCompiler {
    }
 
    @Test
-   void createsHistogramByQuestion() {
+   void  producesAnswerCountsByQuestionTextHistogram() {
       when(criterionService.getQuestion(1)).thenReturn(tuitionQuestion);
       when(criterionService.getQuestion(2)).thenReturn(relocationQuestion);
       var answers = List.of(
@@ -52,8 +52,6 @@ public class AStatisticsCompiler {
          new Answer(6, relocationCriterion.id(), Yes));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
-
-      System.out.println(statistics);
 
       assertEquals(3, statistics.get(tuitionQuestion.text()).get(Yes));
       assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));
