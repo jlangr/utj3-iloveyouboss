@@ -1,8 +1,4 @@
-package iloveyouboss;
-
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.Data;
-import iloveyouboss.domain.Question;
+package app;
 
 public class Service {
    private final Data<? extends Question> questionData;

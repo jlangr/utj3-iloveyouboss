@@ -1,6 +1,4 @@
-package iloveyouboss.data;
-
-import iloveyouboss.database.TableAccess;
+package app;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

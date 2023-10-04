@@ -1,6 +1,5 @@
-package iloveyouboss.database;
+package app;
 
-import iloveyouboss.utils.CheckedFunction;
 import java.sql.ResultSet;
 
 public class TableAccess {

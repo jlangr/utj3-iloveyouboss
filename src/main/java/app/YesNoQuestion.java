@@ -1,6 +1,5 @@
-package iloveyouboss.domain.questions;
+package app;
 
-import iloveyouboss.domain.Question;
 import java.util.List;
 import static java.util.Arrays.asList;
 

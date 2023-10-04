@@ -1,4 +1,4 @@
-package iloveyouboss.domain;
+package app;
 
 import java.util.List;
 

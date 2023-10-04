@@ -1,6 +1,6 @@
-package iloveyouboss.domain;
+package app;
 
-import static iloveyouboss.data.Data.NOT_PERSISTED_ID;
+import static app.Data.NOT_PERSISTED_ID;
 
 public record Answer(int id, int criterionId, String text) {
    public Answer(int criterionId, String text) {

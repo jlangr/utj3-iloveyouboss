@@ -1,4 +1,4 @@
-package iloveyouboss.utils;
+package app;
 
 import java.sql.SQLException;
 

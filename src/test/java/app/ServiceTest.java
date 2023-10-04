@@ -1,9 +1,5 @@
-package iloveyouboss.service;
+package app;
 
-import iloveyouboss.Service;
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.YesNoQuestionData;
-import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

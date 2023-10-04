@@ -1,6 +1,5 @@
-package iloveyouboss.data;
+package app;
 
-import iloveyouboss.domain.Criterion;
 import java.sql.ResultSet;
 
 public class CriterionData extends Data<Criterion> {
