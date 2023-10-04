@@ -17,8 +17,7 @@ public class AnswerService {
       this.criterionService = criterionService;
    }
 
-   // TODO test
-   // START_HIGHLIGHT
+   // START:retrieveAllAnnotated
    public List<AnnotatedAnswer> retrieveAllAnnotated() {
       return answerData.getAll().stream()
          .map(this::annotate)
@@ -29,10 +28,5 @@ public class AnswerService {
       var question = criterionService.getQuestion(answer.criterionId());
       return new AnnotatedAnswer(answer, question.text());
    }
-   // END_HIGHLIGHT
-
-   // TODO no longer used?
-   public List<Answer> retrieveAll() {
-      return answerData.getAll().stream().collect(toList());
-   }
+   // END:retrieveAllAnnotated
 }
