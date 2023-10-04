@@ -8,7 +8,11 @@ abstract public class Data<T> {
 
    abstract protected T createFromRow(ResultSet results) throws SQLException;
 
+   // TODO mucking with this can eliminate the problem
+   // - inline t
+   // - return null
    public T get(int id) {
+      System.out.println("we are in get method now");
       T t = table.get(id, this::createFromRow);
       return t;
    }
