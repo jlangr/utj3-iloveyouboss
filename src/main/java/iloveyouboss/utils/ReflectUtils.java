@@ -1,7 +1,5 @@
 package iloveyouboss.utils;
 
-import iloveyouboss.database.Nullable;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -34,7 +32,7 @@ public class ReflectUtils {
       var component = Arrays.stream(recordClass.getRecordComponents())
          .filter(c -> c.getName().equals(column))
          .findFirst()
-         .get();
+         .orElseThrow();
       return component.isAnnotationPresent(annotationClass);
    }
 
