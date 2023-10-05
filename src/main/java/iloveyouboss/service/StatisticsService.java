@@ -2,6 +2,7 @@ package iloveyouboss.service;
 
 import iloveyouboss.data.AnswerData;
 import iloveyouboss.data.CriterionData;
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Answer;
 import iloveyouboss.domain.Criterion;
@@ -13,9 +14,9 @@ import java.util.Map;
 public class StatisticsService {
    final AnswerService answerService = new AnswerService(
       new AnswerData(),
-      new CriterionService(new YesNoQuestionData(), new CriterionData()));
+      new CriterionService(new QuestionData(), new CriterionData()));
 
-   final static YesNoQuestionData questionData = new YesNoQuestionData();
+   final static QuestionData questionData = new QuestionData();
    final static CriterionData criterionData = new CriterionData();
    final static AnswerData answerData = new AnswerData();
 

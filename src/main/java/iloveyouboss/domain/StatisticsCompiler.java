@@ -2,6 +2,7 @@ package iloveyouboss.domain;
 
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.Data;
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.service.CriterionService;
 
 import java.util.*;
@@ -14,7 +15,7 @@ public class StatisticsCompiler {
    final CriterionService criterionService;
 
    public StatisticsCompiler(
-         Data<? extends Question> questionData, CriterionData criterionData) {
+      QuestionData questionData, CriterionData criterionData) {
       criterionService = new CriterionService(questionData, criterionData);
    }
 

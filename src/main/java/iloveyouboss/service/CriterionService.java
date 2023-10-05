@@ -2,6 +2,7 @@ package iloveyouboss.service;
 
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.Data;
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.InvalidAnswerException;
 import iloveyouboss.domain.Question;
@@ -9,10 +10,10 @@ import iloveyouboss.domain.Question;
 import static iloveyouboss.domain.Question.AnswerNotProvided;
 
 public class CriterionService {
-   private final Data<? extends Question> questionData;
+   private final QuestionData questionData;
    private final CriterionData criterionData;
 
-   public CriterionService(Data<? extends Question> questionData, CriterionData criterionData) {
+   public CriterionService(QuestionData questionData, CriterionData criterionData) {
       this.questionData = questionData;
       this.criterionData = criterionData;
    }

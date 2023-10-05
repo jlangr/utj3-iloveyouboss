@@ -1,6 +1,7 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.ChoiceQuestionData;
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.InvalidAnswerException;
@@ -31,7 +32,7 @@ class ACriterionService {
       CriterionService criterionService;
 
       @Mock
-      YesNoQuestionData questionData;
+      QuestionData questionData;
 
       YesNoQuestion question = new YesNoQuestion(1, "?");
       Criterion yesCriterion = new Criterion(1, question.id(), Yes);
@@ -58,7 +59,7 @@ class ACriterionService {
       CriterionService criterionService;
 
       @Mock
-      ChoiceQuestionData questionData;
+      QuestionData questionData;
 
       ChoiceQuestion question =
          new ChoiceQuestion(1, "?", List.of("eeny", "meeny", "miny", "moe"));

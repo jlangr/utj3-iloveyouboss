@@ -1,5 +1,6 @@
 package iloveyouboss.service;
 
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
@@ -24,7 +25,7 @@ class AProfileService {
    ProfileService profile;
 
    @Mock
-   YesNoQuestionData questionData;
+   QuestionData questionData;
 
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");

@@ -1,5 +1,6 @@
 package iloveyouboss.service;
 
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.data.CriterionData;
@@ -16,8 +17,7 @@ public class ProfileService {
    private final Map<Integer, String> answers = new HashMap<>();
    private final CriterionService criterionService;
 
-   // TODO generalize to all question types
-   public ProfileService(YesNoQuestionData questionData, CriterionData criterionData) {
+   public ProfileService(QuestionData questionData, CriterionData criterionData) {
       criterionService = new CriterionService(questionData, criterionData);
    }
 

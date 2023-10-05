@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static iloveyouboss.utils.StringUtils.fromCSV;
+import static iloveyouboss.utils.StringUtils.toCSV;
+
 public class QuestionData {
    private static final String TABLE_NAME = "Question";
    private static final String ID_COLUMN = "id";
@@ -40,8 +43,7 @@ public class QuestionData {
             return table.insert(new String[]{"type", "text", "answerOptions"}, statement -> {
                statement.setString(1, question.type());
                statement.setString(2, question.text());
-               // TODO
-               statement.setString(3, "answer options todo");
+               statement.setString(3, toCSV(question.answerOptions()));
             });
    }
 
@@ -61,7 +63,6 @@ public class QuestionData {
          return new YesNoQuestion(id, text);
       }
       var answerOptions = results.getString("answerOptions");
-      // TODO
-      return new ChoiceQuestion(id, text, null);
+      return new ChoiceQuestion(id, text, fromCSV(answerOptions));
    }
 }
