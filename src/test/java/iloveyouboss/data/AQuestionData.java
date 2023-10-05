@@ -1,5 +1,6 @@
 package iloveyouboss.data;
 
+import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AQuestionData {
    QuestionData questionData = new QuestionData();
+   YesNoQuestion yesNoQuestionA = new YesNoQuestion("A");
+   YesNoQuestion yesNoQuestionB = new YesNoQuestion("B");
+   ChoiceQuestion choiceQuestionC = new ChoiceQuestion("C", List.of("1", "3"));
+   ChoiceQuestion choiceQuestionD = new ChoiceQuestion("D", List.of("2", "4"));
 
    @BeforeAll
    static void createTable() {
@@ -29,25 +34,28 @@ class AQuestionData {
 
    @Test
    void retrievesInsertedRows() {
-      var question1 = new YesNoQuestion("a");
-      var question2 = new YesNoQuestion("b");
-      var id1 = questionData.add(question1);
-      var id2 = questionData.add(question2);
+      var idYesNoA = questionData.add(yesNoQuestionA);
+      var idYesNoB = questionData.add(yesNoQuestionB);
+      var idChoiceC = questionData.add(choiceQuestionC);
+      var idChoiceD = questionData.add(choiceQuestionD);
 
       var allRows = questionData.getAll();
 
-      assertEquals(
-         List.of(new YesNoQuestion(id1, question1), new YesNoQuestion(id2, question2)),
+      assertEquals(List.of(
+            new YesNoQuestion(idYesNoA, yesNoQuestionA),
+            new YesNoQuestion(idYesNoB, yesNoQuestionB),
+            new ChoiceQuestion(idChoiceC, choiceQuestionC),
+            new ChoiceQuestion(idChoiceD, choiceQuestionD)),
          allRows);
    }
 
    @Test
-   void retrievesRowById() {
-      var id1 = questionData.add(new YesNoQuestion("a"));
-      questionData.add(new YesNoQuestion("b"));
+   void retrievesRowsById() {
+      var idQuestionA = questionData.add(yesNoQuestionA);
+      questionData.add(yesNoQuestionB);
+      var idQuestionC = questionData.add(choiceQuestionC);
 
-      var retrieved = questionData.get(id1);
-
-      assertEquals("a", retrieved.text());
+      assertEquals(yesNoQuestionA.text(), questionData.get(idQuestionA).text());
+      assertEquals(choiceQuestionC.text(), questionData.get(idQuestionC).text());
    }
 }
