@@ -19,14 +19,22 @@ public record Sql(String tableName) {
    }
 
    private String declaration(String column, Class<?> dataClass) {
-      var type = ReflectUtils.type(column, dataClass);
+      var type = ReflectUtils.accessorType(column, dataClass);
       if (type == boolean.class)
          return format("%s BOOLEAN", column);
       if (type == int.class)
          return format("%s INT", column);
-      if (type == String.class || type == List.class)
-         return format("%s VARCHAR(255) NOT NULL", column);
+      if (type == String.class || type == List.class) {
+         return format("%s VARCHAR(255)", column) +
+            (isNullable(column, dataClass) ? "" : " NOT NULL");
+      }
       throw new RuntimeException("unsupported type: " + type);
+   }
+
+   private boolean isNullable(String column, Class<?> dataClass) {
+      return dataClass.isInterface()
+         ? ReflectUtils.methodHasAnnotation(column, dataClass, Nullable.class)
+         : ReflectUtils.recordHasAnnotation(column, dataClass, Nullable.class);
    }
 
    public String insertStatement(String[] columnNames) {

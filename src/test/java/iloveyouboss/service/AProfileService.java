@@ -1,11 +1,10 @@
 package iloveyouboss.service;
 
+import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.DuplicateQuestionException;
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.questions.YesNoQuestion;
-import iloveyouboss.service.ProfileService;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

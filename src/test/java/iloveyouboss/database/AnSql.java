@@ -1,9 +1,13 @@
 package iloveyouboss.database;
 
+import iloveyouboss.data.QuestionData;
+import iloveyouboss.domain.Question;
+import org.h2.engine.QueryStatisticsData;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,20 +19,30 @@ class AnSql {
    @Nested
    class ConstructsCreateStatement {
       @Test
+      void withStringsNullableAndNot() {
+         record X(@Nullable String nullable, String notNullable) {}
+         var statement = sqlForTableX.createStatement(X.class, "id", List.of("nullable", "notNullable"));
+
+         assertEquals("CREATE TABLE IF NOT EXISTS X (" +
+               "id INT AUTO_INCREMENT PRIMARY KEY, " +
+               "nullable VARCHAR(255), " +
+               "notNullable VARCHAR(255) NOT NULL)", statement);
+      }
+
+      @Test
       void withBasicTypes() {
-         record X(int id, String col1, String col2, int col3, boolean col4, List<String> col5) {}
+         record X(int id, String col1, int col3, boolean col4, List<String> col5) {}
+
+         var statement = sqlForTableX.createStatement(
+            X.class,"id", List.of("col1", "col3", "col4", "col5"));
+
          assertEquals("CREATE TABLE IF NOT EXISTS X (" +
                "id INT AUTO_INCREMENT PRIMARY KEY, " +
                "col1 VARCHAR(255) NOT NULL, " +
-               "col2 VARCHAR(255) NOT NULL, " +
                "col3 INT, " +
                "col4 BOOLEAN, " +
-               "col5 VARCHAR(255) NOT NULL" +
-               ")",
-            sqlForTableX.createStatement(
-               X.class,
-               "id",
-               List.of("col1", "col2", "col3", "col4", "col5")));
+               "col5 VARCHAR(255) NOT NULL)",
+            statement);
       }
 
       @Test
