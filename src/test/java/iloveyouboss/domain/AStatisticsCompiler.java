@@ -1,6 +1,5 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import iloveyouboss.service.CriterionService;
 import org.junit.jupiter.api.BeforeEach;

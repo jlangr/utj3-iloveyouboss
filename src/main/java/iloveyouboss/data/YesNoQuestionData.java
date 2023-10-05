@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+// TODO this can be deleted after updating AQuestionData
 public class YesNoQuestionData extends Data<YesNoQuestion> {
    private static final String TABLE_NAME = "YesNoQuestion";
    private static final String ID_COLUMN = "id";
@@ -30,8 +31,7 @@ public class YesNoQuestionData extends Data<YesNoQuestion> {
 
    @Override
    public int add(YesNoQuestion question) {
-      return table.insert(new String[] {"text"},
-         setIntoStatement(question));
+      return table.insert(new String[] {"text"}, setIntoStatement(question));
    }
 
    @Override

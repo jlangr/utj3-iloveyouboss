@@ -2,7 +2,6 @@ package iloveyouboss.data;
 
 import iloveyouboss.database.TableAccess;
 import iloveyouboss.domain.Question;
-import iloveyouboss.domain.QuestionType;
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.domain.questions.YesNoQuestion;
 

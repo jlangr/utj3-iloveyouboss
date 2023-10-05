@@ -1,5 +1,6 @@
 package iloveyouboss.data;
 
+import iloveyouboss.database.TableAccess;
 import iloveyouboss.domain.Answer;
 import iloveyouboss.utils.CheckedConsumer;
 
@@ -8,20 +9,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AnswerData extends Data<Answer> {
+public class AnswerData {
    private static final String TABLE_NAME = "Answer";
    private static final String ID_COLUMN = "id";
+   private final TableAccess table;
 
    public AnswerData() {
-      super(TABLE_NAME, ID_COLUMN);
+      this.table = new TableAccess(TABLE_NAME, ID_COLUMN);
    }
 
-   @Override
+   // TODO can move into interface as default?
+   public List<Answer> getAll() {
+      return table.selectAll(this::createFromRow);
+   }
+
+   public Answer get(int id) {
+      return table.get(id, this::createFromRow);
+   }
+
+   public void deleteAll() {
+      table.deleteAll();
+   }
+
    public void createIfNotExists() {
       table.createIfNotExists(Answer.class, List.of("criterionId", "text"));
    }
 
-   @Override
    protected Answer createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var criterionId = results.getInt("criterionId");
@@ -29,13 +42,11 @@ public class AnswerData extends Data<Answer> {
       return new Answer(id, criterionId, text);
    }
 
-   @Override
    public int add(Answer answer) {
       return table.insert(new String[] {"criterionId", "text"},
          setIntoStatement(answer));
    }
 
-   @Override
    protected CheckedConsumer<PreparedStatement> setIntoStatement(Answer answer) {
       return statement -> {
          statement.setInt(1, answer.criterionId());

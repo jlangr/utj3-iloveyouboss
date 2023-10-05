@@ -1,7 +1,6 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.QuestionData;
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.DuplicateQuestionException;

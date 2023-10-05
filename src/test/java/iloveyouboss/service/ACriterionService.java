@@ -1,13 +1,10 @@
 package iloveyouboss.service;
 
-import iloveyouboss.data.ChoiceQuestionData;
 import iloveyouboss.data.QuestionData;
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.InvalidAnswerException;
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.domain.questions.YesNoQuestion;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.List;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;

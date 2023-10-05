@@ -1,7 +1,7 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.YesNoQuestionData;
+import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class ACriterionService_WhenGettingQuestion {
    CriterionService criterionService;
 
    @Mock
-   YesNoQuestionData questionData;
+   QuestionData questionData;
    @Mock
    CriterionData criterionData;
 

@@ -11,6 +11,7 @@ import java.util.List;
 import static iloveyouboss.utils.StringUtils.fromCSV;
 import static iloveyouboss.utils.StringUtils.toCSV;
 
+// TODO this can be deleted after updating AQuestionData
 public class ChoiceQuestionData extends Data<ChoiceQuestion> {
    private static final String TABLE_NAME = "ChoiceQuestion";
    private static final String ID_COLUMN = "id";

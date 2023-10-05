@@ -1,12 +1,11 @@
 package iloveyouboss.service;
 
+import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
-import iloveyouboss.data.CriterionData;
 import iloveyouboss.domain.DuplicateQuestionException;
 import iloveyouboss.domain.Question;
-import iloveyouboss.data.YesNoQuestionData;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,7 +3,6 @@ package iloveyouboss.service;
 import iloveyouboss.data.AnswerData;
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.QuestionData;
-import iloveyouboss.data.YesNoQuestionData;
 import iloveyouboss.domain.Answer;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.StatisticsCompiler;

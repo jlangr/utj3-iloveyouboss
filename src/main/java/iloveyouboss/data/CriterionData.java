@@ -1,5 +1,6 @@
 package iloveyouboss.data;
 
+import iloveyouboss.database.TableAccess;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.utils.CheckedConsumer;
 
@@ -8,26 +9,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CriterionData extends Data<Criterion> {
+public class CriterionData {
    private static final String TABLE_NAME = "Criterion";
    private static final String ID_COLUMN = "id";
 
+   private final TableAccess table;
+
    public CriterionData() {
-      super(TABLE_NAME, ID_COLUMN);
+      this.table = new TableAccess(TABLE_NAME, ID_COLUMN);
    }
 
-   @Override
+   public List<Criterion> getAll() {
+      return table.selectAll(this::createFromRow);
+   }
+
+   public Criterion get(int id) {
+      return table.get(id, this::createFromRow);
+   }
+
+   public void deleteAll() {
+      table.deleteAll();
+   }
+
    public void createIfNotExists() {
       table.createIfNotExists(Criterion.class, List.of("questionId", "expectedAnswer", "isOptional"));
    }
 
-   @Override
    public int add(Criterion criterion) {
       return table.insert(new String[] {"questionId", "expectedAnswer", "isOptional"},
          setIntoStatement(criterion));
    }
 
-   @Override
    protected Criterion createFromRow(ResultSet results) throws SQLException {
       var id = results.getInt(ID_COLUMN);
       var questionId = results.getInt("questionId");
@@ -36,7 +48,6 @@ public class CriterionData extends Data<Criterion> {
       return new Criterion(id, questionId, expectedAnswer, isOptional);
    }
 
-   @Override
    protected CheckedConsumer<PreparedStatement> setIntoStatement(Criterion criterion) {
       return statement -> {
          statement.setInt(1, criterion.questionId());
