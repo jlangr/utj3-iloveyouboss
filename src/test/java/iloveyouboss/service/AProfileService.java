@@ -16,6 +16,8 @@ import static iloveyouboss.domain.Question.AnswerNotProvided;
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,7 +26,7 @@ class AProfileService {
    ProfileService profile;
 
    @Mock
-   QuestionData questionData;
+   CriterionService criterionService;
 
    YesNoQuestion hasRelo = new YesNoQuestion(1, "Has relocation package?");
    YesNoQuestion has401K = new YesNoQuestion(2, "Has 401K?");
@@ -39,17 +41,19 @@ class AProfileService {
    class WhenDeterminingMatches {
       @Test
       void doesNotMatchWhenProfileHasNoAnswerForCriterion() {
-         var criteria = new Criteria(new Criterion(1, hasRelo.id(), Yes));
+         var criterion = new Criterion(1, hasRelo.id(), Yes);
+         var criteria = new Criteria(criterion);
+         when(criterionService.isMetBy(eq(criterion), eq(AnswerNotProvided))).thenReturn(false);
 
          assertFalse(profile.matches(criteria));
       }
 
       @Test
       void doesNotMatchWhenAllCriteriaNotMet() {
-         when(questionData.get(hasRelo.id())).thenReturn(hasRelo);
-         when(questionData.get(has401K.id())).thenReturn(has401K);
          profile.answer(hasRelo, Yes);
          profile.answer(has401K, No);
+         when(criterionService.isMetBy(eq(mustHaveRelo), eq(Yes))).thenReturn(true);
+         when(criterionService.isMetBy(eq(mustHave401K), eq(No))).thenReturn(false);
 
          var matches = profile.matches(new Criteria(mustHaveRelo, mustHave401K));
 
@@ -60,10 +64,10 @@ class AProfileService {
       class WithAllQuestionsAnsweredYes {
          @Test
          void matchesWhenAllCriteriaMet() {
-            when(questionData.get(hasRelo.id())).thenReturn(hasRelo);
-            when(questionData.get(has401K.id())).thenReturn(has401K);
             profile.answer(hasRelo, Yes);
             profile.answer(has401K, Yes);
+            when(criterionService.isMetBy(eq(mustHaveRelo), eq(Yes))).thenReturn(true);
+            when(criterionService.isMetBy(eq(mustHave401K), eq(Yes))).thenReturn(true);
 
             var matches = profile.matches(new Criteria(mustHaveRelo, mustHave401K));
 
@@ -72,11 +76,11 @@ class AProfileService {
 
          @Test
          void matchesDespiteUnmetOptionalCriterion() {
-            when(questionData.get(hasRelo.id())).thenReturn(hasRelo);
             var optionalCriterion = new Criterion(3, hasSmelt.id(), Yes, true);
             var criteria = new Criteria(mustHaveRelo, optionalCriterion);
             profile.answer(hasSmelt, No);
             profile.answer(hasRelo, Yes);
+            when(criterionService.isMetBy(eq(mustHaveRelo), eq(Yes))).thenReturn(true);
 
             var matches = profile.matches(criteria);
 
