@@ -19,7 +19,7 @@ class ADB {
 
    @Test
    void rethrowsOnError() {
-      var thrown = assertThrows(RuntimeException.class, () -> DB.connection());
+      var thrown = assertThrows(RuntimeException.class, DB::connection);
       assertTrue(thrown.getMessage().startsWith("unable to connect to "));
    }
 }

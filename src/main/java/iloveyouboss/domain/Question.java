@@ -9,7 +9,7 @@ public interface Question {
    int id();
    default String type() {
       return getClass().getSimpleName();
-   };
+   }
    String text();
    @Nullable List<String> answerOptions();
 // END:interface

@@ -1,7 +1,5 @@
 package iloveyouboss.service;
 
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.Criteria;
 import iloveyouboss.domain.Criterion;
 import iloveyouboss.domain.DuplicateQuestionException;
@@ -16,8 +14,8 @@ public class ProfileService {
    private final Map<Integer, String> answers = new HashMap<>();
    private final CriterionService criterionService;
 
-   public ProfileService(QuestionData questionData, CriterionData criterionData) {
-      criterionService = new CriterionService(questionData, criterionData);
+   public ProfileService(CriterionService criterionService) {
+      this.criterionService = criterionService;
    }
 
    public boolean matches(Criteria criteria) {
