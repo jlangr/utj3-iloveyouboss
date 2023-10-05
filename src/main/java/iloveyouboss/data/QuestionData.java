@@ -32,14 +32,14 @@ public class QuestionData {
    public int add(Question question) {
       // TODO --enable-preview ?
       if (question.getClass() == YesNoQuestion.class)
-            return table.insert(new String[]{"type", "text"},
+            return table.insert(List.of("type", "text"),
                statement -> {
                   statement.setString(1, question.type());
                   statement.setString(2, question.text());
                });
 
       else
-            return table.insert(new String[]{"type", "text", "answerOptions"}, statement -> {
+            return table.insert(List.of("type", "text", "answerOptions"), statement -> {
                statement.setString(1, question.type());
                statement.setString(2, question.text());
                statement.setString(3, toCSV(question.answerOptions()));

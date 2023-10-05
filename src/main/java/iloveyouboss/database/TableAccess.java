@@ -86,7 +86,7 @@ public class TableAccess {
       }
    }
 
-   public int insert(String[] columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
+   public int insert(List<String> columnNames, CheckedConsumer<PreparedStatement> rowPreparer) {
       try (var connection = DB.connection()) {
          var sqlText = sql.insertStatement(columnNames);
          var returnedAttributes = new String[] {idColumn};

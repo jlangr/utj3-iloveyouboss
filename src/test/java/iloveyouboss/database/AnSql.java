@@ -1,16 +1,13 @@
 package iloveyouboss.database;
 
-import iloveyouboss.data.QuestionData;
-import iloveyouboss.domain.Question;
-import org.h2.engine.QueryStatisticsData;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AnSql {
    static final String TABLE_X = "X";
@@ -70,7 +67,7 @@ class AnSql {
 
    @Test
    void constructsInsertStatement() {
-      String[] columnNames = {"a", "b", "c"};
+      var columnNames = List.of("a", "b", "c");
       assertEquals("INSERT INTO X (a, b, c) VALUES (?, ?, ?)",
          sqlForTableX.insertStatement(columnNames));
    }

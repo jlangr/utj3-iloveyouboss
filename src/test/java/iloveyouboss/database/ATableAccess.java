@@ -52,7 +52,7 @@ class ATableAccess {
 
    @Test
    void selectAllRetrievesInsertedRows() {
-      var id = table.insert(new String[] {"x"}, statement ->
+      var id = table.insert(List.of("x"), statement ->
          statement.setString(1, "xValue"));
 
       var objects = table.selectAll(results ->
@@ -63,7 +63,7 @@ class ATableAccess {
 
    @Test
    void selectAllRethrowsUncheckedException() {
-      table.insert(new String[] {"x"}, statement ->
+      table.insert(List.of("x"), statement ->
          statement.setString(1, "xValue"));
 
       var thrown = assertThrows(RuntimeException.class, () ->
@@ -73,7 +73,7 @@ class ATableAccess {
 
    @Test
    void deleteAllRemovesAllRows() {
-      table.insert(new String[] {"x"}, statement ->
+      table.insert(List.of("x"), statement ->
          statement.setString(1, "xValue"));
 
       table.deleteAll();
@@ -96,7 +96,7 @@ class ATableAccess {
       }
 
       private int insertRowWithXValue(String xValue) {
-         return table.insert(new String[] {"x"}, statement ->
+         return table.insert(List.of("x"), statement ->
             statement.setString(1, xValue));
       }
 

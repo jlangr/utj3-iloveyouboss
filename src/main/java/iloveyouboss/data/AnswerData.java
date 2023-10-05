@@ -43,7 +43,7 @@ public class AnswerData {
    }
 
    public int add(Answer answer) {
-      return table.insert(new String[] {"criterionId", "text"}, setIntoStatement(answer));
+      return table.insert(List.of("criterionId", "text"), setIntoStatement(answer));
    }
 
    protected CheckedConsumer<PreparedStatement> setIntoStatement(Answer answer) {

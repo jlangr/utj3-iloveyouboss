@@ -36,7 +36,7 @@ public class CriterionData {
    }
 
    public int add(Criterion criterion) {
-      return table.insert(new String[] {"questionId", "expectedAnswer", "isOptional"},
+      return table.insert(List.of("questionId", "expectedAnswer", "isOptional"),
          setIntoStatement(criterion));
    }
 

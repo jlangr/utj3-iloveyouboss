@@ -5,7 +5,6 @@ import iloveyouboss.utils.ReflectUtils;
 import java.util.List;
 
 import static java.lang.String.format;
-import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
 public record Sql(String tableName) {
@@ -37,9 +36,9 @@ public record Sql(String tableName) {
          : ReflectUtils.recordComponentHasAnnotation(column, dataClass, Nullable.class);
    }
 
-   public String insertStatement(String[] columnNames) {
+   public String insertStatement(List<String> columnNames) {
       var columns = String.join(", ", columnNames);
-      var questions = stream(columnNames).map(s -> "?").collect(joining(", "));
+      var questions = columnNames.stream().map(s -> "?").collect(joining(", "));
       return "INSERT INTO " + tableName + format(" (%s) VALUES (%s)", columns, questions);
    }
 
