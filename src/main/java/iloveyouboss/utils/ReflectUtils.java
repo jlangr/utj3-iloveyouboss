@@ -26,8 +26,7 @@ public class ReflectUtils {
       }
    }
 
-   // TODO test
-   public static boolean recordHasAnnotation(
+   public static boolean recordComponentHasAnnotation(
          String column, Class<?> recordClass, Class<? extends Annotation> annotationClass) {
       var component = Arrays.stream(recordClass.getRecordComponents())
          .filter(c -> c.getName().equals(column))
@@ -36,12 +35,10 @@ public class ReflectUtils {
       return component.isAnnotationPresent(annotationClass);
    }
 
-   // TODO test
    public static Class<?> accessorType(String column, Class<?> dataClass) {
       return method(column, dataClass).getReturnType();
    }
 
-   // TODO test
    public static boolean methodHasAnnotation(String column, Class<?> dataClass, Class<? extends Annotation> annotationClass) {
       var method = method(column, dataClass);
       return method.isAnnotationPresent(annotationClass);

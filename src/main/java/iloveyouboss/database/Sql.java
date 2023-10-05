@@ -34,7 +34,7 @@ public record Sql(String tableName) {
    private boolean isNullable(String column, Class<?> dataClass) {
       return dataClass.isInterface()
          ? ReflectUtils.methodHasAnnotation(column, dataClass, Nullable.class)
-         : ReflectUtils.recordHasAnnotation(column, dataClass, Nullable.class);
+         : ReflectUtils.recordComponentHasAnnotation(column, dataClass, Nullable.class);
    }
 
    public String insertStatement(String[] columnNames) {
