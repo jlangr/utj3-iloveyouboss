@@ -8,7 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneId;
 
 import static org.mockito.Mockito.verify;
 
@@ -22,8 +24,15 @@ public class AQuestionService {
 
    @Test
    void attachesCreationTimestampToAddedQuestions() {
+      // START_HIGHLIGHT
+      var now = Instant.now();
+      service.setClock(Clock.fixed(now, ZoneId.of("America/Denver")));
+      // END_HIGHLIGHT
+
       service.addYesNoQuestion("got milk?");
 
-      verify(questionData).add(new YesNoQuestion("got milk?", Instant.now()));
+      // START_HIGHLIGHT
+      verify(questionData).add(new YesNoQuestion("got milk?", now));
+      // END_HIGHLIGHT
    }
 }
