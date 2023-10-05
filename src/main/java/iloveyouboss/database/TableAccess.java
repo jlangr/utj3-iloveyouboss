@@ -109,7 +109,6 @@ public class TableAccess {
    }
 
    private RuntimeException unchecked(SQLException e, String errorMessage) {
-      e.printStackTrace();
       return new RuntimeException(format(errorMessage, sql.tableName()), e.getCause());
    }
 }
