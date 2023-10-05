@@ -1,22 +1,22 @@
 package iloveyouboss.domain;
 
 import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.Data;
 import iloveyouboss.data.QuestionData;
 import iloveyouboss.service.CriterionService;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toMap;
 
 public class StatisticsCompiler {
-   final CriterionService criterionService;
+   private final CriterionService criterionService;
 
-   public StatisticsCompiler(
-      QuestionData questionData, CriterionData criterionData) {
-      criterionService = new CriterionService(questionData, criterionData);
+   public StatisticsCompiler(CriterionService criterionService) {
+      this.criterionService = criterionService;
    }
 
    public Map<String, Map<String, Integer>> answerCountsByQuestionText(

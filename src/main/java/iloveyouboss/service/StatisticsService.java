@@ -18,8 +18,9 @@ public class StatisticsService {
    final static QuestionData questionData = new QuestionData();
    final static CriterionData criterionData = new CriterionData();
    final static AnswerData answerData = new AnswerData();
+   final static CriterionService criterionService = new CriterionService(questionData, criterionData);
 
-   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler(questionData, criterionData);
+   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler(criterionService);
 
    public Map<String, Map<String, Integer>> answerHistogram() {
       var answers = answerService.retrieveAll();
