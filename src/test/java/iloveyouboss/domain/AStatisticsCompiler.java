@@ -29,15 +29,13 @@ public class AStatisticsCompiler {
 
    @Test
    void producesAnswerCountsByQuestionTextHistogram() {
-      when(criterionService.getQuestion(1)).thenReturn(tuitionQuestion);
-      when(criterionService.getQuestion(2)).thenReturn(relocationQuestion);
       var answers = List.of(
-         new Answer(1, tuitionCriterion.id(), Yes),
-         new Answer(2, tuitionCriterion.id(), Yes),
-         new Answer(3, tuitionCriterion.id(), Yes),
-         new Answer(4, tuitionCriterion.id(), No),
-         new Answer(5, relocationCriterion.id(), Yes),
-         new Answer(6, relocationCriterion.id(), Yes));
+         new AnnotatedAnswer(new Answer(1, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(2, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(3, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(4, tuitionCriterion.id(), No), tuitionQuestion.text()),
+         new AnnotatedAnswer(new Answer(5, relocationCriterion.id(), Yes), relocationQuestion.text()),
+         new AnnotatedAnswer(new Answer(6, relocationCriterion.id(), Yes), relocationQuestion.text()));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
