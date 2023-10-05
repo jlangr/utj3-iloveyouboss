@@ -17,6 +17,5 @@ public class QuestionService {
       var question = new YesNoQuestion(text, clock.instant());
 
       questionData.add(question);
-
    }
 }
