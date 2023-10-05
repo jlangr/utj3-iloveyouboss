@@ -30,7 +30,7 @@ public class QuestionData {
    }
 
    public int add(Question question) {
-      // TODO --enable-preview ?
+      // TODO use switch. --enable-preview not working in IDEA?
       if (question.getClass() == YesNoQuestion.class)
             return table.insert(List.of("type", "text"),
                statement -> {

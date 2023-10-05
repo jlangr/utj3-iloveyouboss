@@ -18,7 +18,6 @@ public class AnswerData {
       this.table = new TableAccess(TABLE_NAME, ID_COLUMN);
    }
 
-   // TODO can move into interface as default?
    public List<Answer> getAll() {
       return table.selectAll(this::createFromRow);
    }
