@@ -1,7 +1,5 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.QuestionData;
 import iloveyouboss.service.CriterionService;
 
 import java.util.HashMap;

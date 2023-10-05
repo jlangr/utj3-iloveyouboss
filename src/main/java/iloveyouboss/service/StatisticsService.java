@@ -1,6 +1,5 @@
 package iloveyouboss.service;
 
-import iloveyouboss.data.AnswerData;
 import iloveyouboss.data.CriterionData;
 import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.StatisticsCompiler;
@@ -8,19 +7,19 @@ import iloveyouboss.domain.StatisticsCompiler;
 import java.util.Map;
 
 public class StatisticsService {
-   final AnswerService answerService = new AnswerService(
-      new AnswerData(),
-      new CriterionService(new QuestionData(), new CriterionData()));
+   final AnswerService answerService;
+   final StatisticsCompiler statisticsCompiler =
+      new StatisticsCompiler(
+         new CriterionService(new QuestionData(), new CriterionData()));
 
-   final static QuestionData questionData = new QuestionData();
-   final static CriterionData criterionData = new CriterionData();
-   final static AnswerData answerData = new AnswerData();
-   final static CriterionService criterionService = new CriterionService(questionData, criterionData);
+   public StatisticsService(AnswerService answerService) {
+      this.answerService = answerService;
+   }
 
-   final StatisticsCompiler statisticsCompiler = new StatisticsCompiler(criterionService);
-
+   // START_HIGHLIGHT
    public Map<String, Map<String, Integer>> answerHistogram() {
       var answers = answerService.retrieveAll();
       return statisticsCompiler.answerCountsByQuestionText(answers);
    }
+   // END_HIGHLIGHT
 }
