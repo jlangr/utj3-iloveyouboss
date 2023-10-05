@@ -1,8 +1,7 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.domain.Criteria;
-import iloveyouboss.domain.Criterion;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;

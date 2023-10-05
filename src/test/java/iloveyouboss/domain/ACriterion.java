@@ -1,6 +1,5 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.domain.Criterion;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

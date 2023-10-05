@@ -27,7 +27,6 @@ class ACriterionService_WhenGettingQuestion {
    YesNoQuestion question = new YesNoQuestion(42, "When?");
    Criterion criterion = new Criterion(1, question.id(), Yes);
 
-   // TODO why does this intermittently fail
    @Test
    void returnsQuestionAssociatedWithId() {
       when(criterionData.get(criterion.id())).thenReturn(criterion);

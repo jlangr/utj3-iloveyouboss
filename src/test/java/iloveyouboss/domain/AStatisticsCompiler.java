@@ -1,10 +1,7 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.data.CriterionData;
-import iloveyouboss.data.QuestionData;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import iloveyouboss.service.CriterionService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +24,7 @@ public class AStatisticsCompiler {
 
    YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
    YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
-   Criterion tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);;
+   Criterion tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
    Criterion relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
 
    @Test
