@@ -1,31 +1,44 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.QuestionData;
+import iloveyouboss.domain.Question;
 import iloveyouboss.domain.questions.YesNoQuestion;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 public class AQuestionService {
-   @InjectMocks
-   QuestionService questionService;
+   // This cheap and slightly improper test double allows the
+   // code to demonstrate a simple test without having to explain
+   // the concept of test doubles yet
+   class InMemoryQuestionData extends QuestionData {
+      Map<Integer, Question> questions = new HashMap<>();
 
-   @Mock
-   QuestionData questionData;
+      @Override
+      public int add(Question question) {
+         questions.put(question.id(), question);
+         return question.id();
+      }
+
+      @Override
+      public Question get(int id) {
+         return questions.get(id);
+      }
+   }
+   QuestionService questionService = new QuestionService(new InMemoryQuestionData());
 
    // START:timestamp
    @Test
    void attachesTimestampOnAdd() {
-      questionService.addYesNoQuestion("got milk?");
+      var id = questionService.addYesNoQuestion("got milk?");
 
-      verify(questionData).add(new YesNoQuestion("got milk?", Instant.now()));
+      var result = questionService.getQuestion(id);
+
+      assertEquals(result, new YesNoQuestion("got milk?", Instant.now()));
    }
    // END:timestamp
 }

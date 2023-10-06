@@ -1,25 +1,28 @@
 package iloveyouboss.service;
 
 import iloveyouboss.data.QuestionData;
+import iloveyouboss.domain.Question;
 import iloveyouboss.domain.questions.YesNoQuestion;
 
-// START:timestamp
-// ...
 import java.time.Clock;
 
 public class QuestionService {
+   // START_HIGHLIGHT
    private Clock clock = Clock.systemUTC();
-   // ...
-// END:timestamp
+   // END_HIGHLIGHT
    private final QuestionData questionData;
 
    public QuestionService(QuestionData questionData) {
       this.questionData = questionData;
    }
-   //START:timestamp
 
-   public void addYesNoQuestion(String text) {
-      questionData.add(new YesNoQuestion(text, clock.instant()));
+   public int addYesNoQuestion(String text) {
+      // START_HIGHLIGHT
+      return questionData.add(new YesNoQuestion(text, clock.instant()));
+      // END_HIGHLIGHT
+   }
+
+   public Question getQuestion(int id) {
+      return questionData.get(id);
    }
 }
-// END:timestamp
