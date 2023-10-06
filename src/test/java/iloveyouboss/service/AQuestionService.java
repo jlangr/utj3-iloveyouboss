@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import static org.mockito.Mockito.verify;
 
@@ -26,7 +27,7 @@ public class AQuestionService {
    void attachesCreationTimestampToAddedQuestions() {
       // START_HIGHLIGHT
       var now = Instant.now();
-      service.setClock(Clock.fixed(now, ZoneId.of("America/Denver")));
+      service.setClock(Clock.fixed(now, ZoneOffset.UTC));
       // END_HIGHLIGHT
 
       service.addYesNoQuestion("got milk?");
