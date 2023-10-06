@@ -45,7 +45,7 @@ public class AQuestionService {
       var result = questionService.getQuestion(id);
 
       // START_HIGHLIGHT
-      assertEquals(result, new YesNoQuestion("?", now));
+      assertEquals(new YesNoQuestion("?", now), result);
       // END_HIGHLIGHT
    }
    // END:timestamp
