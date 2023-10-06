@@ -14,7 +14,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AQuestionService {
-
    // This cheap and slightly improper test double allows the
    // code to demonstrate a simple test without having to explain
    // the concept of test doubles yet
@@ -37,14 +36,16 @@ public class AQuestionService {
    // START:timestamp
    @Test
    void attachesTimestampOnAdd() {
+      // START_HIGHLIGHT
       var now = Instant.now();
       questionService.setClock(Clock.fixed(now, ZoneOffset.UTC));
+      // END_HIGHLIGHT
       var id = questionService.addYesNoQuestion("?");
 
       var result = questionService.getQuestion(id);
 
       // START_HIGHLIGHT
-      assertEquals(result, new YesNoQuestion("?", Instant.now()));
+      assertEquals(result, new YesNoQuestion("?", now));
       // END_HIGHLIGHT
    }
    // END:timestamp
