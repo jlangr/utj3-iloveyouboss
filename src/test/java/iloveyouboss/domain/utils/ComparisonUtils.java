@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 
 // well, things like AssertJ make this much easier
 public class ComparisonUtils {
-   public static Question withoutTimestamp(Question question) {
+   public static Question zeroTimestamp(Question question) {
       // TODO
 //      return switch (question) {
 //         case YesNoQuestion q -> new YesNoQuestion(q.id(), q.text(), Instant.MIN);
@@ -22,9 +22,9 @@ public class ComparisonUtils {
       return question;
    }
 
-   public static List<Question> withoutTimestamps(List<Question> list) {
+   public static List<Question> zeroedTimestamps(List<Question> list) {
       return list.stream()
-         .map(ComparisonUtils::withoutTimestamp)
+         .map(ComparisonUtils::zeroTimestamp)
          .collect(toList());
    }
 }
