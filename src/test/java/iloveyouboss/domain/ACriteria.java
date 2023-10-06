@@ -19,14 +19,14 @@ class ACriteria {
    void holdsACollectionOfCriterion() {
       var criteria = new Criteria(List.of(criterion1, criterion2));
 
-      assertEquals(listOfCriterion(criteria), List.of(criterion1, criterion2));
+      assertEquals(List.of(criterion1, criterion2), listOfCriterion(criteria));
    }
 
    @Test
    void canBeConstructedWithVarargs() {
       var criteria = new Criteria(criterion1, criterion2);
 
-      assertEquals(listOfCriterion(criteria), List.of(criterion1, criterion2));
+      assertEquals(List.of(criterion1, criterion2), listOfCriterion(criteria));
    }
 
    @Test
@@ -36,7 +36,7 @@ class ACriteria {
       criteria.add(criterion2);
       criteria.add(criterion3);
 
-      assertEquals(listOfCriterion(criteria), List.of(criterion1, criterion2, criterion3));
+      assertEquals(List.of(criterion1, criterion2, criterion3), listOfCriterion(criteria));
    }
 
    private static List<Criterion> listOfCriterion(Criteria criteria) {
