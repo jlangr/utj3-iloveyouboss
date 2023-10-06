@@ -24,7 +24,7 @@ public class QuestionService {
    }
 
    // START_HIGHLIGHT
-   public void setClock(Clock clock) {
+   void setClock(Clock clock) {
       this.clock = clock;
    }
    // END_HIGHLIGHT
