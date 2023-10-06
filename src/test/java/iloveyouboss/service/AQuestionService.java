@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import static org.mockito.Mockito.verify;
@@ -24,7 +23,7 @@ public class AQuestionService {
    QuestionData questionData;
 
    @Test
-   void attachesCreationTimestampToAddedQuestions() {
+   void attachesTimestampOnAdd() {
       // START_HIGHLIGHT
       var now = Instant.now();
       service.setClock(Clock.fixed(now, ZoneOffset.UTC));
