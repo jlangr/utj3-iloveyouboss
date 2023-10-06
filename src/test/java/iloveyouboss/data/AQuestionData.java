@@ -2,12 +2,14 @@ package iloveyouboss.data;
 
 import iloveyouboss.domain.questions.ChoiceQuestion;
 import iloveyouboss.domain.questions.YesNoQuestion;
+import iloveyouboss.domain.utils.ComparisonUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static iloveyouboss.domain.utils.ComparisonUtils.withoutTimestamps;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AQuestionData {
@@ -41,12 +43,12 @@ class AQuestionData {
 
       var allRows = questionData.getAll();
 
-      assertEquals(List.of(
-            new YesNoQuestion(idYesNoA, yesNoQuestionA),
-            new YesNoQuestion(idYesNoB, yesNoQuestionB),
-            new ChoiceQuestion(idChoiceC, choiceQuestionC),
-            new ChoiceQuestion(idChoiceD, choiceQuestionD)),
-         allRows);
+      assertEquals(withoutTimestamps(List.of(
+               new YesNoQuestion(idYesNoA, yesNoQuestionA),
+               new YesNoQuestion(idYesNoB, yesNoQuestionB),
+               new ChoiceQuestion(idChoiceC, choiceQuestionC),
+               new ChoiceQuestion(idChoiceD, choiceQuestionD))),
+         withoutTimestamps(allRows));
    }
 
    @Test
