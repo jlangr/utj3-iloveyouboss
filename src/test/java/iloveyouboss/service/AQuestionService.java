@@ -34,11 +34,11 @@ public class AQuestionService {
    // START:timestamp
    @Test
    void attachesTimestampOnAdd() {
-      var id = questionService.addYesNoQuestion("got milk?");
+      var id = questionService.addYesNoQuestion("?");
 
       var result = questionService.getQuestion(id);
 
-      assertEquals(result, new YesNoQuestion("got milk?", Instant.now()));
+      assertEquals(result, new YesNoQuestion("?", Instant.now()));
    }
    // END:timestamp
 }
