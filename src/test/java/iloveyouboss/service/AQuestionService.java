@@ -15,15 +15,17 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class AQuestionService {
    @InjectMocks
-   QuestionService service;
+   QuestionService questionService;
 
    @Mock
    QuestionData questionData;
 
+   // START:timestamp
    @Test
-   void attachesCreationTimestampToAddedQuestions() {
-      service.addYesNoQuestion("got milk?");
+   void attachesTimestampOnAdd() {
+      questionService.addYesNoQuestion("got milk?");
 
       verify(questionData).add(new YesNoQuestion("got milk?", Instant.now()));
    }
+   // END:timestamp
 }
