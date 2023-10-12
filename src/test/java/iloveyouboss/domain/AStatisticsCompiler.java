@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
@@ -38,10 +39,11 @@ public class AStatisticsCompiler {
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
-      assertEquals(3, statistics.get(hasTuitionReimburse.text()).get(Yes));
-      assertEquals(1, statistics.get(hasTuitionReimburse.text()).get(No));
-      assertEquals(2, statistics.get(hasRelocation.text()).get(Yes));
-      assertEquals(0, statistics.get(hasRelocation.text()).get(No));
+      assertEquals(
+         Map.of(
+            hasTuitionReimburse.text(), Map.of(Yes, 3, No, 1),
+            hasRelocation.text(), Map.of(Yes, 2, No, 0)),
+         statistics);
    }
 
    AnnotatedAnswer annotatedAnswer(
