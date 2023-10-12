@@ -13,7 +13,6 @@ import java.util.List;
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AStatisticsCompiler {
@@ -22,20 +21,20 @@ public class AStatisticsCompiler {
    @Mock
    CriterionService criterionService;
 
-   YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
-   YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
-   Criterion tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
-   Criterion relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
+   Question tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
+   Question relocationQuestion = new YesNoQuestion(2, "Relocation package?");
+   Criterion tuitionCriterion = new Criterion(tuitionQuestion.id(), Yes);
+   Criterion relocationCriterion = new Criterion(relocationQuestion.id(), Yes);
 
    @Test
    void producesAnswerCountsByQuestionTextHistogram() {
       var answers = List.of(
-         new AnnotatedAnswer(new Answer(1, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(2, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(3, tuitionCriterion.id(), Yes), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(4, tuitionCriterion.id(), No), tuitionQuestion.text()),
-         new AnnotatedAnswer(new Answer(5, relocationCriterion.id(), Yes), relocationQuestion.text()),
-         new AnnotatedAnswer(new Answer(6, relocationCriterion.id(), Yes), relocationQuestion.text()));
+         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
+         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
+         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
+         annotatedAnswer(tuitionCriterion, tuitionQuestion, No),
+         annotatedAnswer(relocationCriterion, relocationQuestion, Yes),
+         annotatedAnswer(relocationCriterion, relocationQuestion, Yes));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
@@ -43,5 +42,11 @@ public class AStatisticsCompiler {
       assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));
       assertEquals(2, statistics.get(relocationQuestion.text()).get(Yes));
       assertEquals(0, statistics.get(relocationQuestion.text()).get(No));
+   }
+
+   AnnotatedAnswer annotatedAnswer(
+      Criterion criterion, Question question, String answer) {
+      return new AnnotatedAnswer(
+         new Answer(criterion.id(), answer), question.text());
    }
 }
