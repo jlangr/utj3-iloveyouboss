@@ -21,27 +21,27 @@ public class AStatisticsCompiler {
    @Mock
    CriterionService criterionService;
 
-   Question tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
-   Question relocationQuestion = new YesNoQuestion(2, "Relocation package?");
-   Criterion tuitionCriterion = new Criterion(tuitionQuestion.id(), Yes);
-   Criterion relocationCriterion = new Criterion(relocationQuestion.id(), Yes);
+   Question hasTuitionReimburse = new YesNoQuestion(1, "Tuition?");
+   Question hasRelocation = new YesNoQuestion(2, "Relocation?");
+   Criterion tuitionCriterion = new Criterion(hasTuitionReimburse.id(), Yes);
+   Criterion relocationCriterion = new Criterion(hasRelocation.id(), Yes);
 
    @Test
    void producesAnswerCountsByQuestionTextHistogram() {
       var answers = List.of(
-         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
-         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
-         annotatedAnswer(tuitionCriterion, tuitionQuestion, Yes),
-         annotatedAnswer(tuitionCriterion, tuitionQuestion, No),
-         annotatedAnswer(relocationCriterion, relocationQuestion, Yes),
-         annotatedAnswer(relocationCriterion, relocationQuestion, Yes));
+         annotatedAnswer(tuitionCriterion, hasTuitionReimburse, Yes),
+         annotatedAnswer(tuitionCriterion, hasTuitionReimburse, Yes),
+         annotatedAnswer(tuitionCriterion, hasTuitionReimburse, Yes),
+         annotatedAnswer(tuitionCriterion, hasTuitionReimburse, No),
+         annotatedAnswer(relocationCriterion, hasRelocation, Yes),
+         annotatedAnswer(relocationCriterion, hasRelocation, Yes));
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
-      assertEquals(3, statistics.get(tuitionQuestion.text()).get(Yes));
-      assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));
-      assertEquals(2, statistics.get(relocationQuestion.text()).get(Yes));
-      assertEquals(0, statistics.get(relocationQuestion.text()).get(No));
+      assertEquals(3, statistics.get(hasTuitionReimburse.text()).get(Yes));
+      assertEquals(1, statistics.get(hasTuitionReimburse.text()).get(No));
+      assertEquals(2, statistics.get(hasRelocation.text()).get(Yes));
+      assertEquals(0, statistics.get(hasRelocation.text()).get(No));
    }
 
    AnnotatedAnswer annotatedAnswer(
