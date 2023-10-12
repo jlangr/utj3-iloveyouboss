@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 
 import static iloveyouboss.domain.questions.YesNoQuestion.No;
 import static iloveyouboss.domain.questions.YesNoQuestion.Yes;
@@ -22,15 +23,15 @@ public class AStatisticsCompiler {
    @Mock
    CriterionService criterionService;
 
-   YesNoQuestion tuitionQuestion = new YesNoQuestion(1, "Tuition reimbursement?");
-   YesNoQuestion relocationQuestion = new YesNoQuestion(2, "Relocation package?");
-   Criterion tuitionCriterion = new Criterion(1, tuitionQuestion.id(), Yes);
-   Criterion relocationCriterion = new Criterion(2, relocationQuestion.id(), Yes);
+   Question hasTuitionReimburse = new YesNoQuestion(1, "Tuition?");
+   Question hasRelocation = new YesNoQuestion(2, "Relocation?");
+   Criterion tuitionCriterion = new Criterion(1, hasTuitionReimburse.id(), Yes);
+   Criterion relocationCriterion = new Criterion(2, hasRelocation.id(), Yes);
 
    @Test
    void producesAnswerCountsByQuestionTextHistogram() {
-      when(criterionService.getQuestion(1)).thenReturn(tuitionQuestion);
-      when(criterionService.getQuestion(2)).thenReturn(relocationQuestion);
+      when(criterionService.getQuestion(1)).thenReturn(hasTuitionReimburse);
+      when(criterionService.getQuestion(2)).thenReturn(hasRelocation);
       var answers = List.of(
          new Answer(1, tuitionCriterion.id(), Yes),
          new Answer(2, tuitionCriterion.id(), Yes),
@@ -41,9 +42,10 @@ public class AStatisticsCompiler {
 
       var statistics = compiler.answerCountsByQuestionText(answers);
 
-      assertEquals(3, statistics.get(tuitionQuestion.text()).get(Yes));
-      assertEquals(1, statistics.get(tuitionQuestion.text()).get(No));
-      assertEquals(2, statistics.get(relocationQuestion.text()).get(Yes));
-      assertEquals(0, statistics.get(relocationQuestion.text()).get(No));
+      assertEquals(
+         Map.of(
+            hasTuitionReimburse.text(), Map.of(Yes, 3, No, 1),
+            hasRelocation.text(), Map.of(Yes, 2, No, 0)),
+         statistics);
    }
 }
